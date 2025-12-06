@@ -1,4 +1,4 @@
-"""Binary sensor platform for NOVA by Open Launch."""
+"""Binary sensor platform for Golf Dashboard."""
 from __future__ import annotations
 
 import logging
@@ -20,7 +20,7 @@ from .const import (
     CONF_SERIAL,
     DOMAIN,
 )
-from .coordinator import NovaByOpenLaunchCoordinator
+from .coordinator import GolfDashboardCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,15 +30,15 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up NOVA by Open Launch binary sensors from a config entry."""
-    coordinator: NovaByOpenLaunchCoordinator = hass.data[DOMAIN][entry.entry_id]
+    """Set up Golf Dashboard binary sensors from a config entry."""
+    coordinator: GolfDashboardCoordinator = hass.data[DOMAIN][entry.entry_id]
     name = entry.data[CONF_NAME]
 
-    async_add_entities([NovaByOpenLaunchConnectionSensor(coordinator, entry, name)])
+    async_add_entities([GolfDashboardConnectionSensor(coordinator, entry, name)])
 
 
-class NovaByOpenLaunchConnectionSensor(
-    CoordinatorEntity[NovaByOpenLaunchCoordinator], BinarySensorEntity
+class GolfDashboardConnectionSensor(
+    CoordinatorEntity[GolfDashboardCoordinator], BinarySensorEntity
 ):
     """Binary sensor showing connection status."""
 
@@ -48,7 +48,7 @@ class NovaByOpenLaunchConnectionSensor(
 
     def __init__(
         self,
-        coordinator: NovaByOpenLaunchCoordinator,
+        coordinator: GolfDashboardCoordinator,
         entry: ConfigEntry,
         name: str,
     ) -> None:

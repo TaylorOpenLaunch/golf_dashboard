@@ -1,4 +1,4 @@
-"""Constants for the NOVA by Open Launch integration."""
+"""Constants for the Golf Dashboard integration."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -15,7 +15,7 @@ from homeassistant.const import (
     REVOLUTIONS_PER_MINUTE,
 )
 
-DOMAIN = "nova_by_openlaunch"
+DOMAIN = "golf_dashboard"
 
 DEFAULT_PORT = 2920
 RECONNECT_INTERVAL = 10  # seconds
@@ -34,8 +34,8 @@ CONF_SERIAL = "serial"
 
 
 @dataclass(frozen=True)
-class NovaByOpenLaunchSensorEntityDescription(SensorEntityDescription):
-    """Describes a NOVA by Open Launch sensor entity."""
+class GolfDashboardSensorEntityDescription(SensorEntityDescription):
+    """Describes a Golf Dashboard sensor entity."""
 
     json_key: str | None = None
     message_type: str | None = None  # "shot" or "status"
@@ -44,8 +44,8 @@ class NovaByOpenLaunchSensorEntityDescription(SensorEntityDescription):
 
 
 # Shot Data Sensors (from "type": "shot" messages)
-SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
-    NovaByOpenLaunchSensorEntityDescription(
+SHOT_SENSORS: tuple[GolfDashboardSensorEntityDescription, ...] = (
+    GolfDashboardSensorEntityDescription(
         key="session_shot_count",
         name="Session Shot Count",
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -54,7 +54,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         value_offset=1,  # shot_number is 0-indexed, display as 1-indexed
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="last_shot_time",
         name="Last Shot",
         device_class=SensorDeviceClass.TIMESTAMP,
@@ -62,7 +62,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         json_key="_last_shot_timestamp",  # Special: set by coordinator
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="ball_speed",
         name="Ball Speed",
         native_unit_of_measurement=UnitOfSpeed.METERS_PER_SECOND,
@@ -73,7 +73,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="vertical_launch_angle",
         name="Vertical Launch Angle",
         native_unit_of_measurement=DEGREE,
@@ -84,7 +84,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="horizontal_launch_angle",
         name="Horizontal Launch Angle",
         native_unit_of_measurement=DEGREE,
@@ -95,7 +95,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="total_spin",
         name="Total Spin",
         native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
@@ -106,7 +106,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=0,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="spin_axis",
         name="Spin Axis",
         native_unit_of_measurement=DEGREE,
@@ -117,7 +117,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=0,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="carry_distance",
         name="Carry Distance",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -129,7 +129,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="total_distance",
         name="Total Distance",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -141,7 +141,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="offline_distance",
         name="Offline Distance",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -153,7 +153,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="backspin",
         name="Backspin",
         native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
@@ -164,7 +164,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=0,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="sidespin",
         name="Sidespin",
         native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
@@ -175,7 +175,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=0,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="club_speed",
         name="Club Speed",
         native_unit_of_measurement=UnitOfSpeed.METERS_PER_SECOND,
@@ -187,7 +187,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="smash_factor",
         name="Smash Factor",
         state_class=SensorStateClass.MEASUREMENT,
@@ -197,28 +197,28 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=2,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="shot_type",
         name="Shot Type",
         icon="mdi:target-arrow",
         json_key="shot_name",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="shot_rank",
         name="Shot Rank",
         icon="mdi:medal-outline",
         json_key="shot_rank",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="shot_color",
         name="Shot Color",
         icon="mdi:palette",
         json_key="shot_color_rgb",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="tour_carry",
         name="NOVA Tour Carry",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -230,7 +230,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="tour_total",
         name="NOVA Tour Total",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -242,7 +242,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="carry_delta_to_tour",
         name="NOVA Carry vs Tour",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -254,7 +254,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="shot_quality",
         name="NOVA Shot Quality",
         state_class=SensorStateClass.MEASUREMENT,
@@ -264,42 +264,42 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=0,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="launch_in_window",
         name="Launch In Window",
         icon="mdi:arrow-up-down",
         json_key="launch_in_window",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="spin_in_window",
         name="Spin In Window",
         icon="mdi:sync",
         json_key="spin_in_window",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="start_in_window",
         name="Start Line In Window",
         icon="mdi:arrow-left-right",
         json_key="start_in_window",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="optimal_window_summary",
         name="Optimal Window Summary",
         icon="mdi:check-decagram",
         json_key="optimal_window_label",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="club_recommendation",
         name="Club Recommendation",
         icon="mdi:golf",
         json_key="club_recommendation",
         message_type="shot",
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="amateur_carry",
         name="Amateur Carry Benchmark",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -311,7 +311,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="amateur_total",
         name="Amateur Total Benchmark",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -323,7 +323,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="lpga_carry",
         name="LPGA Carry Benchmark",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -335,7 +335,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="lpga_total",
         name="LPGA Total Benchmark",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -347,7 +347,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="carry_delta_to_amateur",
         name="Carry vs Amateur",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -359,7 +359,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="carry_delta_to_lpga",
         name="Carry vs LPGA",
         native_unit_of_measurement=UnitOfLength.METERS,
@@ -371,7 +371,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="spin_loft",
         name="NOVA Spin Loft",
         native_unit_of_measurement=DEGREE,
@@ -382,7 +382,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="attack_angle",
         name="NOVA Attack Angle",
         native_unit_of_measurement=DEGREE,
@@ -393,7 +393,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="face_angle",
         name="NOVA Face Angle",
         native_unit_of_measurement=DEGREE,
@@ -404,7 +404,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="face_to_path",
         name="NOVA Face to Path",
         native_unit_of_measurement=DEGREE,
@@ -415,7 +415,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="club_path",
         name="NOVA Club Path",
         native_unit_of_measurement=DEGREE,
@@ -426,7 +426,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="apex_height",
         name="NOVA Apex Height",
         native_unit_of_measurement=UnitOfLength.FEET,
@@ -437,7 +437,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=1,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="hang_time",
         name="NOVA Hang Time",
         native_unit_of_measurement=UnitOfTime.SECONDS,
@@ -448,7 +448,7 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
         message_type="shot",
         precision=2,
     ),
-    NovaByOpenLaunchSensorEntityDescription(
+    GolfDashboardSensorEntityDescription(
         key="descent_angle",
         name="NOVA Descent Angle",
         native_unit_of_measurement=DEGREE,
@@ -462,8 +462,8 @@ SHOT_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
 )
 
 # Status Sensors (from "type": "status" messages)
-STATUS_SENSORS: tuple[NovaByOpenLaunchSensorEntityDescription, ...] = (
-    NovaByOpenLaunchSensorEntityDescription(
+STATUS_SENSORS: tuple[GolfDashboardSensorEntityDescription, ...] = (
+    GolfDashboardSensorEntityDescription(
         key="uptime",
         name="Uptime",
         native_unit_of_measurement=UnitOfTime.SECONDS,

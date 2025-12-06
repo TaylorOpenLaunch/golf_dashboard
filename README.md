@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/github/v/tag/TaylorOpenLaunch/golf_dashboard?label=release)](https://github.com/TaylorOpenLaunch/golf_dashboard/releases)
 
 # Golf Dashboard for Home Assistant  
-### Unofficial NOVA Launch Monitor Integration & Dashboard Suite
+### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
 This project provides an unofficial Home Assistant integration and a set of Lovelace dashboards designed to visualize and analyze data from a NOVA launch monitor. It enables golfers, home simulator enthusiasts, coaches, and developers to explore detailed shot analytics within Home Assistant's automation and dashboard ecosystem.
 
@@ -15,7 +15,7 @@ This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is mai
 
 ## 🚀 Features
 
-### NOVA Integration
+### Golf Dashboard Integration (for NOVA)
 
 - Automatic discovery via SSDP  
 - Connects directly to NOVA’s local data API  
@@ -60,14 +60,14 @@ Choose one of the following installation methods.
 1. Download or clone this repository.  
 2. Copy the folder:
 
-        custom_components/nova_by_openlaunch
+        custom_components/golf_dashboard
 
    into your Home Assistant configuration:
 
         config/custom_components/
 
 3. Restart Home Assistant.  
-4. Go to Settings → Devices & Services → Add Integration and search for “NOVA”.
+4. Go to Settings → Devices & Services → Add Integration and search for “Golf Dashboard”.
 
 ---
 
@@ -79,7 +79,7 @@ If you use HACS:
 2. Click the menu (⋮) → Custom repositories.  
 3. Add this repository’s GitHub URL.  
 4. Select category: Integration.  
-5. Install the NOVA by OpenLaunch (Unofficial) integration.  
+5. Install the Golf Dashboard integration.  
 6. Restart Home Assistant.  
 7. Add the integration via Settings → Devices & Services.
 
@@ -107,7 +107,7 @@ You may need to adjust entity IDs based on your installation (for example, if yo
 
 A high-level overview of the repository structure:
 
-    custom_components/nova_by_openlaunch/   → Main Home Assistant integration
+    custom_components/golf_dashboard/   → Main Home Assistant integration
     dashboards/                             → Included Lovelace dashboards
     docs/                                   → Documentation and architecture notes
     tests/                                  → Manifest, YAML, and readme validation tests

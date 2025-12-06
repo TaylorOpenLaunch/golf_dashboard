@@ -1,4 +1,4 @@
-"""Data coordinator for NOVA by Open Launch."""
+"""Data coordinator for Golf Dashboard."""
 from __future__ import annotations
 
 import asyncio
@@ -24,8 +24,8 @@ from .derived import compute_derived_from_shot
 _LOGGER = logging.getLogger(__name__)
 
 
-class NovaByOpenLaunchCoordinator(DataUpdateCoordinator[dict[str, Any]]):
-    """Coordinator to manage WebSocket connection to NOVA by Open Launch."""
+class GolfDashboardCoordinator(DataUpdateCoordinator[dict[str, Any]]):
+    """Coordinator to manage the NOVA WebSocket connection for Golf Dashboard."""
 
     def __init__(
         self,
@@ -109,7 +109,7 @@ class NovaByOpenLaunchCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 timeout=10.0,
             )
             self._connected = True
-            _LOGGER.info("Connected to NOVA by Open Launch at %s", uri)
+            _LOGGER.info("Connected to NOVA launch monitor at %s for Golf Dashboard", uri)
             # Notify entities of connection state change
             self.async_set_updated_data({"type": "connection", "data": {}})
 
@@ -132,7 +132,7 @@ class NovaByOpenLaunchCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             except Exception:  # noqa: BLE001
                 pass
             self._websocket = None
-        _LOGGER.debug("Disconnected from NOVA by Open Launch")
+        _LOGGER.debug("Disconnected from NOVA launch monitor")
         # Notify entities of connection state change
         if was_connected:
             self.async_set_updated_data({"type": "connection", "data": {}})
@@ -159,7 +159,7 @@ class NovaByOpenLaunchCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     timeout=10.0,
                 )
                 self._connected = True
-                _LOGGER.info("Reconnected to NOVA by Open Launch at %s", uri)
+                _LOGGER.info("Reconnected to NOVA launch monitor at %s for Golf Dashboard", uri)
                 # Notify entities of connection state change
                 self.async_set_updated_data({"type": "connection", "data": {}})
                 # Start listening for messages

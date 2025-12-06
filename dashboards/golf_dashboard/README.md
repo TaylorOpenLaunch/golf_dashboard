@@ -1,8 +1,8 @@
 # Golf Dashboard Assets
 
-This directory is reserved for NOVA golf dashboard assets (cards, images, or additional Lovelace views). Add your dashboard files here if available.
+This directory is reserved for Golf Dashboard assets (cards, images, or additional Lovelace views). Add your dashboard files here if available.
 
-## NOVA Premium Analytics (`dashboards/nova_premium_analytics.yaml`)
+## Golf Dashboard Premium Analytics (`dashboards/nova_premium_analytics.yaml`)
 - A TrackMan-style, three-column analytics view for simulator sessions.
 - Columns:
   - Session overview: shot count, last shot time, ball speed, carry/total distance, club speed.

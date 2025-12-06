@@ -1,1 +1,1 @@
-"""Test suite for NOVA by OpenLaunch integration."""
+"""Test suite for Golf Dashboard integration."""

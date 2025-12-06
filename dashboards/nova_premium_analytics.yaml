@@ -1,5 +1,5 @@
-# Replace `nova_by_open_launch` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
-title: NOVA Premium Analytics
+# Replace `golf_dashboard` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
+title: Golf Dashboard Premium Analytics
 path: nova_premium_analytics
 icon: mdi:golf-tee
 theme: "Home Assistant Dark"
@@ -15,19 +15,19 @@ cards:
             title: Session Overview
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_by_open_launch_session_shot_count
-              - entity: sensor.nova_by_open_launch_last_shot_time
-              - entity: sensor.nova_by_open_launch_ball_speed
-              - entity: sensor.nova_by_open_launch_carry_distance
-              - entity: sensor.nova_by_open_launch_total_distance
-              - entity: sensor.nova_by_open_launch_club_speed
+              - entity: sensor.golf_dashboard_session_shot_count
+              - entity: sensor.golf_dashboard_last_shot_time
+              - entity: sensor.golf_dashboard_ball_speed
+              - entity: sensor.golf_dashboard_carry_distance
+              - entity: sensor.golf_dashboard_total_distance
+              - entity: sensor.golf_dashboard_club_speed
           - type: history-graph
             title: Speed & Distance (recent)
             hours_to_show: 6
             entities:
-              - entity: sensor.nova_by_open_launch_ball_speed
-              - entity: sensor.nova_by_open_launch_carry_distance
-              - entity: sensor.nova_by_open_launch_total_distance
+              - entity: sensor.golf_dashboard_ball_speed
+              - entity: sensor.golf_dashboard_carry_distance
+              - entity: sensor.golf_dashboard_total_distance
 
       # Column 2: Launch & spin
       - type: vertical-stack
@@ -36,31 +36,31 @@ cards:
             title: Launch & Spin
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_by_open_launch_vertical_launch_angle
-              - entity: sensor.nova_by_open_launch_horizontal_launch_angle
-              - entity: sensor.nova_by_open_launch_offline_distance
-              - entity: sensor.nova_by_open_launch_total_spin
-              - entity: sensor.nova_by_open_launch_spin_axis
-              - entity: sensor.nova_by_open_launch_backspin
-              - entity: sensor.nova_by_open_launch_sidespin
+              - entity: sensor.golf_dashboard_vertical_launch_angle
+              - entity: sensor.golf_dashboard_horizontal_launch_angle
+              - entity: sensor.golf_dashboard_offline_distance
+              - entity: sensor.golf_dashboard_total_spin
+              - entity: sensor.golf_dashboard_spin_axis
+              - entity: sensor.golf_dashboard_backspin
+              - entity: sensor.golf_dashboard_sidespin
           - type: history-graph
             title: Launch & Spin Trends
             hours_to_show: 6
             entities:
-              - entity: sensor.nova_by_open_launch_vertical_launch_angle
-              - entity: sensor.nova_by_open_launch_horizontal_launch_angle
-              - entity: sensor.nova_by_open_launch_total_spin
+              - entity: sensor.golf_dashboard_vertical_launch_angle
+              - entity: sensor.golf_dashboard_horizontal_launch_angle
+              - entity: sensor.golf_dashboard_total_spin
           - type: entities
             title: Trajectory & Delivery
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_by_open_launch_apex_height
-              - entity: sensor.nova_by_open_launch_hang_time
-              - entity: sensor.nova_by_open_launch_descent_angle
-              - entity: sensor.nova_by_open_launch_attack_angle
-              - entity: sensor.nova_by_open_launch_face_angle
-              - entity: sensor.nova_by_open_launch_face_to_path
-              - entity: sensor.nova_by_open_launch_club_path
+              - entity: sensor.golf_dashboard_apex_height
+              - entity: sensor.golf_dashboard_hang_time
+              - entity: sensor.golf_dashboard_descent_angle
+              - entity: sensor.golf_dashboard_attack_angle
+              - entity: sensor.golf_dashboard_face_angle
+              - entity: sensor.golf_dashboard_face_to_path
+              - entity: sensor.golf_dashboard_club_path
 
       # Column 3: Shot quality & dispersion
       - type: vertical-stack
@@ -69,22 +69,22 @@ cards:
             title: Shot Quality & Classification
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_by_open_launch_shot_quality
-              - entity: sensor.nova_by_open_launch_shot_type
-              - entity: sensor.nova_by_open_launch_shot_rank
-              - entity: sensor.nova_by_open_launch_shot_color
-              - entity: sensor.nova_by_open_launch_optimal_window_summary
-              - entity: sensor.nova_by_open_launch_club_recommendation
+              - entity: sensor.golf_dashboard_shot_quality
+              - entity: sensor.golf_dashboard_shot_type
+              - entity: sensor.golf_dashboard_shot_rank
+              - entity: sensor.golf_dashboard_shot_color
+              - entity: sensor.golf_dashboard_optimal_window_summary
+              - entity: sensor.golf_dashboard_club_recommendation
           - type: history-graph
             title: Dispersion (Carry vs Offline)
             hours_to_show: 6
             entities:
-              - entity: sensor.nova_by_open_launch_carry_distance
-              - entity: sensor.nova_by_open_launch_offline_distance
+              - entity: sensor.golf_dashboard_carry_distance
+              - entity: sensor.golf_dashboard_offline_distance
           - type: history-graph
             title: Speed & Spin (recent)
             hours_to_show: 6
             entities:
-              - entity: sensor.nova_by_open_launch_ball_speed
-              - entity: sensor.nova_by_open_launch_club_speed
-              - entity: sensor.nova_by_open_launch_total_spin
+              - entity: sensor.golf_dashboard_ball_speed
+              - entity: sensor.golf_dashboard_club_speed
+              - entity: sensor.golf_dashboard_total_spin

@@ -1,4 +1,4 @@
-"""The NOVA by Open Launch integration."""
+"""The Golf Dashboard integration."""
 from __future__ import annotations
 
 import logging
@@ -8,7 +8,7 @@ from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME, Platform
 from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN, CONF_MANUFACTURER, CONF_MODEL, CONF_SERIAL
-from .coordinator import NovaByOpenLaunchCoordinator
+from .coordinator import GolfDashboardCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -16,10 +16,10 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up NOVA by Open Launch from a config entry."""
+    """Set up Golf Dashboard from a config entry."""
     hass.data.setdefault(DOMAIN, {})
 
-    coordinator = NovaByOpenLaunchCoordinator(
+    coordinator = GolfDashboardCoordinator(
         hass,
         host=entry.data[CONF_HOST],
         port=entry.data[CONF_PORT],
@@ -42,7 +42,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        coordinator: NovaByOpenLaunchCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
+        coordinator: GolfDashboardCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
         await coordinator.async_stop()
 
     return unload_ok
