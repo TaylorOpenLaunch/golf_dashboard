@@ -1,4 +1,4 @@
-"""Sensor platform for Golf Dashboard."""
+"""Sensor platform for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import logging

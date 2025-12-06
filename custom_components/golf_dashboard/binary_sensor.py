@@ -1,4 +1,4 @@
-"""Binary sensor platform for Golf Dashboard."""
+"""Binary sensor platform for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import logging

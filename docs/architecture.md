@@ -1,5 +1,7 @@
 # Golf Dashboard Architecture (NOVA)
 
+Architecture overview for the Golf Dashboard integration that connects to NOVA launch monitors.
+
 ## Data Flow
 - NOVA hardware exposes a WebSocket endpoint (default port 2920). The integration connects to the device to receive JSON shot and status messages.
 - `config_flow.py` handles UI setup and SSDP discovery, creating config entries with host/port/device info.

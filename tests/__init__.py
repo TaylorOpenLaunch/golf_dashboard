@@ -1,1 +1,1 @@
-"""Test suite for Golf Dashboard integration."""
+"""Test suite for the Golf Dashboard integration."""

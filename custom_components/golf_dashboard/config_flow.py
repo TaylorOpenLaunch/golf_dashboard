@@ -1,4 +1,4 @@
-"""Config flow for Golf Dashboard integration."""
+"""Config flow for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import asyncio

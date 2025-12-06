@@ -7,7 +7,7 @@
 # Golf Dashboard for Home Assistant  
 ### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
-This project provides an unofficial Home Assistant integration and a set of Lovelace dashboards designed to visualize and analyze data from a NOVA launch monitor. It enables golfers, home simulator enthusiasts, coaches, and developers to explore detailed shot analytics within Home Assistant's automation and dashboard ecosystem.
+Golf Dashboard provides an unofficial Home Assistant integration and a set of Lovelace dashboards designed to visualize and analyze data from a NOVA launch monitor. It enables golfers, home simulator enthusiasts, coaches, and developers to explore detailed shot analytics within Home Assistant's automation and dashboard ecosystem.
 
 This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
 

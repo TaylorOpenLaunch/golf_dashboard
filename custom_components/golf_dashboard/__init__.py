@@ -1,4 +1,4 @@
-"""The Golf Dashboard integration."""
+"""The Golf Dashboard integration for NOVA launch monitors."""
 from __future__ import annotations
 
 import logging

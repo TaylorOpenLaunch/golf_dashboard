@@ -1,4 +1,4 @@
-"""Data coordinator for Golf Dashboard."""
+"""Data coordinator for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import asyncio
