@@ -4,54 +4,162 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/TaylorOpenLaunch/golf_dashboard?label=release)](https://github.com/TaylorOpenLaunch/golf_dashboard/releases)
 
-# Golf Dashboard for Home Assistant (Unofficial NOVA project)
+# Golf Dashboard for Home Assistant  
+### Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
-This repository contains an unofficial Home Assistant dashboard and integration config for experimenting with golf simulator data from a NOVA launch monitor. It is a personal side project by Taylor Hargrave and is **not an official OpenLaunch or NOVA product**. Use it if you want to tinker, build dashboards, and explore golf analytics in Home Assistant.
+This project provides an unofficial Home Assistant integration and a set of Lovelace dashboards designed to visualize and analyze data from a NOVA launch monitor. It enables golfers, home simulator enthusiasts, coaches, and developers to explore detailed shot analytics within Home Assistant's automation and dashboard ecosystem.
 
-## Features
-- Real-time NOVA ball-flight data as Home Assistant entities (connectivity binary sensor plus sensors for ball speed, launch angles, spin, distances, and derived metrics).
-- Derived metrics (carry/total distance, offline, club speed, smash factor, shot classification) computed locally in Python.
-- Built-in Lovelace dashboards, including the `nova_open_golfcoach` analytics view.
-- Open, dev-friendly structure with docs, dashboards, and CI workflows.
+This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
 
-## Disclaimer
-- This project is **unofficial** and maintained as a personal side project.
-- It is not affiliated with or endorsed by OpenLaunch or NOVA as an official product.
-- Functionality and support are best-effort and may change at any time.
+---
 
-## Installation
+## 🚀 Features
 
-**Manual install (custom component)**
-1. Copy `custom_components/nova_by_openlaunch` into your Home Assistant `config/custom_components` directory.
-2. Restart Home Assistant.
-3. Go to *Settings → Devices & services* and add **NOVA by OpenLaunch**.
+### NOVA Integration
 
-**Install via HACS (custom repository)**
-1. In HACS → Integrations → three-dots menu → *Custom repositories*.
-2. Add `https://github.com/TaylorOpenLaunch/golf_dashboard` with category `Integration`.
-3. Install **NOVA by OpenLaunch** from HACS.
-4. Restart Home Assistant.
-5. Configure from *Settings → Devices & services*.
+- Automatic discovery via SSDP  
+- Connects directly to NOVA’s local data API  
+- Exposes ball-flight metrics as Home Assistant entities, including:
+  - Ball speed  
+  - Vertical and horizontal launch angles  
+  - Spin-related values (where available)  
+  - Derived metrics such as shot quality and dispersion indicators  
+- Updates in near real-time for responsive dashboards  
 
-## Configuration
-- Provide the NOVA host/IP and port if SSDP discovery does not find it automatically.
-- After setup, entities appear under the NOVA device (connectivity + shot/status sensors and derived metrics).
-- Re-run the config flow if connection details change.
+### Included Dashboards
 
-## Dashboards
-- `dashboards/nova_open_golfcoach.yaml`: Standard Open Golf Coach-style view for core analytics.
-- `dashboards/nova_premium_analytics.yaml`: Premium analytics layout (TrackMan-style) with three columns for overview, launch/spin, and shot quality/dispersion.
-- `dashboards/golf_dashboard/README.md`: Notes/space for additional dashboard assets or future expansions.
+Two polished dashboards are included under the dashboards/ directory.
 
-## Development
-- Integration code lives in `custom_components/nova_by_openlaunch/` (config flow, coordinator, entities, derived metrics).
-- See `docs/architecture.md` for an overview; contributions and PRs are welcome.
-- CI runs syntax checks; hassfest and HACS validation workflows are included.
+#### 1. Open Golf Coach
 
-## Documentation
-- [Docs index](docs/index.md)
-- [Architecture](docs/architecture.md)
-- [Open Golf Coach dashboard](docs/open_golf_coach.md)
+- Session-focused layout  
+- Optimized for coaching workflows and post-shot review  
+- Clean, tile-based layout for easy viewing during practice sessions  
 
-## License
-MIT License. See [LICENSE](LICENSE).
+#### 2. Premium Analytics
+
+- Structured three-column layout  
+- Focused on deeper analysis of launch parameters, spin profile, and consistency  
+- Useful for dialing in equipment, practicing indoors, or simulator play  
+
+### Home Assistant Friendly
+
+- Native Lovelace compatibility  
+- Customizable tiles and layouts  
+- Works with built-in history graphs and the Home Assistant automation engine  
+- Can be used to trigger automations based on shot data (for example, speed thresholds or logging)
+
+---
+
+## 📦 Installation
+
+Choose one of the following installation methods.
+
+### Option 1: Manual Installation (Custom Component)
+
+1. Download or clone this repository.  
+2. Copy the folder:
+
+        custom_components/nova_by_openlaunch
+
+   into your Home Assistant configuration:
+
+        config/custom_components/
+
+3. Restart Home Assistant.  
+4. Go to Settings → Devices & Services → Add Integration and search for “NOVA”.
+
+---
+
+### Option 2: Install via HACS (Custom Repository)
+
+If you use HACS:
+
+1. Open HACS → Integrations.  
+2. Click the menu (⋮) → Custom repositories.  
+3. Add this repository’s GitHub URL.  
+4. Select category: Integration.  
+5. Install the NOVA by OpenLaunch (Unofficial) integration.  
+6. Restart Home Assistant.  
+7. Add the integration via Settings → Devices & Services.
+
+---
+
+## 📊 Dashboards
+
+Two dashboards ship with this project and can be imported into Home Assistant.
+
+### Dashboard files
+
+- dashboards/nova_open_golfcoach.yaml  
+- dashboards/nova_premium_analytics.yaml  
+
+You can import them by:
+
+- Opening your Lovelace dashboard in Home Assistant.  
+- Using the Raw configuration editor or appropriate UI tools to paste or reference the YAML definitions.  
+
+You may need to adjust entity IDs based on your installation (for example, if your NOVA device has a different entity naming pattern).
+
+---
+
+## 🧩 Project Structure
+
+A high-level overview of the repository structure:
+
+    custom_components/nova_by_openlaunch/   → Main Home Assistant integration
+    dashboards/                             → Included Lovelace dashboards
+    docs/                                   → Documentation and architecture notes
+    tests/                                  → Manifest, YAML, and readme validation tests
+    .github/workflows/                      → CI, hassfest, HACS validation, release automation
+
+---
+
+## 🔧 Development & CI
+
+This repository includes validation workflows to help keep the integration healthy and compatible.
+
+### GitHub Actions Workflows
+
+- ci.yml – Syntax checks, compile checks, and pytest  
+- hassfest.yaml – Home Assistant integration validation  
+- hacs-validation.yaml – HACS metadata checks  
+- release.yaml – Automatic release generation triggered by git tags  
+
+### Tests
+
+Tests cover:
+
+- Manifest and HACS JSON correctness  
+- Dashboard YAML validity  
+- README and documentation content presence  
+
+To run tests locally from the repository root:
+
+    pytest -q
+
+---
+
+## 🔖 Versioning & Releases
+
+Versioning follows a simple semantic-style approach:
+
+- VERSION in the repository root tracks the current version.  
+- manifest.json maintains a matching version field.  
+- CHANGELOG.md records changes across releases.  
+- Git tags such as v0.2.0 automatically create GitHub releases using the release.yaml workflow.
+
+---
+
+## ⚠️ Disclaimer
+
+- This is an unofficial NOVA project, not an OpenLaunch or NOVA product.  
+- No warranty, guarantee, or official support is provided.  
+- Functionality may change at any time.  
+- Use at your own discretion.
+
+---
+
+## ❤️ Acknowledgements
+
+Thanks to the Home Assistant open-source community for architecture patterns, tooling, and documentation that make custom integrations possible.
