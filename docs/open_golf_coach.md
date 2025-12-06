@@ -1,5 +1,7 @@
 # Open Golf Coach Dashboard
 
+Open Golf Coach is part of this unofficial NOVA golf dashboard project for Home Assistant.
+
 The Open Golf Coach dashboard is a Lovelace view tailored for NOVA by OpenLaunch data. It highlights raw and derived shot metrics in a tablet-friendly layout.
 
 ## Dashboard File

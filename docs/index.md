@@ -1,6 +1,6 @@
-# NOVA by OpenLaunch – Home Assistant Docs
+# Golf Dashboard for Home Assistant (Unofficial)
 
-NOVA by OpenLaunch streams launch monitor telemetry into Home Assistant through a WebSocket-driven coordinator, SSDP discovery, and a native config flow.
+This unofficial golf dashboard streams NOVA launch monitor telemetry into Home Assistant through a WebSocket-driven coordinator, SSDP discovery, and a native config flow. It is a side project and not an official OpenLaunch product.
 
 ## Quick Start
 1. Install the integration (manual copy of `custom_components/nova_by_openlaunch` or add this repo as a custom HACS integration).

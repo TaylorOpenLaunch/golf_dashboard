@@ -4,15 +4,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/TaylorOpenLaunch/golf_dashboard?label=release)](https://github.com/TaylorOpenLaunch/golf_dashboard/releases)
 
-# NOVA by OpenLaunch – Home Assistant Integration
+# Golf Dashboard for Home Assistant (Unofficial NOVA project)
 
-NOVA by OpenLaunch brings launch monitor data into Home Assistant for golf simulators, practice analytics, and automations driven by live shot metrics. Real-time entities are fed by a WebSocket coordinator with SSDP discovery and a full config flow.
+This repository contains an unofficial Home Assistant dashboard and integration config for experimenting with golf simulator data from a NOVA launch monitor. It is a personal side project by Taylor Hargrave and is **not an official OpenLaunch or NOVA product**. Use it if you want to tinker, build dashboards, and explore golf analytics in Home Assistant.
 
 ## Features
 - Real-time NOVA ball-flight data as Home Assistant entities (connectivity binary sensor plus sensors for ball speed, launch angles, spin, distances, and derived metrics).
 - Derived metrics (carry/total distance, offline, club speed, smash factor, shot classification) computed locally in Python.
 - Built-in Lovelace dashboards, including the `nova_open_golfcoach` analytics view.
 - Open, dev-friendly structure with docs, dashboards, and CI workflows.
+
+## Disclaimer
+- This project is **unofficial** and maintained as a personal side project.
+- It is not affiliated with or endorsed by OpenLaunch or NOVA as an official product.
+- Functionality and support are best-effort and may change at any time.
 
 ## Installation
 

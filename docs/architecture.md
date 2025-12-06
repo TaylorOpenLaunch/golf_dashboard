@@ -1,4 +1,4 @@
-# Architecture Overview
+# NOVA Golf Dashboard Architecture
 
 ## Data Flow
 - NOVA hardware exposes a WebSocket endpoint (default port 2920). The integration connects to the device to receive JSON shot and status messages.
@@ -24,4 +24,4 @@
 - Extend `derived.py` if new calculated metrics are needed; ensure coordinator merges them into shot data.
 - Wire new descriptors into `sensor.py` so entities are created automatically.
 
-Additional diagrams and deeper protocol details can be added as the integration evolves.
+Additional diagrams and deeper protocol details can be added as the project evolves.
