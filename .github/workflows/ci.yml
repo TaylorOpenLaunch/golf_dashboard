@@ -20,7 +20,7 @@ jobs:
 
       - name: Check Python syntax
         run: |
-          python -m compileall custom_components/nova_by_openlaunch
+          python -m compileall custom_components/golf_dashboard
 
       - name: Install test dependencies
         run: |

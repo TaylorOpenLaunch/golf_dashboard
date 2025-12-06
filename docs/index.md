@@ -3,7 +3,7 @@
 Golf Dashboard streams NOVA launch monitor telemetry into Home Assistant through a WebSocket-driven coordinator, SSDP discovery, and a native config flow. It is a side project and not an official OpenLaunch product.
 
 ## Quick Start
-1. Install the integration (manual copy of `custom_components/nova_by_openlaunch` or add this repo as a custom HACS integration).
+1. Install the integration (manual copy of `custom_components/golf_dashboard` or add this repo as a custom HACS integration).
 2. Restart Home Assistant.
 3. Configure via *Settings → Devices & Services → Add Integration* and search for **Golf Dashboard**; supply host/port if not discovered.
 4. Import/use the Lovelace view from `dashboards/nova_open_golfcoach.yaml` (see `config/example_lovelace.yaml`).

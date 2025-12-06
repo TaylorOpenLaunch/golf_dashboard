@@ -25,7 +25,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-class NovaByOpenLaunchConfigFlow(ConfigFlow, domain=DOMAIN):
+class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Golf Dashboard."""
 
     VERSION = 1

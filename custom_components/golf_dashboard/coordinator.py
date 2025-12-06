@@ -24,8 +24,8 @@ from .derived import compute_derived_from_shot
 _LOGGER = logging.getLogger(__name__)
 
 
-class NovaByOpenLaunchCoordinator(DataUpdateCoordinator[dict[str, Any]]):
-    """Coordinator to manage WebSocket connection to a NOVA launch monitor."""
+class GolfDashboardCoordinator(DataUpdateCoordinator[dict[str, Any]]):
+    """Coordinator to manage the NOVA WebSocket connection for Golf Dashboard."""
 
     def __init__(
         self,

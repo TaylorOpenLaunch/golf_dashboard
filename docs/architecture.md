@@ -1,4 +1,4 @@
-# Golf Dashboard Architecture
+# Golf Dashboard Architecture (NOVA)
 
 Architecture overview for the Golf Dashboard integration that connects to NOVA launch monitors.
 
@@ -6,7 +6,7 @@ Architecture overview for the Golf Dashboard integration that connects to NOVA l
 - NOVA hardware exposes a WebSocket endpoint (default port 2920). The integration connects to the device to receive JSON shot and status messages.
 - `config_flow.py` handles UI setup and SSDP discovery, creating config entries with host/port/device info.
 - `__init__.py` boots the coordinator and forwards platforms for sensors/binary sensors.
-- `NovaByOpenLaunchCoordinator` (`custom_components/nova_by_openlaunch/coordinator.py`) maintains the WebSocket connection, reconnects on drop, and parses incoming payloads.
+- `GolfDashboardCoordinator` (`custom_components/golf_dashboard/coordinator.py`) maintains the WebSocket connection, reconnects on drop, and parses incoming payloads.
 - `derived.py` augments shot payloads with calculated metrics (carry/total distance, shot type/rank/color, backspin/sidespin, etc.) so entities can expose both raw and computed values.
 - Coordinator stores latest status and shot data in shared state, which entities consume via the update coordinator.
 

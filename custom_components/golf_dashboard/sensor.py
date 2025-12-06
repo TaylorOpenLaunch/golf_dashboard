@@ -18,9 +18,9 @@ from .const import (
     CONF_MODEL,
     CONF_SERIAL,
     DOMAIN,
-    NovaByOpenLaunchSensorEntityDescription,
+    GolfDashboardSensorEntityDescription,
 )
-from .coordinator import NovaByOpenLaunchCoordinator
+from .coordinator import GolfDashboardCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,28 +31,28 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Golf Dashboard sensors from a config entry."""
-    coordinator: NovaByOpenLaunchCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: GolfDashboardCoordinator = hass.data[DOMAIN][entry.entry_id]
     name = entry.data[CONF_NAME]
 
     entities = [
-        NovaByOpenLaunchSensor(coordinator, description, entry, name)
+        GolfDashboardSensor(coordinator, description, entry, name)
         for description in ALL_SENSORS
     ]
 
     async_add_entities(entities)
 
 
-class NovaByOpenLaunchSensor(
-    CoordinatorEntity[NovaByOpenLaunchCoordinator], SensorEntity
+class GolfDashboardSensor(
+    CoordinatorEntity[GolfDashboardCoordinator], SensorEntity
 ):
     """Representation of a Golf Dashboard sensor."""
 
-    entity_description: NovaByOpenLaunchSensorEntityDescription
+    entity_description: GolfDashboardSensorEntityDescription
 
     def __init__(
         self,
-        coordinator: NovaByOpenLaunchCoordinator,
-        description: NovaByOpenLaunchSensorEntityDescription,
+        coordinator: GolfDashboardCoordinator,
+        description: GolfDashboardSensorEntityDescription,
         entry: ConfigEntry,
         name: str,
     ) -> None:

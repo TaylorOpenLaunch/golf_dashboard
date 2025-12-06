@@ -12,10 +12,10 @@ def load_json(path: Path) -> dict:
 
 
 def test_manifest_basic_fields():
-    manifest_path = ROOT / "custom_components" / "nova_by_openlaunch" / "manifest.json"
+    manifest_path = ROOT / "custom_components" / "golf_dashboard" / "manifest.json"
     manifest = load_json(manifest_path)
 
-    assert manifest.get("domain") == "nova_by_openlaunch"
+    assert manifest.get("domain") == "golf_dashboard"
     assert "version" in manifest
     assert isinstance(manifest.get("codeowners"), list)
     # SSDP should be present and a list for NOVA
@@ -26,7 +26,7 @@ def test_hacs_json_basic_fields():
     hacs_path = ROOT / "hacs.json"
     hacs = load_json(hacs_path)
 
-    assert hacs.get("filename") == "custom_components/nova_by_openlaunch"
+    assert hacs.get("filename") == "custom_components/golf_dashboard"
     assert "name" in hacs
     assert "homeassistant" in hacs
     assert isinstance(hacs.get("domains"), list)
