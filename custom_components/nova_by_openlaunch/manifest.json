@@ -1,7 +1,9 @@
 {
   "domain": "nova_by_openlaunch",
   "name": "NOVA by Open Launch",
-  "codeowners": [],
+  "codeowners": [
+    "@TaylorOpenLaunch"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/OpenLaunchLabs/homeassistant-nova",
