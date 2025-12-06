@@ -21,3 +21,12 @@ jobs:
       - name: Check Python syntax
         run: |
           python -m compileall custom_components/nova_by_openlaunch
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Run unit tests
+        run: |
+          pytest -q
