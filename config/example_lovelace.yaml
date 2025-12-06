@@ -1,0 +1,11 @@
+# Example: include the NOVA OpenGolfCoach view into your Lovelace UI
+# Copy this snippet into your Home Assistant configuration.yaml or ui-lovelace.yaml
+# Adjust the path below if you place the dashboards directory elsewhere.
+lovelace:
+  mode: yaml
+  resources: []
+  dashboards:
+    nova_open_golfcoach:
+      mode: yaml
+      filename: /config/dashboards/nova_open_golfcoach.yaml
+      title: NOVA Open GolfCoach
