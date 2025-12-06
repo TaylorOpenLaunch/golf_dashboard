@@ -6,9 +6,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_mentions_nova():
+def test_readme_mentions_golf_dashboard():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "NOVA by OpenLaunch" in readme
+    assert "Golf Dashboard" in readme
 
 
 def test_docs_index_exists_and_is_linked():

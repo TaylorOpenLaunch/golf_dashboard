@@ -1,4 +1,4 @@
-"""The NOVA by Open Launch integration."""
+"""The Golf Dashboard integration for NOVA launch monitors."""
 from __future__ import annotations
 
 import logging
@@ -16,7 +16,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up NOVA by Open Launch from a config entry."""
+    """Set up Golf Dashboard from a config entry."""
     hass.data.setdefault(DOMAIN, {})
 
     coordinator = NovaByOpenLaunchCoordinator(

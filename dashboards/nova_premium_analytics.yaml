@@ -1,5 +1,5 @@
 # Replace `nova_by_open_launch` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
-title: NOVA Premium Analytics
+title: Golf Dashboard Premium Analytics
 path: nova_premium_analytics
 icon: mdi:golf-tee
 theme: "Home Assistant Dark"

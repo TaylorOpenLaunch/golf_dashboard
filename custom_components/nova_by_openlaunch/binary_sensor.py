@@ -1,4 +1,4 @@
-"""Binary sensor platform for NOVA by Open Launch."""
+"""Binary sensor platform for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import logging
@@ -30,7 +30,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up NOVA by Open Launch binary sensors from a config entry."""
+    """Set up Golf Dashboard binary sensors from a config entry."""
     coordinator: NovaByOpenLaunchCoordinator = hass.data[DOMAIN][entry.entry_id]
     name = entry.data[CONF_NAME]
 

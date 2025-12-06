@@ -1,4 +1,4 @@
-"""Constants for the NOVA by Open Launch integration."""
+"""Constants for the Golf Dashboard integration."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -35,7 +35,7 @@ CONF_SERIAL = "serial"
 
 @dataclass(frozen=True)
 class NovaByOpenLaunchSensorEntityDescription(SensorEntityDescription):
-    """Describes a NOVA by Open Launch sensor entity."""
+    """Describes a Golf Dashboard sensor entity."""
 
     json_key: str | None = None
     message_type: str | None = None  # "shot" or "status"

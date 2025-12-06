@@ -1,14 +1,14 @@
 {
   "domain": "nova_by_openlaunch",
-  "name": "NOVA by Open Launch",
+  "name": "Golf Dashboard",
   "codeowners": [
     "@TaylorOpenLaunch"
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/OpenLaunchLabs/homeassistant-nova",
+  "documentation": "https://github.com/TaylorOpenLaunch/golf_dashboard",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/OpenLaunchLabs/homeassistant-nova/issues",
+  "issue_tracker": "https://github.com/TaylorOpenLaunch/golf_dashboard/issues",
   "requirements": [
     "websockets>=12.0"
   ],
