@@ -1,17 +1,19 @@
 # Architecture Overview
 
-## Coordinator
-- `NovaByOpenLaunchCoordinator` maintains the WebSocket connection to the NOVA device, retries on disconnects, and broadcasts shot/status messages to entities.
-- It enriches payloads with derived metrics so entities can expose both raw and computed values without extra dependencies.
+## Data Flow
+- NOVA hardware exposes a WebSocket endpoint (default port 2920). The integration connects to the device to receive JSON shot and status messages.
+- `config_flow.py` handles UI setup and SSDP discovery, creating config entries with host/port/device info.
+- `NovaByOpenLaunchCoordinator` (`custom_components/nova_by_openlaunch/coordinator.py`) maintains the WebSocket connection, reconnects on drop, and parses incoming payloads.
+- `derived.py` augments shot payloads with calculated metrics (carry/total distance, shot type/rank/color, backspin/sidespin, etc.) so entities can expose both raw and computed values.
+- Coordinator stores latest status and shot data in shared state, which entities consume via the update coordinator.
 
 ## Entities
-- Binary sensor reports connectivity status.
-- Sensor entities cover raw metrics (speed, angles, spin, distances) plus derived statistics (carry/total distance, shot type, rank, color, etc.).
+- Binary sensor: connectivity status of the NOVA device.
+- Sensors: raw and derived metrics including ball speed, vertical/horizontal launch angles, spin, carry/total/offset distances, club speed, smash factor, shot classification, and more. See `const.py`/`sensor.py` for the catalog.
 
-## Data Flow
-1. Config flow (manual or SSDP discovery) stores connection info.
-2. Coordinator connects to the device and parses incoming JSON.
-3. Derived helpers augment shot data; coordinator updates Home Assistant data.
-4. Entities subscribed to the coordinator publish state updates to Home Assistant.
+## Components
+- `config_flow.py`: user setup, SSDP discovery, validation of device connectivity.
+- `coordinator.py`: connection lifecycle, parsing, and state distribution to entities.
+- `sensor.py` and `binary_sensor.py`: entity definitions tied to coordinator data.
 
-Additional diagrams and deeper protocol details can be added here as the integration matures.
+Additional diagrams and deeper protocol details can be added as the integration evolves.

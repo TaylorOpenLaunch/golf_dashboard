@@ -1,0 +1,13 @@
+{
+  "name": "NOVA by OpenLaunch",
+  "content_in_root": false,
+  "render_readme": true,
+  "country": "US",
+  "homeassistant": "2024.6.0",
+  "zip_release": false,
+  "filename": "custom_components/nova_by_openlaunch",
+  "domains": [
+    "sensor",
+    "binary_sensor"
+  ]
+}
