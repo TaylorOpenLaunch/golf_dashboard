@@ -22,3 +22,6 @@ The Open Golf Coach dashboard is a Lovelace view tailored for NOVA by OpenLaunch
 - Empty cards: ensure entity IDs match the defaults created by the integration (re-add the integration if IDs changed).
 - Path issues: verify the dashboard file path in your Lovelace configuration matches where you placed `nova_open_golfcoach.yaml`.
 - Data not updating: make sure the NOVA device is online and reachable; restart the integration if the WebSocket disconnects.
+
+## Premium analytics view
+For a more advanced, TrackMan-style layout, see `dashboards/nova_premium_analytics.yaml`. Import it as a separate Lovelace view to pair with or replace the Open Golf Coach view when you want deeper session analytics.

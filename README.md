@@ -34,7 +34,8 @@ NOVA by OpenLaunch brings launch monitor data into Home Assistant for golf simul
 - Re-run the config flow if connection details change.
 
 ## Dashboards
-- `dashboards/nova_open_golfcoach.yaml`: Ready-made Lovelace view for NOVA analytics. Import via Raw configuration editor or reference it as a YAML dashboard (see `config/example_lovelace.yaml`).
+- `dashboards/nova_open_golfcoach.yaml`: Standard Open Golf Coach-style view for core analytics.
+- `dashboards/nova_premium_analytics.yaml`: Premium analytics layout (TrackMan-style) with three columns for overview, launch/spin, and shot quality/dispersion.
 - `dashboards/golf_dashboard/README.md`: Notes/space for additional dashboard assets or future expansions.
 
 ## Development
