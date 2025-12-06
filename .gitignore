@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+venv/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checkers
+.mypy_cache/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Home Assistant
+.storage/
+.homeassistant/
+
+# Logs
+*.log
