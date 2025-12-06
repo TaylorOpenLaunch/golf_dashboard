@@ -4,31 +4,48 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/TaylorOpenLaunch/golf_dashboard?label=release)](https://github.com/TaylorOpenLaunch/golf_dashboard/releases)
 
-# Home Assistant Nova – OpenLaunch NOVA Integration
+# NOVA by OpenLaunch – Home Assistant Integration
 
-## Introduction
-NOVA by OpenLaunch brings launch monitor data into Home Assistant with native config flow, SSDP discovery, and real-time entities fed by a WebSocket coordinator. Derived golf metrics are computed in Python so no external services are needed.
+NOVA by OpenLaunch brings launch monitor data into Home Assistant for golf simulators, practice analytics, and automations driven by live shot metrics. Real-time entities are fed by a WebSocket coordinator with SSDP discovery and a full config flow.
 
 ## Features
-- NOVA launch monitor data exposed as Home Assistant entities (binary sensor for connectivity; sensors for speed, angles, spin, distances, and derived metrics).
-- Config flow for UI setup and SSDP discovery.
-- Lovelace dashboards tailored for range sessions, including an OpenGolfCoach-style view.
+- Real-time NOVA ball-flight data as Home Assistant entities (connectivity binary sensor plus sensors for ball speed, launch angles, spin, distances, and derived metrics).
+- Derived metrics (carry/total distance, offline, club speed, smash factor, shot classification) computed locally in Python.
+- Built-in Lovelace dashboards, including the `nova_open_golfcoach` analytics view.
+- Open, dev-friendly structure with docs, dashboards, and CI workflows.
 
 ## Installation
-- Manual: Copy `custom_components/nova_by_openlaunch` into your Home Assistant `custom_components` folder and restart Home Assistant.
-- HACS: Add this repository URL as a custom repository in HACS and install the integration, then restart Home Assistant.
+
+**Manual install (custom component)**
+1. Copy `custom_components/nova_by_openlaunch` into your Home Assistant `config/custom_components` directory.
+2. Restart Home Assistant.
+3. Go to *Settings → Devices & services* and add **NOVA by OpenLaunch**.
+
+**Install via HACS (custom repository)**
+1. In HACS → Integrations → three-dots menu → *Custom repositories*.
+2. Add `https://github.com/TaylorOpenLaunch/golf_dashboard` with category `Integration`.
+3. Install **NOVA by OpenLaunch** from HACS.
+4. Restart Home Assistant.
+5. Configure from *Settings → Devices & services*.
 
 ## Configuration
-- In Home Assistant, go to Settings → Devices & Services → Add Integration and search for "NOVA by Open Launch".
-- Provide host/port for your NOVA device if not auto-discovered via SSDP.
-- After setup, entities for connectivity and shot/status metrics will appear.
+- Provide the NOVA host/IP and port if SSDP discovery does not find it automatically.
+- After setup, entities appear under the NOVA device (connectivity + shot/status sensors and derived metrics).
+- Re-run the config flow if connection details change.
 
 ## Dashboards
-- `dashboards/nova_open_golfcoach.yaml`: Lovelace view showcasing NOVA metrics in an OpenGolfCoach-inspired layout.
-- `dashboards/golf_dashboard/README.md`: Notes and placeholders for additional dashboard assets you may add.
+- `dashboards/nova_open_golfcoach.yaml`: Ready-made Lovelace view for NOVA analytics. Import via Raw configuration editor or reference it as a YAML dashboard (see `config/example_lovelace.yaml`).
+- `dashboards/golf_dashboard/README.md`: Notes/space for additional dashboard assets or future expansions.
+
+## Development
+- Integration code lives in `custom_components/nova_by_openlaunch/` (config flow, coordinator, entities, derived metrics).
+- See `docs/architecture.md` for an overview; contributions and PRs are welcome.
+- CI runs syntax checks; hassfest and HACS validation workflows are included.
 
 ## Documentation
-- See `docs/index.md` for the documentation index, with links to architecture details and dashboard usage.
+- [Docs index](docs/index.md)
+- [Architecture](docs/architecture.md)
+- [Open Golf Coach dashboard](docs/open_golf_coach.md)
 
 ## License
-MIT License. See `LICENSE` for details.
+MIT License. See [LICENSE](LICENSE).

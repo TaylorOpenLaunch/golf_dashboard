@@ -1,13 +1,13 @@
-# NOVA by OpenLaunch – Home Assistant Integration
+# NOVA by OpenLaunch – Home Assistant Docs
 
-NOVA by OpenLaunch brings launch monitor telemetry into Home Assistant via a native config flow, SSDP discovery, and a WebSocket-driven coordinator that feeds entities and dashboards.
+NOVA by OpenLaunch streams launch monitor telemetry into Home Assistant through a WebSocket-driven coordinator, SSDP discovery, and a native config flow.
 
 ## Quick Start
-1. Install: Copy `custom_components/nova_by_openlaunch` into `custom_components` or add this repository as a custom repo in HACS and install from there.
+1. Install the integration (manual copy of `custom_components/nova_by_openlaunch` or add this repo as a custom HACS integration).
 2. Restart Home Assistant.
-3. Configure: Settings → Devices & Services → Add Integration → search for "NOVA by Open Launch"; provide host/port if not auto-discovered.
-4. Dashboards: Add the Lovelace view from `dashboards/nova_open_golfcoach.yaml` (see `config/example_lovelace.yaml`).
+3. Configure via *Settings → Devices & Services → Add Integration* and search for **NOVA by Open Launch**; supply host/port if not discovered.
+4. Import/use the Lovelace view from `dashboards/nova_open_golfcoach.yaml` (see `config/example_lovelace.yaml`).
 
-## Documentation
+## More Documentation
 - [Architecture](architecture.md)
 - [Open Golf Coach Dashboard](open_golf_coach.md)

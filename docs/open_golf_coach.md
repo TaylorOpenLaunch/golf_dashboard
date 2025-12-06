@@ -5,6 +5,7 @@ The Open Golf Coach dashboard is a Lovelace view tailored for NOVA by OpenLaunch
 ## Dashboard File
 - Path: `dashboards/nova_open_golfcoach.yaml`
 - Purpose: Presents NOVA shot data (speed, angles, spin) and derived metrics (carry/total distance, offline, club speed, smash factor, shot type/rank/color).
+ - Typical layout: shot summary cards, key metrics tiles, and derived KPIs suited for range or simulator tablets.
 
 ## How to Use
 1. Ensure the NOVA integration is installed and configured so the entities are available (binary sensor + sensor entities from `const.py`/`sensor.py`).
@@ -20,3 +21,4 @@ The Open Golf Coach dashboard is a Lovelace view tailored for NOVA by OpenLaunch
 - Missing entities: confirm the integration is configured and receiving shot data; check Logs for connection errors.
 - Empty cards: ensure entity IDs match the defaults created by the integration (re-add the integration if IDs changed).
 - Path issues: verify the dashboard file path in your Lovelace configuration matches where you placed `nova_open_golfcoach.yaml`.
+- Data not updating: make sure the NOVA device is online and reachable; restart the integration if the WebSocket disconnects.
