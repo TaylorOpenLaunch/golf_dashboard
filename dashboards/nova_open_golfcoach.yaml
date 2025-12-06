@@ -1,5 +1,5 @@
 # Replace `nova_by_open_launch` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
-title: NOVA OpenGolfCoach
+title: Golf Dashboard Open GolfCoach
 path: nova_open_golf_coach
 icon: mdi:golf
 theme: "Home Assistant Dark"

@@ -1,4 +1,4 @@
-"""Config flow for NOVA by Open Launch integration."""
+"""Config flow for the Golf Dashboard integration."""
 from __future__ import annotations
 
 import asyncio
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class NovaByOpenLaunchConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for NOVA by Open Launch."""
+    """Handle a config flow for Golf Dashboard."""
 
     VERSION = 1
 
@@ -71,7 +71,7 @@ class NovaByOpenLaunchConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_NAME, default="NOVA by Open Launch"): str,
+                    vol.Required(CONF_NAME, default="Golf Dashboard"): str,
                     vol.Required(CONF_HOST): str,
                     vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
                 }
@@ -106,7 +106,7 @@ class NovaByOpenLaunchConfigFlow(ConfigFlow, domain=DOMAIN):
         else:
             # Fall back to X-FRIENDLY-NAME or default
             self._discovered_name = discovery_info.ssdp_headers.get(
-                "X-FRIENDLY-NAME", "NOVA by Open Launch"
+                "X-FRIENDLY-NAME", "Golf Dashboard"
             )
         self._discovered_manufacturer = discovery_info.ssdp_headers.get(
             "X-MANUFACTURER", "Open Launch"

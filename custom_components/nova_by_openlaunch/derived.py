@@ -1,4 +1,4 @@
-"""Derived golf metrics computed locally for NOVA by Open Launch.
+"""Derived golf metrics computed locally for Golf Dashboard.
 
 This module ports the spirit of OpenGolfCoach calculations into pure Python so the
 Home Assistant integration can run without external dependencies. The functions
