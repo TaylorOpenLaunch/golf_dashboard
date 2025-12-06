@@ -6,8 +6,5 @@
   "homeassistant": "2024.6.0",
   "zip_release": false,
   "filename": "custom_components/golf_dashboard",
-  "domains": [
-    "sensor",
-    "binary_sensor"
-  ]
+  "domains": ["sensor","binary_sensor"]
 }
