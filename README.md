@@ -15,7 +15,7 @@ This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is mai
 
 ## 🚀 Features
 
-### Golf Dashboard (NOVA) Integration
+### Golf Dashboard Integration (for NOVA)
 
 - Automatic discovery via SSDP  
 - Connects directly to NOVA’s local data API  
@@ -60,7 +60,7 @@ Choose one of the following installation methods.
 1. Download or clone this repository.  
 2. Copy the folder:
 
-        custom_components/nova_by_openlaunch
+        custom_components/golf_dashboard
 
    into your Home Assistant configuration:
 
@@ -107,7 +107,7 @@ You may need to adjust entity IDs based on your installation (for example, if yo
 
 A high-level overview of the repository structure:
 
-    custom_components/nova_by_openlaunch/   → Main Home Assistant integration
+    custom_components/golf_dashboard/   → Main Home Assistant integration
     dashboards/                             → Included Lovelace dashboards
     docs/                                   → Documentation and architecture notes
     tests/                                  → Manifest, YAML, and readme validation tests

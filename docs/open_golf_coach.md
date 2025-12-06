@@ -1,8 +1,8 @@
 # Open Golf Coach Dashboard
 
-Open Golf Coach is part of the Golf Dashboard project for Home Assistant, built around NOVA launch monitor data.
+Open Golf Coach is part of the Golf Dashboard project for Home Assistant, built for NOVA launch monitor data.
 
-The Open Golf Coach dashboard is a Lovelace view tailored for NOVA data via Golf Dashboard. It highlights raw and derived shot metrics in a tablet-friendly layout.
+The Open Golf Coach dashboard is a Lovelace view tailored for Golf Dashboard data. It highlights raw and derived shot metrics in a tablet-friendly layout.
 
 ## Dashboard File
 - Path: `dashboards/nova_open_golfcoach.yaml`
@@ -10,7 +10,7 @@ The Open Golf Coach dashboard is a Lovelace view tailored for NOVA data via Golf
 - Typical layout: shot summary cards, key metrics tiles, and derived KPIs suited for range or simulator tablets.
 
 ## How to Use
-1. Ensure the NOVA integration is installed and configured so the entities are available (binary sensor + sensor entities from `const.py`/`sensor.py`).
+1. Ensure the Golf Dashboard integration is installed and configured so the entities are available (binary sensor + sensor entities from `const.py`/`sensor.py`).
 2. Copy `dashboards/nova_open_golfcoach.yaml` into your Home Assistant `/config/dashboards/` (or adjust the path to your setup).
 3. In `configuration.yaml` or `ui-lovelace.yaml`, add a dashboard entry pointing to this file (see `config/example_lovelace.yaml` for a template).
 4. Reload Lovelace resources or restart Home Assistant to load the view.
