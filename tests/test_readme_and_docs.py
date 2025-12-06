@@ -15,4 +15,6 @@ def test_docs_index_exists_and_is_linked():
     docs_index = ROOT / "docs" / "index.md"
     assert docs_index.is_file()
     text = docs_index.read_text(encoding="utf-8")
-    assert "NOVA by OpenLaunch" in text
+    assert "Golf Dashboard for Home Assistant" in text
+    assert "nova_open_golfcoach" in text
+    assert "nova_premium_analytics" in text

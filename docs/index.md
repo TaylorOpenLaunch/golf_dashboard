@@ -13,4 +13,4 @@ This unofficial golf dashboard streams NOVA launch monitor telemetry into Home A
 - [Open Golf Coach Dashboard](open_golf_coach.md)
 - Dashboards:
   - `nova_open_golfcoach` (baseline analytics view)
-  - `nova_premium_analytics` (advanced TrackMan-style analytics view)
+  - `nova_premium_analytics` (advanced multi-column analytics view)
