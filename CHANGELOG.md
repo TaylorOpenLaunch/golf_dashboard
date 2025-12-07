@@ -4,6 +4,11 @@
 - Switched dashboard installer to use Home Assistant's YAML loader so configuration.yaml with !secret and !include works correctly.
 - golf_dashboard.install_dashboards no longer fails on valid configuration.yaml files.
 - Keeps copying bundled dashboards, creating golf_dashboard.yaml, and registering the Lovelace dashboard idempotently.
+## 0.2.9
+- Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`).
+- Automatically creates `/config/golf_dashboard.yaml` and registers the `golf_dashboard` Lovelace dashboard.
+- Ensures template dashboards are copied without overwriting user files.
+- Improved error handling using `HomeAssistantError` so failures show clear messages in the UI.
 
 ## 0.2.8
 - Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`):

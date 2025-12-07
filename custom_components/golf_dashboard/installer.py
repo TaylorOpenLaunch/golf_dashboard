@@ -63,6 +63,7 @@ def _ensure_templates(source_dir: Path, target_dir: Path) -> None:
     for filename in TEMPLATE_FILES:
         src = source_dir / filename
         dest = target_dir / filename
+
         if dest.exists():
             _LOGGER.debug("Golf Dashboard: %s already exists; leaving untouched", dest)
             continue
