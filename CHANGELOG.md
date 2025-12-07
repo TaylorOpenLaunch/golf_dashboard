@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.11
+- Switched the dashboard installer to Home Assistant's storage-mode Lovelace API (no configuration.yaml edits).
+- Automatically creates the Golf Dashboard storage dashboard with an initial view and cards; reruns leave existing dashboards untouched.
+- Bundled YAML templates are still copied to /config/golf_dashboard/dashboards/ as examples without being merged.
+
 ## 0.2.9
 - Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`).
 - Automatically creates `/config/golf_dashboard.yaml` and registers the `golf_dashboard` Lovelace dashboard.
