@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.20
+- Added NOVA Premium Shot (Hero Card) dashboard template with clean `sensor.golf_dashboard_*` placeholders.
+- Included the new template in the installer alongside existing dashboards.
+- Standardized guidance around the NOVA slug (prefer `nova` or the serial-based slug) and reiterated automatic placeholder rewrites.
+- Switched distance-related sensors and dashboard labels to yards.
+
 ## 0.2.19
 - Fix Premium Analytics Lovelace template entity_ids to match exported NOVA metrics (trajectory and shot-quality metrics).
 - Clarify README for storage-mode dashboards, slug auto-detection, and placeholder templates.
