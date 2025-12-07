@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.9
+- Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`).
+- Automatically creates `/config/golf_dashboard.yaml` and registers the `golf_dashboard` Lovelace dashboard.
+- Ensures template dashboards are copied without overwriting user files.
+- Improved error handling using `HomeAssistantError` so failures show clear messages in the UI.
+
 ## 0.2.8
 - Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`):
   - Safely creates `golf_dashboard.yaml` and `golf_coach.yaml` from bundled templates.
