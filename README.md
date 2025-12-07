@@ -117,7 +117,7 @@ These are copied to `/config/golf_dashboard/dashboards/` for reference. Template
 
 - Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
 - Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
-- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern.  
+- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern. Dashboards no longer perform slug substitution.  
 - The premium templates include a top-level `views:` array and a path suitable for storage-mode dashboards.  
   
 ### Recommended NOVA device naming
