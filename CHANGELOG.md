@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.8
+- Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`):
+  - Safely creates `golf_dashboard.yaml` and `golf_coach.yaml` from bundled templates.
+  - Updates or creates Lovelace dashboard entries in `configuration.yaml` without overwriting existing customizations.
+  - Uses clear `HomeAssistantError` messages and logging instead of generic “Unknown error”.
+- Ready for production use via HACS.
+
 ## 0.2.7
 - Added mDNS (zeroconf) discovery support using _openapi-nova._tcp.local. and _openlaunch-ws._tcp.local.
 - SSDP discovery remains supported.

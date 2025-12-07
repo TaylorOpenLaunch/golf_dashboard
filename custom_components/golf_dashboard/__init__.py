@@ -31,14 +31,10 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the Golf Dashboard integration and register services."""
 
-    async def handle_install_service(call: ServiceCall) -> None:
-        await async_install_dashboards(hass)
+    async def _handle_install_dashboards(call: ServiceCall) -> None:
+        await async_install_dashboards(hass, call)
 
-    hass.services.async_register(
-        DOMAIN,
-        "install_dashboards",
-        handle_install_service,
-    )
+    hass.services.async_register(DOMAIN, "install_dashboards", _handle_install_dashboards)
     _LOGGER.info("Golf Dashboard: registered service %s.install_dashboards", DOMAIN)
 
     return True
@@ -69,7 +65,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if install_dashboards:
         _LOGGER.info("Golf Dashboard: auto-installing dashboards from config entry setup")
         try:
-            await async_install_dashboards(hass)
+            await async_install_dashboards(hass, None)
         except Exception as err:  # noqa: BLE001
             _LOGGER.error("Golf Dashboard: dashboard install failed during setup: %s", err)
 
@@ -77,7 +73,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if install_again:
         _LOGGER.info("Golf Dashboard: re-installing dashboards from options flow")
         try:
-            await async_install_dashboards(hass)
+            await async_install_dashboards(hass, None)
         except Exception as err:  # noqa: BLE001
             _LOGGER.error("Golf Dashboard: dashboard re-install failed: %s", err)
         else:
