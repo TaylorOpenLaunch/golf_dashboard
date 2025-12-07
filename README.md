@@ -7,7 +7,7 @@
 # Golf Dashboard for Home Assistant  
 ### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
-Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus a storage-mode Lovelace dashboard** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided as optional templates under `/config/golf_dashboard/dashboards/`, but day-to-day use is entirely storage/UI based. Running the installer action once is recommended so you start with a ready-to-use dashboard.
+Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus a storage-mode Lovelace dashboard** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided as optional templates under `/config/golf_dashboard/dashboards/`, but day-to-day use is entirely storage/UI based. Running the installer action once is recommended so you start with a ready-to-use dashboard. Dashboards assume the NOVA entity prefix is `sensor.nova_*`; rename your NOVA device to `nova` (or `nova_<serial>`) for best results.
 
 This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
 
@@ -28,7 +28,7 @@ This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is mai
 
 ### Included Dashboards & Installer
 
-Three polished dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and can be installed automatically via the `golf_dashboard.install_dashboards` service.
+Four polished dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and can be installed automatically via the `golf_dashboard.install_dashboards` service.
 
 #### 1. Open Golf Coach
 
@@ -47,6 +47,11 @@ Three polished dashboards are bundled under `custom_components/golf_dashboard/da
 - Shot-focused layout with hero summary  
 - Launch, spin, club delivery, trajectory, and quick trends in one view  
 - Ideal for at-a-glance review after each shot  
+
+#### 4. NOVA Hero Card
+
+- Compact “hero” overview for quick post-shot review  
+- Launch, spin, club delivery, trajectory/windows, and recent trends in a smaller footprint  
 
 ### Home Assistant Friendly
 
@@ -94,7 +99,7 @@ Golf Dashboard ships with an installer action that creates a storage-mode Lovela
    - Create (or reuse) a storage-mode dashboard named **“Golf Dashboard”** (url_path `golf_dashboard`, icon `mdi:golf-tee`, sidebar-visible, not admin-only).  
    - Add an initial view with sample NOVA entities if the dashboard is empty.  
    - Copy example YAML templates into `/config/golf_dashboard/dashboards/` **only if they do not already exist**; it never overwrites user files.  
-   - Auto-detect your NOVA device slug (for example `nova` or `nova_123456`) and rewrite `sensor.golf_dashboard_*` placeholders in templates to the detected slug.  
+   - Dashboards assume entities start with `sensor.nova_*`. Rename your NOVA device to `nova` (or `nova_<serial>`) so entity_ids match.
 5. To open it: go to **Settings → Dashboards** and look for **Golf Dashboard** (type: user created, method: storage/UI). Optionally enable **Show in sidebar**.
 6. If Lovelace storage dashboards are not available yet (for example immediately after a restart), the action logs a warning and exits without changes—restart Home Assistant and try again later.
 
@@ -105,20 +110,20 @@ Running the installer again is safe: it will not overwrite your existing dashboa
 - `custom_components/golf_dashboard/dashboards/nova_open_golfcoach.yaml`  
 - `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
 - `custom_components/golf_dashboard/dashboards/nova_premium_shot.yaml`  
+- `custom_components/golf_dashboard/dashboards/nova_hero_card.yaml`  
 - `custom_components/golf_dashboard/dashboards/example_lovelace.yaml`  
 
-These are copied to `/config/golf_dashboard/dashboards/` for reference. The installer auto-detects your NOVA slug and rewrites `sensor.golf_dashboard_*` placeholders when copying, so you should not need to edit entity_ids manually. To use them manually:
+These are copied to `/config/golf_dashboard/dashboards/` for reference. Templates already use `sensor.nova_*` entity_ids; name your NOVA device `nova` (or `nova_<serial>`) so they match. To use them manually:
 
 - Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
 - Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
-- If you customize by hand, replace `golf_dashboard` in all `entity` references with the NOVA slug Home Assistant generated for your device (for example: `sensor.nova_by_open_launch_ball_speed`).  
+- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern.  
 - The premium templates include a top-level `views:` array and a path suitable for storage-mode dashboards.  
   
 ### Recommended NOVA device naming
 
-- The installer auto-detects your NOVA slug from existing sensors (for example `sensor.nova_ball_speed` or `sensor.nova_123456_ball_speed`).  
-- For best results, name or select the NOVA device whose entities use the `sensor.nova_*` or `sensor.nova_<serial>_*` pattern; the installer will rewrite placeholders automatically.  
-- Manual find/replace of entity_ids is no longer required for normal use.  
+- Name your NOVA device `nova` (all lowercase) or keep the serial-based slug (for example `nova_123456`) so entity_ids start with `sensor.nova_*`.  
+- Dashboards expect this prefix and no longer perform slug substitution.  
 
 ### Troubleshooting
 
@@ -145,11 +150,11 @@ Optionally delete old `golf_dashboard.yaml` / `golf_coach.yaml` files from the r
 
 ### Open GolfCoach dashboard
 
-The Open GolfCoach dashboard provides a coaching-oriented layout with sections for raw launch data, derived ball-flight metrics, shot classification, distance/spin history, tour benchmarks, shot quality, club delivery estimates, trajectory, and optimal windows. It uses `sensor.golf_dashboard_*` placeholders; during installation these are rewritten to the detected NOVA slug automatically.
+The Open GolfCoach dashboard provides a coaching-oriented layout with sections for raw launch data, derived ball-flight metrics, shot classification, distance/spin history, tour benchmarks, shot quality, club delivery estimates, trajectory, and optimal windows. It uses the fixed `sensor.nova_*` prefix.  
 
 ### Distances are now reported in yards
 
-All distance-oriented sensors (carry, total, offline, benchmarks, and deltas) are now published in yards. Dashboard labels have been updated to match; no configuration changes are needed.
+All distance-oriented sensors (carry, total, offline, benchmarks, and deltas) are published in yards. Dashboard labels have been updated to match; no configuration changes are needed.
 
 ---
 

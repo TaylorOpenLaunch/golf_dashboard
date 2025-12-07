@@ -1,19 +1,26 @@
 # Changelog
 
+## 0.2.21
+- Standardized all dashboards to use fixed `sensor.nova_*` entity IDs (no slug substitution).
+- Added NOVA HeroCard dashboard and aligned all dashboards to the `nova` prefix.
+- Removed the `shot_color` sensor and references across code and dashboards.
+- Kept all distance metrics in yards and updated labels accordingly.
+- Updated docs to recommend renaming the NOVA device to `nova`/`nova_<serial>` and bumped version metadata.
+
 ## 0.2.20
-- Added NOVA Premium Shot (Hero Card) dashboard template with clean `sensor.golf_dashboard_*` placeholders.
+- Added NOVA Premium Shot (Hero Card) dashboard template.
 - Included the new template in the installer alongside existing dashboards.
-- Standardized guidance around the NOVA slug (prefer `nova` or the serial-based slug) and reiterated automatic placeholder rewrites.
+- Standardized guidance around the NOVA slug (prefer `nova` or the serial-based slug).
 - Switched distance-related sensors and dashboard labels to yards.
 
 ## 0.2.19
 - Fix Premium Analytics Lovelace template entity_ids to match exported NOVA metrics (trajectory and shot-quality metrics).
 - Clarify README for storage-mode dashboards, slug auto-detection, and placeholder templates.
 - No installer/runtime behavior changes; templates/docs-only update.
-- Update Open GolfCoach dashboard template to use clean `sensor.golf_dashboard_*` placeholders and match the current coaching layout.
+- Update Open GolfCoach dashboard template to use clean placeholders and match the current coaching layout.
 
 ## 0.2.18
-- Installer improvement: automatically detect the NOVA slug and rewrite `sensor.golf_dashboard_*` placeholders in installed dashboard templates (including Premium Analytics).
+- Installer improvement: automatically detect the NOVA slug and rewrite placeholders in installed dashboard templates (including Premium Analytics).
 - If no slug is found, templates remain unchanged and a warning is logged; no installer behavior change otherwise.
 - Documentation updated to describe automatic slug substitution; no Home Assistant configuration or installer behavior changes.
 

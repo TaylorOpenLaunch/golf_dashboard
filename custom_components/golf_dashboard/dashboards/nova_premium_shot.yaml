@@ -1,6 +1,5 @@
-# Entity IDs use sensor.golf_dashboard_* placeholders. The installer will detect
-# your NOVA slug (for example nova or nova_by_open_launch) and rewrite them
-# automatically during installation.
+# Entity IDs use the fixed sensor.nova_* prefix; rename your NOVA device to "nova"
+# (or nova_<serial>) so entities match this template.
 views:
   - title: NOVA Premium Shot
     path: nova_premium_shot
@@ -18,25 +17,25 @@ views:
                 title: NOVA Shot Summary
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.golf_dashboard_ball_speed
+                  - entity: sensor.nova_ball_speed
                     name: Ball speed
-                  - entity: sensor.golf_dashboard_carry_distance
+                  - entity: sensor.nova_carry_distance
                     name: Carry distance
-                  - entity: sensor.golf_dashboard_total_distance
+                  - entity: sensor.nova_total_distance
                     name: Total distance
-                  - entity: sensor.golf_dashboard_offline_distance
+                  - entity: sensor.nova_offline_distance
                     name: Offline distance
-                  - entity: sensor.golf_dashboard_shot_quality
+                  - entity: sensor.nova_shot_quality
                     name: Shot quality
-                  - entity: sensor.golf_dashboard_shot_type
+                  - entity: sensor.nova_shot_type
                     name: Shot type
               - type: history-graph
                 title: Recent speed & distance
                 hours_to_show: 6
                 entities:
-                  - entity: sensor.golf_dashboard_ball_speed
-                  - entity: sensor.golf_dashboard_carry_distance
-                  - entity: sensor.golf_dashboard_total_distance
+                  - entity: sensor.nova_ball_speed
+                  - entity: sensor.nova_carry_distance
+                  - entity: sensor.nova_total_distance
 
           # Column 2: Launch, spin, and trajectory
           - type: vertical-stack
@@ -45,34 +44,34 @@ views:
                 title: Launch
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.golf_dashboard_vertical_launch_angle
+                  - entity: sensor.nova_vertical_launch_angle
                     name: Vertical launch
-                  - entity: sensor.golf_dashboard_horizontal_launch_angle
+                  - entity: sensor.nova_horizontal_launch_angle
                     name: Horizontal launch
-                  - entity: sensor.golf_dashboard_apex_height
-                    name: Apex height
-                  - entity: sensor.golf_dashboard_hang_time
+                  - entity: sensor.nova_apex_height
+                    name: Apex height (yd)
+                  - entity: sensor.nova_hang_time
                     name: Hang time
-                  - entity: sensor.golf_dashboard_descent_angle
+                  - entity: sensor.nova_descent_angle
                     name: Descent angle
               - type: entities
                 title: Spin
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.golf_dashboard_total_spin
+                  - entity: sensor.nova_total_spin
                     name: Total spin
-                  - entity: sensor.golf_dashboard_backspin
+                  - entity: sensor.nova_backspin
                     name: Backspin
-                  - entity: sensor.golf_dashboard_sidespin
+                  - entity: sensor.nova_sidespin
                     name: Sidespin
-                  - entity: sensor.golf_dashboard_spin_axis
+                  - entity: sensor.nova_spin_axis
                     name: Spin axis
               - type: history-graph
                 title: Spin trends
                 hours_to_show: 6
                 entities:
-                  - entity: sensor.golf_dashboard_total_spin
-                  - entity: sensor.golf_dashboard_spin_axis
+                  - entity: sensor.nova_total_spin
+                  - entity: sensor.nova_spin_axis
 
           # Column 3: Club delivery and trajectory delivery summary
           - type: vertical-stack
@@ -81,32 +80,30 @@ views:
                 title: Club Delivery
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.golf_dashboard_club_speed
+                  - entity: sensor.nova_club_speed
                     name: Club speed
-                  - entity: sensor.golf_dashboard_smash_factor
+                  - entity: sensor.nova_smash_factor
                     name: Smash factor
-                  - entity: sensor.golf_dashboard_attack_angle
+                  - entity: sensor.nova_attack_angle
                     name: Attack angle
-                  - entity: sensor.golf_dashboard_face_angle
+                  - entity: sensor.nova_face_angle
                     name: Face angle
-                  - entity: sensor.golf_dashboard_face_to_path
+                  - entity: sensor.nova_face_to_path
                     name: Face to path
-                  - entity: sensor.golf_dashboard_club_path
+                  - entity: sensor.nova_club_path
                     name: Club path
               - type: entities
                 title: Trajectory & Delivery
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.golf_dashboard_optimal_window_summary
+                  - entity: sensor.nova_optimal_window_summary
                     name: Optimal window summary
-                  - entity: sensor.golf_dashboard_club_recommendation
+                  - entity: sensor.nova_club_recommendation
                     name: Club recommendation
-                  - entity: sensor.golf_dashboard_shot_color
-                    name: Shot color
               - type: history-graph
                 title: Speed, spin & quality (recent)
                 hours_to_show: 6
                 entities:
-                  - entity: sensor.golf_dashboard_ball_speed
-                  - entity: sensor.golf_dashboard_total_spin
-                  - entity: sensor.golf_dashboard_shot_quality
+                  - entity: sensor.nova_ball_speed
+                  - entity: sensor.nova_total_spin
+                  - entity: sensor.nova_shot_quality

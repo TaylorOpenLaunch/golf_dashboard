@@ -9,18 +9,6 @@ from __future__ import annotations
 import math
 from typing import Any, Dict, Optional, Tuple
 
-# Default rank colors taken from shot_classification/rank_colors.toml in the
-# OpenGolfCoach repository. Colors are kept in the same 0xRRGGBB format.
-RANK_COLORS: dict[str, str] = {
-    "S+": "0x23C4FF",
-    "S": "0x00B3FF",
-    "A": "0x00D977",
-    "B": "0x7CB342",
-    "C": "0xFFC107",
-    "D": "0xFF7043",
-    "E": "0xFF1744",
-}
-
 GRAVITY = 9.81  # m/s^2
 MPS_TO_MPH = 2.236936
 METERS_TO_YARDS = 1.09361
@@ -148,11 +136,6 @@ def _estimate_club_speed(
     return club_speed, smash_estimate
 
 
-def _rank_color(rank: str) -> str:
-    """Return the RGB hex color for a given rank."""
-    return RANK_COLORS.get(rank, "0xFFFFFF")
-
-
 def _classify_shot(
     ball_speed_mps: float,
     vla_deg: float,
@@ -165,54 +148,42 @@ def _classify_shot(
     # Special cases
     if abs(vla_deg) < 0.1 and ball_speed_mph < 6.0:
         rank = "P"
-        return {
-            "shot_name": "Putt",
-            "shot_rank": rank,
-            "shot_color_rgb": "0x808080",
-        }
+        return {"shot_name": "Putt", "shot_rank": rank}
 
     # Ultra-low speed, low-launch mishits.
     if ball_speed_mph < 25.0 and vla_deg < 10.0:
         rank = "E"
-        return {"shot_name": "Chunk", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Chunk", "shot_rank": rank}
 
     if vla_deg < 5.0 and ball_speed_mph > 44.73872:
         rank = "E"
-        return {"shot_name": "Worm Burner", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Worm Burner", "shot_rank": rank}
 
     if hla_deg > 12.0 and vla_deg > 12.0:
         rank = "E"
-        return {"shot_name": "Right Shank", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Right Shank", "shot_rank": rank}
 
     if hla_deg < -12.0 and vla_deg > 12.0:
         rank = "E"
-        return {"shot_name": "Left Shank", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Left Shank", "shot_rank": rank}
 
     if ball_speed_mph > 100.0 and vla_deg < 20.0 and spin_axis_deg < -25.0:
         rank = "E"
-        return {"shot_name": "Duck Hook", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Duck Hook", "shot_rank": rank}
 
     if ball_speed_mph > 100.0 and vla_deg < 20.0 and spin_axis_deg > 25.0:
         rank = "E"
-        return {"shot_name": "Banana Slice", "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+        return {"shot_name": "Banana Slice", "shot_rank": rank}
 
     hla_abs = abs(hla_deg)
     spin_abs = abs(spin_axis_deg)
     if hla_abs < 2.0 and spin_abs < 2.0 and ball_speed_mph > 55.9234:
         if hla_deg > 0.0 and spin_axis_deg < 0.0:
             rank = "S+"
-            return {
-                "shot_name": "Baby Push Draw",
-                "shot_rank": rank,
-                "shot_color_rgb": _rank_color(rank),
-            }
+            return {"shot_name": "Baby Push Draw", "shot_rank": rank}
         if hla_deg < 0.0 and spin_axis_deg > 0.0:
             rank = "S"
-            return {
-                "shot_name": "Baby Pull Fade",
-                "shot_rank": rank,
-                "shot_color_rgb": _rank_color(rank),
-            }
+            return {"shot_name": "Baby Pull Fade", "shot_rank": rank}
 
     # Direction from horizontal launch angle
     if hla_deg < -3.0:
@@ -264,7 +235,7 @@ def _classify_shot(
         # Hooks/slices and extremes
         rank = "D"
 
-    return {"shot_name": shot_name, "shot_rank": rank, "shot_color_rgb": _rank_color(rank)}
+    return {"shot_name": shot_name, "shot_rank": rank}
 
 
 def _infer_club_class(ball_speed_mph: Optional[float]) -> str:
@@ -369,12 +340,12 @@ def compute_apex_hang_and_descent(
     hang_time = 2.0 * time_up
 
     apex_m = (v_y * v_y) / (2.0 * gravity)
-    apex_feet = apex_m * 3.28084
+    apex_yards = (apex_m * 3.28084) / 3.0
 
     descent_angle = math.degrees(math.atan2(v_y, v_x))
 
     return {
-        "apex_height_feet": apex_feet,
+        "apex_height_yards": apex_yards,
         "hang_time_seconds": hang_time,
         "descent_angle_deg": descent_angle,
     }
