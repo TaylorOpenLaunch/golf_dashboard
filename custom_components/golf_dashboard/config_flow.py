@@ -10,6 +10,7 @@ import voluptuous as vol
 import websockets
 
 from homeassistant.components import ssdp
+from homeassistant.components.zeroconf import ZeroconfServiceInfo
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME
@@ -189,6 +190,41 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
             },
             errors=errors,
         )
+
+    async def async_step_zeroconf(
+        self, discovery_info: ZeroconfServiceInfo
+    ) -> ConfigFlowResult:
+        """Handle mDNS/zeroconf discovery."""
+        _LOGGER.debug("Zeroconf discovery: %s", discovery_info)
+
+        self._discovered_host = discovery_info.host
+        self._discovered_port = discovery_info.port or DEFAULT_PORT
+
+        # Use service name or hostname as a friendly name
+        self._discovered_name = (
+            discovery_info.name.split("._open", 1)[0].rstrip(".")
+            if discovery_info.name
+            else discovery_info.hostname or "Golf Dashboard"
+        )
+        self._discovered_manufacturer = "Open Launch"
+        self._discovered_model = "NOVA"
+        self._discovered_serial = discovery_info.hostname
+
+        if not self._discovered_host:
+            return self.async_abort(reason="no_host")
+
+        unique_id = self._discovered_serial or f"{self._discovered_host}:{self._discovered_port}"
+        await self.async_set_unique_id(unique_id)
+        self._abort_if_unique_id_configured(
+            updates={
+                CONF_HOST: self._discovered_host,
+                CONF_PORT: self._discovered_port,
+            }
+        )
+
+        self.context["title_placeholders"] = {"name": self._discovered_name or "Golf Dashboard"}
+
+        return await self.async_step_ssdp_confirm()
 
     async def _test_connection(self, host: str, preferred_port: int | None) -> int | None:
         """Test if we can connect to the device via WebSocket on known ports."""
