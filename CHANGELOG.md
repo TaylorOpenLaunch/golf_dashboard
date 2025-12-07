@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.18
+- Installer improvement: automatically detect the NOVA slug and rewrite `sensor.golf_dashboard_*` placeholders in installed dashboard templates (including Premium Analytics).
+- If no slug is found, templates remain unchanged and a warning is logged; no installer behavior change otherwise.
+- Documentation updated to describe automatic slug substitution; no Home Assistant configuration or installer behavior changes.
+
 ## 0.2.17
 - Fix Nova Premium Analytics Lovelace template to be a valid storage-mode dashboard (wrap in views array, use hyphenated path).
 - Clarify documentation for using the storage-mode installer and optional YAML templates.
