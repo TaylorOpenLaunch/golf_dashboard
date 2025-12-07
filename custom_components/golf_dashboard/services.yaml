@@ -1,4 +1,4 @@
 install_dashboards:
   name: Install Golf Dashboards
-  description: Copy bundled dashboards into /config/golf_dashboard/dashboards/, create /config/golf_dashboard.yaml if missing, and add/update lovelace.dashboards.golf_dashboard in configuration.yaml without overwriting your customizations.
+  description: Create or update a storage-mode Golf Dashboard in Home Assistant and copy bundled example YAML dashboards into /config/golf_dashboard/dashboards/ without overwriting existing files. The service is idempotent and will not replace your customizations.
   fields: {}
