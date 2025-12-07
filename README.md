@@ -130,6 +130,10 @@ lovelace:
 
 Optionally delete old `golf_dashboard.yaml` / `golf_coach.yaml` files from the root if you no longer use YAML dashboards. After cleanup, run the installer action once to ensure the storage-mode dashboard exists.
 
+### Open GolfCoach dashboard
+
+The Open GolfCoach dashboard provides a coaching-oriented layout with sections for raw launch data, derived ball-flight metrics, shot classification, distance/spin history, tour benchmarks, shot quality, club delivery estimates, trajectory, and optimal windows. It uses `sensor.golf_dashboard_*` placeholders; during installation these are rewritten to the detected NOVA slug automatically.
+
 ---
 
 ## 🧩 Project Structure

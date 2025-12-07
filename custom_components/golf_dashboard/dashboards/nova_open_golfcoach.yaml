@@ -1,8 +1,9 @@
-# Replace `golf_dashboard` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
+# Placeholder entity IDs use sensor.golf_dashboard_*; the installer will detect your NOVA
+# slug (for example nova_by_open_launch) and rewrite these when installing.
 title: Golf Dashboard Open GolfCoach
 path: nova_open_golf_coach
 icon: mdi:golf
-theme: "Home Assistant Dark"
+theme: Home Assistant Dark
 cards:
   - type: grid
     columns: 2
@@ -32,6 +33,7 @@ cards:
           - entity: sensor.golf_dashboard_sidespin
           - entity: sensor.golf_dashboard_club_speed
           - entity: sensor.golf_dashboard_smash_factor
+
   - type: grid
     columns: 2
     square: false
@@ -49,6 +51,7 @@ cards:
         hours_to_show: 24
         entities:
           - entity: sensor.golf_dashboard_shot_rank
+
   - type: grid
     columns: 2
     square: false
@@ -66,6 +69,7 @@ cards:
         entities:
           - entity: sensor.golf_dashboard_backspin
           - entity: sensor.golf_dashboard_sidespin
+
   - type: entities
     title: Tour Benchmarks (PGA style)
     show_header_toggle: false
@@ -79,6 +83,7 @@ cards:
         name: Your carry (actual)
       - entity: sensor.golf_dashboard_carry_delta_to_tour
         name: Carry vs Tour (yd)
+
   - type: statistics-graph
     title: Carry vs Tour (last 50 shots)
     days_to_show: 7
@@ -86,6 +91,7 @@ cards:
       - sensor.golf_dashboard_carry_distance
       - sensor.golf_dashboard_tour_carry
       - sensor.golf_dashboard_carry_delta_to_tour
+
   - type: entities
     title: Shot Quality
     show_header_toggle: false
@@ -101,6 +107,7 @@ cards:
         name: Windows
       - entity: sensor.golf_dashboard_club_recommendation
         name: Recommendation
+
   - type: entities
     title: Club Delivery (Estimates)
     show_header_toggle: false
@@ -116,6 +123,7 @@ cards:
         name: Face to path (°)
       - entity: sensor.golf_dashboard_club_path
         name: Club path (°)
+
   - type: entities
     title: Trajectory
     show_header_toggle: false
@@ -127,6 +135,7 @@ cards:
         name: Hang time (s)
       - entity: sensor.golf_dashboard_descent_angle
         name: Descent angle (°)
+
   - type: entities
     title: Optimal Windows
     show_header_toggle: false
@@ -138,6 +147,7 @@ cards:
         name: Spin in window
       - entity: sensor.golf_dashboard_start_in_window
         name: Start line in window
+
   - type: entities
     title: Benchmarks (Am / LPGA / Tour)
     show_header_toggle: false

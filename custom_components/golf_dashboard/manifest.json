@@ -17,7 +17,7 @@
       "st": "urn:openlaunch:service:websocket:1"
     }
   ],
-  "version": "0.2.18",
+  "version": "0.2.19",
   "zeroconf": [
     "_openapi-nova._tcp.local.",
     "_openlaunch-ws._tcp.local."
