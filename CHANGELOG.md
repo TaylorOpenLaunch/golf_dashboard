@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.7
+- Added mDNS (zeroconf) discovery support using _openapi-nova._tcp.local. and _openlaunch-ws._tcp.local.
+- SSDP discovery remains supported.
+- Improved discovery confirmation flow and description placeholders.
+
 ## 0.2.6
 - Patch release to update Golf Dashboard in HACS.
 
