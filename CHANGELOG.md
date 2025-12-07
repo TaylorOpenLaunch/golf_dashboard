@@ -4,6 +4,7 @@
 - Fix Premium Analytics Lovelace template entity_ids to match exported NOVA metrics (trajectory and shot-quality metrics).
 - Clarify README for storage-mode dashboards, slug auto-detection, and placeholder templates.
 - No installer/runtime behavior changes; templates/docs-only update.
+- Update Open GolfCoach dashboard template to use clean `sensor.golf_dashboard_*` placeholders and match the current coaching layout.
 
 ## 0.2.18
 - Installer improvement: automatically detect the NOVA slug and rewrite `sensor.golf_dashboard_*` placeholders in installed dashboard templates (including Premium Analytics).
