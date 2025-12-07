@@ -7,7 +7,8 @@
         "data": {
           "name": "Device Name",
           "host": "Host (IP Address)",
-          "port": "Port"
+          "port": "Port",
+          "install_dashboards": "Install dashboards automatically"
         }
       },
       "ssdp_confirm": {
@@ -24,6 +25,17 @@
     "abort": {
       "already_configured": "This device is already configured.",
       "no_host": "Could not determine device address from discovery."
+    }
+  },
+  "options": {
+    "step": {
+      "user": {
+        "title": "Golf Dashboard options",
+        "description": "Manage dashboard installation.",
+        "data": {
+          "install_dashboards_again": "Re-run dashboard installer now"
+        }
+      }
     }
   },
   "services": {
