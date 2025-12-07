@@ -2,5 +2,7 @@ install_dashboards:
   name: Install Golf Dashboards
   description: >
     Creates or updates the automatic storage-mode "Golf Dashboard" and installs
-    bundled example YAML files under /config/golf_dashboard/dashboards/.
+    bundled example YAML files under /config/golf_dashboard/dashboards/. This
+    service does not modify configuration.yaml and will skip safely if Lovelace
+    storage dashboards are unavailable.
   fields: {}

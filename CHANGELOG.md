@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.14
+- Hardened installer: if Lovelace storage dashboards are unavailable, `golf_dashboard.install_dashboards` now logs a warning and exits safely instead of raising an error.
+- Storage-mode behavior remains unchanged; no configuration.yaml access.
+- Documentation updated for the safer installer behavior.
 ## 0.2.13
 - Clarified README to emphasize storage-mode dashboard creation via the `golf_dashboard.install_dashboards` action and optional sample YAML templates.
 - Added upgrade notes for removing legacy YAML `lovelace.dashboards.golf_dashboard` entries when migrating from older versions.

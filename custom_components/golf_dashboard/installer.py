@@ -60,6 +60,12 @@ async def async_install_dashboards(hass: HomeAssistant, call: ServiceCall) -> No
 
     _ensure_templates(templates_source, templates_target)
     dashboard = await _get_or_create_dashboard(hass)
+    if dashboard is None:
+        _LOGGER.warning(
+            "Golf Dashboard: Lovelace storage dashboards not available; skipping installer. "
+            "Try restarting Home Assistant and ensure the frontend is loaded."
+        )
+        return
     await _ensure_dashboard_has_view(dashboard)
 
     _LOGGER.info("Golf Dashboard storage dashboard installed or updated successfully")
@@ -97,25 +103,31 @@ def _get_dashboard_manager(hass: HomeAssistant) -> Any:
     """Return the Lovelace dashboard manager from hass.data."""
     data = hass.data.get("lovelace")
     if not data:
-        _LOGGER.error("Golf Dashboard: Lovelace integration data is unavailable")
-        raise HomeAssistantError("Lovelace dashboards are not available.")
+        _LOGGER.warning("Golf Dashboard: Lovelace integration data is unavailable")
+        return None
 
     dashboards = data.get("dashboards")
     if dashboards is None:
-        _LOGGER.error("Golf Dashboard: Lovelace dashboards manager is missing")
-        raise HomeAssistantError("Lovelace dashboards manager is not available.")
+        _LOGGER.warning("Golf Dashboard: Lovelace dashboards manager is missing")
+        return None
     return dashboards
 
 
 async def _get_or_create_dashboard(hass: HomeAssistant):
     """Return an existing storage dashboard or create a new one."""
     dashboards = _get_dashboard_manager(hass)
+    if dashboards is None:
+        return None
 
     try:
         dashboard = await dashboards.async_get_dashboard(DASHBOARD_URL_PATH)
     except Exception as err:  # noqa: BLE001
-        _LOGGER.exception("Golf Dashboard: failed to access Lovelace dashboards")
-        raise HomeAssistantError("Unable to access Lovelace dashboards.") from err
+        _LOGGER.warning(
+            "Golf Dashboard: failed to access Lovelace dashboards; skipping installer. "
+            "Try restarting Home Assistant and ensure the frontend is loaded."
+        )
+        _LOGGER.debug("Golf Dashboard: Lovelace access error", exc_info=err)
+        return None
 
     if dashboard is not None:
         _LOGGER.info("Golf Dashboard: storage dashboard already exists; leaving it in place")

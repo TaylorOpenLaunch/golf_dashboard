@@ -7,7 +7,7 @@
 # Golf Dashboard for Home Assistant  
 ### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
-Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus a storage-mode Lovelace dashboard** that can be created automatically via the installer action—no manual YAML dashboard edits required. Sample YAML views are shipped as optional templates under `/config/golf_dashboard/dashboards/`, but day-to-day use is entirely storage/UI based. Running the installer action once is recommended so you start with a ready-to-use dashboard.
+Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus a storage-mode Lovelace dashboard** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided as optional templates under `/config/golf_dashboard/dashboards/`, but day-to-day use is entirely storage/UI based. Running the installer action once is recommended so you start with a ready-to-use dashboard.
 
 This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
 
@@ -55,21 +55,21 @@ Two polished dashboards are bundled under `custom_components/golf_dashboard/dash
 
 Choose one of the following installation methods.
 
-### Install via HACS (recommended)
+### Installation via HACS (recommended)
 
 1. Open **HACS → Integrations**.  
 2. Click the menu (⋮) → **Custom repositories**.  
-3. Add `https://github.com/TaylorOpenLaunch/golf_dashboard` as a custom repository, type **Integration**.  
+3. Add the repository URL: `https://github.com/TaylorOpenLaunch/golf_dashboard` and set the type to **Integration**.  
 4. In HACS → Integrations, click **+** and search for **“Golf Dashboard”**. Install it.  
 5. Restart Home Assistant if prompted.  
-6. Configure your NOVA device:  
-   - Go to **Settings → Devices & Services → Add integration** (if not auto-discovered) → search for **Golf Dashboard**.  
-   - Follow the config flow to pick your NOVA device (SSDP/mDNS) and assign a friendly name.  
+6. Configure the NOVA device:  
+   - Go to **Settings → Devices & services → Add integration** (if not auto-discovered) → search for **Golf Dashboard**.  
+   - Follow the config flow to pick your NOVA device (SSDP/mDNS discovery) and assign a friendly name.
 
-### Manual installation (advanced/alternative)
+### Manual installation (alternative)
 
 1. Download or clone this repository.  
-2. Copy `custom_components/golf_dashboard` into `config/custom_components/`.  
+2. Copy the folder `custom_components/golf_dashboard` into `config/custom_components/`.  
 3. Restart Home Assistant.  
 4. Add the integration via **Settings → Devices & Services → Add Integration → Golf Dashboard** and complete the config flow.
 
@@ -77,21 +77,21 @@ Choose one of the following installation methods.
 
 ## 📊 Creating the Golf Dashboard (storage mode)
 
-Golf Dashboard ships with an installer action that creates a **storage-mode** Lovelace dashboard and copies example YAML templates for reference. Run the installer once after adding the integration—no `configuration.yaml` edits are required.
+Golf Dashboard ships with an installer action that creates a storage-mode Lovelace dashboard and copies example YAML templates for reference. Run the installer once after adding the integration.
 
 ### Steps
 
-1. Go to **Developer tools → Actions**.  
-2. Search for **Install Golf Dashboards** (service ID: `golf_dashboard.install_dashboards`).  
-3. Leave `data` empty and click **Perform action**.  
-4. The service will:  
-   - Create (or reuse) a storage-mode dashboard named **“Golf Dashboard”** with a URL path like `golf-dashboard`, icon `mdi:golf-tee`, sidebar-visible, and not admin-only.  
+1. Open **Developer Tools → Actions** in Home Assistant.  
+2. In the action selector, search for **Install Golf Dashboards** (`golf_dashboard.install_dashboards`).  
+3. Leave the data empty and click **Perform action**.  
+4. The installer will:
+   - Create (or reuse) a storage-mode dashboard named **“Golf Dashboard”** (url_path `golf_dashboard`, icon `mdi:golf-tee`, sidebar-visible, not admin-only).  
    - Add an initial view with sample NOVA entities if the dashboard is empty.  
-   - Copy bundled YAML templates into `/config/golf_dashboard/dashboards/` **only if they do not already exist** (never overwrites user files).  
-5. Open **Settings → Dashboards** and confirm **Golf Dashboard** appears (type: user created, method: storage/UI).  
-6. Click it to open and customize like any storage-mode dashboard.  
+   - Copy example YAML templates into `/config/golf_dashboard/dashboards/` **only if they do not already exist**; it never overwrites user files.  
+5. To open it: go to **Settings → Dashboards** and look for **Golf Dashboard** (type: user created, method: storage/UI). Optionally enable **Show in sidebar**.
+6. If Lovelace storage dashboards are not available yet (for example immediately after a restart), the action logs a warning and exits without changes—restart Home Assistant and try again later.
 
-The action is idempotent: running it again will not overwrite your dashboard and only fills in missing pieces or missing sample files.
+Running the installer again is safe: it will not overwrite your existing dashboard and only copies missing example files.
 
 ### Bundled example YAML (reference only)
 
@@ -101,9 +101,15 @@ The action is idempotent: running it again will not overwrite your dashboard and
 
 These are copied to `/config/golf_dashboard/dashboards/` for reference. You can import or adapt them manually in other dashboards if desired.
 
-### Upgrading from older YAML dashboards (<= 0.2.10)
+### Troubleshooting
 
-If you previously added a YAML dashboard under `lovelace.dashboards.golf_dashboard` in `configuration.yaml`, remove it to avoid conflicts and URL-path errors:
+- If the action fails, check Home Assistant logs for `golf_dashboard` messages and ensure the integration is installed/loaded; a restart after installing/updating can help.  
+- If you do not see **Install Golf Dashboards**: ensure the integration is installed and loaded; restart Home Assistant after installing/updating.  
+- If the dashboard does not appear under **Settings → Dashboards**: run the installer again and check the Home Assistant logs for `golf_dashboard` messages. If Lovelace storage is not ready, the installer logs a warning and exits safely—restart and try again.
+
+### Legacy cleanup (older YAML dashboards <= 0.2.10)
+
+Older releases used YAML-mode dashboards. If you still have a `lovelace.dashboards.golf_dashboard` block in `configuration.yaml`, you can remove it to avoid conflicts (current releases do not modify `configuration.yaml`):
 
 ```yaml
 lovelace:
@@ -116,16 +122,7 @@ lovelace:
       show_in_sidebar: true
 ```
 
-- Optionally delete old `golf_dashboard.yaml` / `golf_coach.yaml` files from the root if you no longer use YAML dashboards.  
-- Restart Home Assistant.  
-- Run the **Install Golf Dashboards** action once to ensure the storage-mode dashboard is created.  
-- The storage-mode approach is the recommended, future-proof method. The integration no longer edits `configuration.yaml`.
-
-### Troubleshooting
-
-- If the action fails with a YAML error, verify that `configuration.yaml` is valid (Home Assistant's YAML loader is used).  
-- If you do not see **Install Golf Dashboards**: ensure the integration is installed and loaded; restart Home Assistant after installing/updating.  
-- If the dashboard does not appear under **Settings → Dashboards**: run the installer again and check Home Assistant logs for `golf_dashboard` messages.
+Optionally delete old `golf_dashboard.yaml` / `golf_coach.yaml` files from the root if you no longer use YAML dashboards. After cleanup, run the installer action once to ensure the storage-mode dashboard exists.
 
 ---
 
