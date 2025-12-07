@@ -1,8 +1,8 @@
 # Changelog
 
 ## 0.2.11
-- Switched dashboard installer to use Home Assistant’s Lovelace Storage Mode API.
-- Automatically creates a “Golf Dashboard” under `/lovelace/golf_dashboard` (UI-controlled, not YAML).
+- Switched dashboard installer to use Home Assistant's Lovelace Storage Mode API.
+- Automatically creates a "Golf Dashboard" under `/lovelace/golf_dashboard` (UI-controlled, not YAML).
 - Adds a starter view with sample Nova sensor cards when empty.
 - Copies template YAML files only to `/config/golf_dashboard/dashboards/` without touching existing dashboards.
 - No edits occur to configuration.yaml.
@@ -20,7 +20,7 @@
 - Hardened the Golf Dashboard installer service (`golf_dashboard.install_dashboards`):
   - Safely creates `golf_dashboard.yaml` and `golf_coach.yaml` from bundled templates.
   - Updates or creates Lovelace dashboard entries in `configuration.yaml` without overwriting existing customizations.
-  - Uses clear `HomeAssistantError` messages and logging instead of generic “Unknown error”.
+  - Uses clear `HomeAssistantError` messages and logging instead of generic "Unknown error".
 - Ready for production use via HACS.
 
 ## 0.2.7
