@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.13
+- Clarified README to emphasize storage-mode dashboard creation via the `golf_dashboard.install_dashboards` action and optional sample YAML templates.
+- Added upgrade notes for removing legacy YAML `lovelace.dashboards.golf_dashboard` entries when migrating from older versions.
+- No code changes; behavior remains the same as 0.2.11/0.2.12.
+
 ## 0.2.12
 - Clarified README instructions for installing the Golf Dashboard via `golf_dashboard.install_dashboards`.
 - Documented storage-mode Lovelace dashboard behavior and example YAML templates.
