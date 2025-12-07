@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-import re
 from pathlib import Path
 from typing import Any
 
@@ -14,8 +13,9 @@ _LOGGER = logging.getLogger(__name__)
 TEMPLATE_FILES: tuple[str, ...] = (
     "nova_open_golfcoach.yaml",
     "nova_premium_analytics.yaml",
-    "example_lovelace.yaml",
     "nova_premium_shot.yaml",
+    "nova_hero_card.yaml",
+    "example_lovelace.yaml",
 )
 
 DASHBOARD_URL_PATH = "golf_dashboard"
@@ -31,11 +31,11 @@ DEFAULT_VIEW: dict[str, Any] = {
             "cards": [
                 {
                     "type": "entities",
-                    "title": "Nova Metrics",
+                    "title": "NOVA Metrics",
                     "entities": [
                         {"entity": "sensor.nova_ball_speed", "name": "Ball Speed"},
-                        {"entity": "sensor.nova_carry_distance", "name": "Carry Distance"},
-                        {"entity": "sensor.nova_spin_rate", "name": "Spin Rate"},
+                        {"entity": "sensor.nova_carry_distance", "name": "Carry Distance (yd)"},
+                        {"entity": "sensor.nova_total_spin", "name": "Total Spin"},
                     ],
                 },
                 {
@@ -56,18 +56,10 @@ async def async_install_dashboards(hass: HomeAssistant, call: ServiceCall) -> No
     config_root = Path(hass.config.path())
     templates_source = Path(__file__).parent / "dashboards"
     templates_target = Path(hass.config.path("golf_dashboard/dashboards"))
-    slug = await async_detect_nova_slug(hass)
-    if slug:
-        _LOGGER.info("Golf Dashboard: detected NOVA slug %s; rewriting dashboard entity_ids", slug)
-    else:
-        _LOGGER.warning(
-            "Golf Dashboard: could not detect NOVA slug; template placeholders will remain "
-            "as sensor.golf_dashboard_*. Configure NOVA and rerun the installer if needed."
-        )
 
     _LOGGER.info("Golf Dashboard: installing storage-mode dashboard into %s", config_root)
 
-    _ensure_templates(templates_source, templates_target, slug)
+    _ensure_templates(templates_source, templates_target)
     dashboard = await _get_or_create_dashboard(hass)
     if dashboard is None:
         _LOGGER.warning(
@@ -80,7 +72,7 @@ async def async_install_dashboards(hass: HomeAssistant, call: ServiceCall) -> No
     _LOGGER.info("Golf Dashboard storage dashboard installed or updated successfully")
 
 
-def _ensure_templates(source_dir: Path, target_dir: Path, slug: str | None) -> None:
+def _ensure_templates(source_dir: Path, target_dir: Path) -> None:
     """Copy bundled template files to /config/golf_dashboard/dashboards if missing."""
     if not source_dir.is_dir():
         _LOGGER.error("Golf Dashboard: template source directory missing: %s", source_dir)
@@ -101,9 +93,7 @@ def _ensure_templates(source_dir: Path, target_dir: Path, slug: str | None) -> N
                 f"Template file {filename} is missing; reinstall the integration."
             )
         try:
-            template_text = src.read_text(encoding="utf-8")
-            final_text = substitute_nova_slug_in_yaml(template_text, slug)
-            dest.write_text(final_text, encoding="utf-8")
+            dest.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
             _LOGGER.info("Golf Dashboard: copied template %s", filename)
         except OSError as err:
             _LOGGER.exception("Golf Dashboard: failed to copy %s to %s", src, dest)
@@ -195,38 +185,3 @@ async def _ensure_dashboard_has_view(dashboard: Any) -> None:
         _LOGGER.exception("Golf Dashboard: failed to save dashboard config")
         raise HomeAssistantError("Failed to update Golf Dashboard views.") from err
 
-
-def substitute_nova_slug_in_yaml(yaml_text: str, slug: str | None) -> str:
-    """Replace placeholder entity ids with detected NOVA slug."""
-    if not slug:
-        return yaml_text
-    return yaml_text.replace("sensor.golf_dashboard_", f"sensor.{slug}_")
-
-
-_NOVA_ENTITY_PATTERN = re.compile(r"^sensor\.(?P<slug>.+)_(ball_speed|carry_distance|connection)$")
-
-
-async def async_detect_nova_slug(hass: HomeAssistant) -> str | None:
-    """Detect the NOVA slug from existing sensor entity_ids."""
-    slug_candidate: str | None = None
-
-    for entity_id in hass.states.async_entity_ids("sensor"):
-        match = _NOVA_ENTITY_PATTERN.match(entity_id)
-        if not match:
-            continue
-        slug = match.group("slug")
-        metric = match.group(2)
-        if metric == "ball_speed":
-            _LOGGER.info("Golf Dashboard: detected NOVA slug %s from %s", slug, entity_id)
-            return slug
-        if slug_candidate is None:
-            slug_candidate = slug
-
-    if slug_candidate:
-        _LOGGER.info("Golf Dashboard: detected NOVA slug %s from sensor entities", slug_candidate)
-    else:
-        _LOGGER.warning(
-            "Golf Dashboard: could not detect NOVA slug from sensor entities; "
-            "templates will keep sensor.golf_dashboard_* placeholders."
-        )
-    return slug_candidate

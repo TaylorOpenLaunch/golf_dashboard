@@ -1,0 +1,106 @@
+# Entity IDs use the fixed sensor.nova_* prefix; rename your NOVA device to "nova"
+# (or nova_<serial>) so entities match this template.
+views:
+  - title: NOVA Hero Card
+    path: nova_hero_card
+    icon: mdi:golf
+    theme: "Home Assistant Dark"
+    cards:
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: NOVA Shot Summary
+            show_header_toggle: false
+            entities:
+              - entity: sensor.nova_ball_speed
+                name: Ball speed
+              - entity: sensor.nova_carry_distance
+                name: Carry distance (yd)
+              - entity: sensor.nova_total_distance
+                name: Total distance (yd)
+              - entity: sensor.nova_offline_distance
+                name: Offline distance (yd)
+              - entity: sensor.nova_shot_quality
+                name: Shot quality
+              - entity: sensor.nova_shot_rank
+                name: Shot rank
+              - entity: sensor.nova_shot_type
+                name: Shot type
+          - type: entities
+            title: Launch & Spin
+            show_header_toggle: false
+            entities:
+              - entity: sensor.nova_vertical_launch_angle
+                name: Vertical launch
+              - entity: sensor.nova_horizontal_launch_angle
+                name: Horizontal launch
+              - entity: sensor.nova_total_spin
+                name: Total spin
+              - entity: sensor.nova_backspin
+                name: Backspin
+              - entity: sensor.nova_sidespin
+                name: Sidespin
+              - entity: sensor.nova_spin_axis
+                name: Spin axis
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: Club Delivery
+            show_header_toggle: false
+            entities:
+              - entity: sensor.nova_club_speed
+                name: Club speed
+              - entity: sensor.nova_smash_factor
+                name: Smash factor
+              - entity: sensor.nova_attack_angle
+                name: Attack angle
+              - entity: sensor.nova_face_angle
+                name: Face angle
+              - entity: sensor.nova_face_to_path
+                name: Face to path
+              - entity: sensor.nova_club_path
+                name: Club path
+          - type: entities
+            title: Trajectory & Windows
+            show_header_toggle: false
+            entities:
+              - entity: sensor.nova_apex_height
+                name: Apex height (yd)
+              - entity: sensor.nova_hang_time
+                name: Hang time (s)
+              - entity: sensor.nova_descent_angle
+                name: Descent angle (°)
+              - entity: sensor.nova_launch_in_window
+                name: Launch in window
+              - entity: sensor.nova_spin_in_window
+                name: Spin in window
+              - entity: sensor.nova_start_in_window
+                name: Start line in window
+              - entity: sensor.nova_optimal_window_summary
+                name: Optimal window
+              - entity: sensor.nova_club_recommendation
+                name: Club recommendation
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: history-graph
+            title: Recent speed & distance
+            hours_to_show: 6
+            entities:
+              - entity: sensor.nova_ball_speed
+              - entity: sensor.nova_carry_distance
+              - entity: sensor.nova_total_distance
+          - type: history-graph
+            title: Spin & quality (recent)
+            hours_to_show: 6
+            entities:
+              - entity: sensor.nova_total_spin
+              - entity: sensor.nova_spin_axis
+              - entity: sensor.nova_shot_quality

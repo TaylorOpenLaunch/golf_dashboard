@@ -214,13 +214,6 @@ SHOT_SENSORS: tuple[GolfDashboardSensorEntityDescription, ...] = (
         message_type="shot",
     ),
     GolfDashboardSensorEntityDescription(
-        key="shot_color",
-        name="Shot Color",
-        icon="mdi:palette",
-        json_key="shot_color_rgb",
-        message_type="shot",
-    ),
-    GolfDashboardSensorEntityDescription(
         key="tour_carry",
         name="NOVA Tour Carry",
         native_unit_of_measurement=UnitOfLength.YARDS,
@@ -431,11 +424,11 @@ SHOT_SENSORS: tuple[GolfDashboardSensorEntityDescription, ...] = (
     GolfDashboardSensorEntityDescription(
         key="apex_height",
         name="NOVA Apex Height",
-        native_unit_of_measurement=UnitOfLength.FEET,
+        native_unit_of_measurement=UnitOfLength.YARDS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
         icon="mdi:arrow-up-bold",
-        json_key="apex_height_feet",
+        json_key="apex_height_yards",
         message_type="shot",
         precision=1,
     ),
