@@ -1,4 +1,6 @@
 install_dashboards:
   name: Install Golf Dashboards
-  description: Create or update a storage-mode Golf Dashboard in Home Assistant and copy bundled example YAML dashboards into /config/golf_dashboard/dashboards/ without overwriting existing files. The service is idempotent and will not replace your customizations.
+  description: >
+    Creates or updates the automatic storage-mode "Golf Dashboard" and installs
+    bundled example YAML files under /config/golf_dashboard/dashboards/.
   fields: {}
