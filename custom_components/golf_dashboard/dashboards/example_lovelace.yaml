@@ -1,0 +1,17 @@
+# Example: include the Golf Dashboard YAML dashboards manually (service will do this for you)
+# Copy this snippet into your Home Assistant configuration.yaml or ui-lovelace.yaml
+# Adjust the paths below if you place the dashboards directory elsewhere.
+lovelace:
+  mode: yaml
+  resources: []
+  dashboards:
+    golf_dashboard:
+      mode: yaml
+      filename: /config/golf_dashboard.yaml
+      title: Golf Dashboard
+      icon: mdi:golf
+    golf_coach:
+      mode: yaml
+      filename: /config/golf_coach.yaml
+      title: Golf Coach
+      icon: mdi:account-tie

@@ -26,9 +26,9 @@ This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is mai
   - Derived metrics such as shot quality and dispersion indicators  
 - Updates in near real-time for responsive dashboards  
 
-### Included Dashboards
+### Included Dashboards & Installer
 
-Two polished dashboards are included under the dashboards/ directory.
+Two polished dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and can be installed automatically via the `golf_dashboard.install_dashboards` service.
 
 #### 1. Open Golf Coach
 
@@ -87,19 +87,29 @@ If you use HACS:
 
 ## 📊 Dashboards
 
-Two dashboards ship with this project and can be imported into Home Assistant.
+Two dashboards ship with this project and can be installed automatically or imported manually.
 
-### Dashboard files
+### Dashboard installer
 
-- dashboards/nova_open_golfcoach.yaml  
-- dashboards/nova_premium_analytics.yaml  
+After installing the integration (HACS or manual):
 
-You can import them by:
+1. Open **Developer Tools → Services**.  
+2. Select **`golf_dashboard.install_dashboards`**.  
+3. Call the service.
 
-- Opening your Lovelace dashboard in Home Assistant.  
-- Using the Raw configuration editor or appropriate UI tools to paste or reference the YAML definitions.  
+This will:
 
-You may need to adjust entity IDs based on your installation (for example, if your NOVA device has a different entity naming pattern).
+- Copy bundled YAML to `/config/golf_dashboard.yaml` and `/config/golf_coach.yaml` (without overwriting existing files).
+- Register two YAML-mode dashboards (Golf Dashboard, Golf Coach) under **Settings → Dashboards**.
+
+Reload your browser and open **Settings → Dashboards** to access them.
+
+### Dashboard files (bundled templates)
+
+- `custom_components/golf_dashboard/dashboards/nova_open_golfcoach.yaml`  
+- `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
+
+You can import them manually by pasting the YAML into a view or copying them into `/config/` and referencing them as YAML-mode dashboards if you prefer manual setup.
 
 ---
 
@@ -108,7 +118,7 @@ You may need to adjust entity IDs based on your installation (for example, if yo
 A high-level overview of the repository structure:
 
     custom_components/golf_dashboard/   → Main Home Assistant integration
-    dashboards/                             → Included Lovelace dashboards
+    custom_components/golf_dashboard/dashboards/ → Bundled Lovelace dashboards
     docs/                                   → Documentation and architecture notes
     tests/                                  → Manifest, YAML, and readme validation tests
     .github/workflows/                      → CI, hassfest, HACS validation, release automation
