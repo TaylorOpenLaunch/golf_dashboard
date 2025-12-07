@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.16
+- Tooling: add automation to create tags and GitHub Releases from the VERSION file on pushes to `main`.
+- No behavior changes to the Golf Dashboard integration or Home Assistant services.
+
+## 0.2.15
+- Maintenance release: docs and metadata only; no behavior changes compared to 0.2.14.
+
 ## 0.2.14
 - Hardened installer: if Lovelace storage dashboards are unavailable, `golf_dashboard.install_dashboards` now logs a warning and exits safely instead of raising an error.
 - Storage-mode behavior remains unchanged; no configuration.yaml access.
