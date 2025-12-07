@@ -1,15 +1,15 @@
-name: Release
+name: Release from VERSION
 
 permissions:
   contents: write
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  release:
+  tag-and-release:
+    name: Create tag and GitHub Release from VERSION
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,36 +17,37 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read version from VERSION file
-        id: get_version
-        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+      - name: Read VERSION
+        id: version
+        run: |
+          VERSION=$(cat VERSION | tr -d '\n')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Check if tag exists
+      - name: Check if tag already exists
         id: check_tag
         run: |
-          TAG="v${{ steps.get_version.outputs.version }}"
-          if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="v${VERSION}"
+          echo "Checking tag $TAG"
+          if git ls-remote --tags origin "$TAG" | grep "$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create and push tag
+      - name: Create tag
         if: steps.check_tag.outputs.exists == 'false'
         run: |
-          TAG="v${{ steps.get_version.outputs.version }}"
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git tag -a "$TAG" -m "Release $TAG"
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="v${VERSION}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
           git push origin "$TAG"
 
       - name: Create GitHub Release
         if: steps.check_tag.outputs.exists == 'false'
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          tag: v${{ steps.get_version.outputs.version }}
-          name: "Golf Dashboard v${{ steps.get_version.outputs.version }}"
-          body: |
-            See CHANGELOG.md for details.
-          draft: false
-          prerelease: false
+          tag_name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true

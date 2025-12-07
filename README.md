@@ -165,12 +165,20 @@ To run tests locally from the repository root:
 
 ## 🔖 Versioning & Releases
 
-Versioning follows a simple semantic-style approach:
+The Golf Dashboard integration follows semantic versioning (MAJOR.MINOR.PATCH) using the `VERSION` file at the repository root and the `version` field in `custom_components/golf_dashboard/manifest.json`.
 
-- VERSION in the repository root tracks the current version.  
-- manifest.json maintains a matching version field.  
-- CHANGELOG.md records changes across releases.  
-- Git tags such as v0.2.0 automatically create GitHub releases using the release.yaml workflow.
+- **VERSION and manifest** must always match.  
+- **MAJOR**: breaking changes to the integration or configuration.  
+- **MINOR**: new features that are backwards compatible.  
+- **PATCH**: bug fixes or documentation/tooling-only changes.  
+
+Starting with **0.2.16**, a GitHub Actions workflow automatically:
+
+1. Reads the current value of `VERSION` on pushes to `main`.  
+2. Creates a Git tag `vX.Y.Z` if it does not already exist.  
+3. Creates a GitHub Release for that tag with auto-generated release notes.  
+
+Releases that only touch documentation or tooling (like 0.2.16) should be treated as PATCH releases.
 
 ---
 
