@@ -1,7 +1,8 @@
 # Changelog
 
 ## 0.2.5
-- Automated version bump after merge.
+- Improved connection validation in config flow.
+- Automatic fallback between ports 2920 and 2921 before failing.
 
 ## 0.2.4
 - Fix discovery flow translation placeholder for device name.

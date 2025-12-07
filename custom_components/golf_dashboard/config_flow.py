@@ -53,8 +53,10 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
             host = user_input[CONF_HOST]
             port = user_input[CONF_PORT]
 
-            if await self._test_connection(host, port):
-                unique_id = f"{host}:{port}"
+            used_port = await self._test_connection(host, port)
+
+            if used_port is not None:
+                unique_id = f"{host}:{used_port}"
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
 
@@ -63,7 +65,7 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
                     data={
                         CONF_NAME: user_input[CONF_NAME],
                         CONF_HOST: host,
-                        CONF_PORT: port,
+                        CONF_PORT: used_port,
                         CONF_MANUFACTURER: "Open Launch",
                         CONF_MODEL: "NOVA",
                         CONF_INSTALL_DASHBOARDS: user_input.get(
@@ -149,15 +151,17 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            if await self._test_connection(
+            used_port = await self._test_connection(
                 self._discovered_host, self._discovered_port
-            ):
+            )
+
+            if used_port is not None:
                 return self.async_create_entry(
                     title=user_input.get(CONF_NAME, self._discovered_name),
                     data={
                         CONF_NAME: user_input.get(CONF_NAME, self._discovered_name),
                         CONF_HOST: self._discovered_host,
-                        CONF_PORT: self._discovered_port,
+                        CONF_PORT: used_port,
                         CONF_MANUFACTURER: self._discovered_manufacturer,
                         CONF_MODEL: self._discovered_model,
                         CONF_SERIAL: self._discovered_serial,
@@ -186,19 +190,29 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
-    async def _test_connection(self, host: str, port: int) -> bool:
-        """Test if we can connect to the device via WebSocket."""
-        uri = f"ws://{host}:{port}"
-        try:
-            websocket = await asyncio.wait_for(
-                websockets.connect(uri),
-                timeout=10.0,
-            )
-            await websocket.close()
-            return True
-        except (OSError, asyncio.TimeoutError, ConnectionRefusedError) as err:
-            _LOGGER.debug("Connection test failed: %s", err)
-            return False
+    async def _test_connection(self, host: str, preferred_port: int | None) -> int | None:
+        """Test if we can connect to the device via WebSocket on known ports."""
+        ports = []
+        if preferred_port:
+            ports.append(preferred_port)
+        for candidate in (2920, 2921):
+            if candidate not in ports:
+                ports.append(candidate)
+
+        for port in ports:
+            uri = f"ws://{host}:{port}"
+            try:
+                websocket = await asyncio.wait_for(
+                    websockets.connect(uri),
+                    timeout=10.0,
+                )
+                await websocket.close()
+                _LOGGER.debug("Connection test succeeded on %s", uri)
+                return port
+            except (OSError, asyncio.TimeoutError, ConnectionRefusedError) as err:
+                _LOGGER.debug("Connection test failed for %s: %s", uri, err)
+
+        return None
 
     @staticmethod
     @callback
