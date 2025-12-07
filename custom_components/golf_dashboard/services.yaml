@@ -1,4 +1,4 @@
 install_dashboards:
   name: Install Golf Dashboards
-  description: Create golf_dashboard.yaml and golf_coach.yaml from bundled templates and add Lovelace dashboard entries in configuration.yaml without overwriting your customizations.
+  description: Copy bundled dashboards into /config/golf_dashboard/dashboards/, create /config/golf_dashboard.yaml if missing, and add/update lovelace.dashboards.golf_dashboard in configuration.yaml without overwriting your customizations.
   fields: {}
