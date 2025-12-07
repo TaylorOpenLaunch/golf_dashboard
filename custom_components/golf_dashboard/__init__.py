@@ -10,7 +10,14 @@ from homeassistant.helpers.typing import ConfigType
 import voluptuous as vol
 from homeassistant.helpers import config_validation as cv
 
-from .const import DOMAIN, CONF_MANUFACTURER, CONF_MODEL, CONF_SERIAL
+from .const import (
+    DOMAIN,
+    CONF_MANUFACTURER,
+    CONF_MODEL,
+    CONF_SERIAL,
+    CONF_INSTALL_DASHBOARDS,
+    CONF_INSTALL_DASHBOARDS_AGAIN,
+)
 from .coordinator import GolfDashboardCoordinator
 from .installer import async_install_dashboards
 
@@ -57,6 +64,26 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    install_dashboards = entry.data.get(CONF_INSTALL_DASHBOARDS, False)
+    if install_dashboards:
+        _LOGGER.info("Golf Dashboard: auto-installing dashboards from config entry setup")
+        try:
+            await async_install_dashboards(hass)
+        except Exception as err:  # noqa: BLE001
+            _LOGGER.error("Golf Dashboard: dashboard install failed during setup: %s", err)
+
+    install_again = entry.options.get(CONF_INSTALL_DASHBOARDS_AGAIN, False)
+    if install_again:
+        _LOGGER.info("Golf Dashboard: re-installing dashboards from options flow")
+        try:
+            await async_install_dashboards(hass)
+        except Exception as err:  # noqa: BLE001
+            _LOGGER.error("Golf Dashboard: dashboard re-install failed: %s", err)
+        else:
+            new_options = dict(entry.options)
+            new_options[CONF_INSTALL_DASHBOARDS_AGAIN] = False
+            hass.config_entries.async_update_entry(entry, options=new_options)
 
     return True
 

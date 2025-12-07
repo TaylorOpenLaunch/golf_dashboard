@@ -26,6 +26,8 @@ SSDP_ST = "urn:openlaunch:service:websocket:1"
 CONF_HOST = "host"
 CONF_PORT = "port"
 CONF_NAME = "name"
+CONF_INSTALL_DASHBOARDS = "install_dashboards"
+CONF_INSTALL_DASHBOARDS_AGAIN = "install_dashboards_again"
 
 # Device info from SSDP
 CONF_MANUFACTURER = "manufacturer"
