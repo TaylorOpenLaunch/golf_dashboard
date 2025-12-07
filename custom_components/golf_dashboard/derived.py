@@ -81,8 +81,7 @@ def _estimate_carry_total_offline(
     carry = base_range * drag_factor * max(0.75, 1 - spin_penalty + launch_tuning)
     if carry < 0:
         carry = 0.0
-    results["carry_distance_meters"] = carry
-
+    # Raw carry in meters for internal use
     # Roll depends on launch and spin; low launch/low spin tends to roll more.
     roll_factor = 0.07 + max(0.0, 12.0 - vla_clamped) * 0.005
     if spin_total is not None:
@@ -92,8 +91,8 @@ def _estimate_carry_total_offline(
     # Convert carry/total to yards for output
     carry_yards = carry * METERS_TO_YARDS
     total_yards = total_distance * METERS_TO_YARDS
-    results["carry_distance_meters"] = carry_yards
-    results["total_distance_meters"] = total_yards
+    results["carry_distance_yards"] = carry_yards
+    results["total_distance_yards"] = total_yards
 
     # Offline distance combines initial face angle (HLA) with curvature from sidespin.
     offline = 0.0
@@ -111,7 +110,7 @@ def _estimate_carry_total_offline(
         # Keep offline within a reasonable multiple of carry to avoid explosions.
         offline_limit = carry_yards * 3.0
         offline = max(-offline_limit, min(offline, offline_limit))
-        results["offline_distance_meters"] = offline
+        results["offline_distance_yards"] = offline
 
     return results
 
@@ -584,8 +583,8 @@ def compute_derived_from_shot(
     ball_speed_mph = ball_speed_mps * MPS_TO_MPH if ball_speed_mps is not None else None
     tour_metrics = compute_tour_benchmark_from_shot(ball_speed_mph, vla_deg, total_spin_rpm)
     derived.update(tour_metrics)
-    if tour_metrics and "carry_distance_meters" in derived:
-        carry_yards = derived["carry_distance_meters"]
+    if tour_metrics and "carry_distance_yards" in derived:
+        carry_yards = derived["carry_distance_yards"]
         tour_carry = tour_metrics.get("tour_carry_yards")
         if carry_yards is not None and tour_carry is not None:
             derived["carry_delta_to_tour_yards"] = carry_yards - tour_carry
@@ -593,7 +592,7 @@ def compute_derived_from_shot(
     # Amateur and LPGA benchmarks/deltas
     if tour_metrics:
         derived.update(compute_amateur_lpga_benchmarks(tour_metrics.get("tour_carry_yards"), tour_metrics.get("tour_total_yards")))
-        carry_yards = derived.get("carry_distance_meters")
+        carry_yards = derived.get("carry_distance_yards")
         amateur_carry = derived.get("amateur_carry_yards")
         lpga_carry = derived.get("lpga_carry_yards")
         if carry_yards is not None and amateur_carry is not None:
@@ -606,8 +605,8 @@ def compute_derived_from_shot(
     derived.update(optimal)
 
     # Shot quality score
-    carry_yards = derived.get("carry_distance_meters")
-    offline_yards = derived.get("offline_distance_meters")
+    carry_yards = derived.get("carry_distance_yards")
+    offline_yards = derived.get("offline_distance_yards")
     tour_carry = derived.get("tour_carry_yards")
     score = compute_shot_quality_score(
         carry_yards,

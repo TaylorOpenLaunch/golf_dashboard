@@ -15,6 +15,7 @@ TEMPLATE_FILES: tuple[str, ...] = (
     "nova_open_golfcoach.yaml",
     "nova_premium_analytics.yaml",
     "example_lovelace.yaml",
+    "nova_premium_shot.yaml",
 )
 
 DASHBOARD_URL_PATH = "golf_dashboard"
@@ -202,7 +203,7 @@ def substitute_nova_slug_in_yaml(yaml_text: str, slug: str | None) -> str:
     return yaml_text.replace("sensor.golf_dashboard_", f"sensor.{slug}_")
 
 
-_NOVA_ENTITY_PATTERN = re.compile(r"^sensor\\.(?P<slug>.+)_(ball_speed|carry_distance|connection)$")
+_NOVA_ENTITY_PATTERN = re.compile(r"^sensor\.(?P<slug>.+)_(ball_speed|carry_distance|connection)$")
 
 
 async def async_detect_nova_slug(hass: HomeAssistant) -> str | None:
