@@ -99,7 +99,12 @@ Running the installer again is safe: it will not overwrite your existing dashboa
 - `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
 - `custom_components/golf_dashboard/dashboards/example_lovelace.yaml`  
 
-These are copied to `/config/golf_dashboard/dashboards/` for reference. You can import or adapt them manually in other dashboards if desired.
+These are copied to `/config/golf_dashboard/dashboards/` for reference. You can import or adapt them manually in other dashboards if desired. To use them:
+
+- Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
+- Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
+- Replace `golf_dashboard` in all `entity` references with the NOVA slug Home Assistant generated for your device (for example: `sensor.nova_by_open_launch_ball_speed`).  
+- 0.2.17 fixes the premium template so it includes a top-level `views:` array and a hyphenated path suitable for storage-mode dashboards.
 
 ### Troubleshooting
 

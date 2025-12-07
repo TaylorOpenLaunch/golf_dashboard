@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.17
+- Fix Nova Premium Analytics Lovelace template to be a valid storage-mode dashboard (wrap in views array, use hyphenated path).
+- Clarify documentation for using the storage-mode installer and optional YAML templates.
+- No changes to installer behavior or Home Assistant configuration; this is a template/docs-only update.
+
 ## 0.2.16
 - Tooling: add automation to create tags and GitHub Releases from the VERSION file on pushes to `main`.
 - No behavior changes to the Golf Dashboard integration or Home Assistant services.

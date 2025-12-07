@@ -1,90 +1,92 @@
-# Replace `golf_dashboard` in the entity_ids below with the slug Home Assistant generated for your NOVA device.
-title: Golf Dashboard Premium Analytics
-path: nova_premium_analytics
-icon: mdi:golf-tee
-theme: "Home Assistant Dark"
-cards:
-  - type: grid
-    columns: 3
-    square: false
+# Replace `golf_dashboard` in the entity_ids below with the slug Home Assistant
+# generated for your NOVA device (for example: nova_by_open_launch).
+views:
+  - title: Golf Dashboard Premium Analytics
+    path: nova-premium-analytics
+    icon: mdi:golf-tee
+    theme: "Home Assistant Dark"
     cards:
-      # Column 1: Session overview
-      - type: vertical-stack
+      - type: grid
+        columns: 3
+        square: false
         cards:
-          - type: entities
-            title: Session Overview
-            show_header_toggle: false
-            entities:
-              - entity: sensor.golf_dashboard_session_shot_count
-              - entity: sensor.golf_dashboard_last_shot_time
-              - entity: sensor.golf_dashboard_ball_speed
-              - entity: sensor.golf_dashboard_carry_distance
-              - entity: sensor.golf_dashboard_total_distance
-              - entity: sensor.golf_dashboard_club_speed
-          - type: history-graph
-            title: Speed & Distance (recent)
-            hours_to_show: 6
-            entities:
-              - entity: sensor.golf_dashboard_ball_speed
-              - entity: sensor.golf_dashboard_carry_distance
-              - entity: sensor.golf_dashboard_total_distance
+          # Column 1: Session overview
+          - type: vertical-stack
+            cards:
+              - type: entities
+                title: Session Overview
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.golf_dashboard_session_shot_count
+                  - entity: sensor.golf_dashboard_last_shot_time
+                  - entity: sensor.golf_dashboard_ball_speed
+                  - entity: sensor.golf_dashboard_carry_distance
+                  - entity: sensor.golf_dashboard_total_distance
+                  - entity: sensor.golf_dashboard_club_speed
+              - type: history-graph
+                title: Speed & Distance (recent)
+                hours_to_show: 6
+                entities:
+                  - entity: sensor.golf_dashboard_ball_speed
+                  - entity: sensor.golf_dashboard_carry_distance
+                  - entity: sensor.golf_dashboard_total_distance
 
-      # Column 2: Launch & spin
-      - type: vertical-stack
-        cards:
-          - type: entities
-            title: Launch & Spin
-            show_header_toggle: false
-            entities:
-              - entity: sensor.golf_dashboard_vertical_launch_angle
-              - entity: sensor.golf_dashboard_horizontal_launch_angle
-              - entity: sensor.golf_dashboard_offline_distance
-              - entity: sensor.golf_dashboard_total_spin
-              - entity: sensor.golf_dashboard_spin_axis
-              - entity: sensor.golf_dashboard_backspin
-              - entity: sensor.golf_dashboard_sidespin
-          - type: history-graph
-            title: Launch & Spin Trends
-            hours_to_show: 6
-            entities:
-              - entity: sensor.golf_dashboard_vertical_launch_angle
-              - entity: sensor.golf_dashboard_horizontal_launch_angle
-              - entity: sensor.golf_dashboard_total_spin
-          - type: entities
-            title: Trajectory & Delivery
-            show_header_toggle: false
-            entities:
-              - entity: sensor.golf_dashboard_apex_height
-              - entity: sensor.golf_dashboard_hang_time
-              - entity: sensor.golf_dashboard_descent_angle
-              - entity: sensor.golf_dashboard_attack_angle
-              - entity: sensor.golf_dashboard_face_angle
-              - entity: sensor.golf_dashboard_face_to_path
-              - entity: sensor.golf_dashboard_club_path
+          # Column 2: Launch & spin
+          - type: vertical-stack
+            cards:
+              - type: entities
+                title: Launch & Spin
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.golf_dashboard_vertical_launch_angle
+                  - entity: sensor.golf_dashboard_horizontal_launch_angle
+                  - entity: sensor.golf_dashboard_offline_distance
+                  - entity: sensor.golf_dashboard_total_spin
+                  - entity: sensor.golf_dashboard_spin_axis
+                  - entity: sensor.golf_dashboard_backspin
+                  - entity: sensor.golf_dashboard_sidespin
+              - type: history-graph
+                title: Launch & Spin Trends
+                hours_to_show: 6
+                entities:
+                  - entity: sensor.golf_dashboard_vertical_launch_angle
+                  - entity: sensor.golf_dashboard_horizontal_launch_angle
+                  - entity: sensor.golf_dashboard_total_spin
+              - type: entities
+                title: Trajectory & Delivery
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.golf_dashboard_apex_height
+                  - entity: sensor.golf_dashboard_hang_time
+                  - entity: sensor.golf_dashboard_descent_angle
+                  - entity: sensor.golf_dashboard_attack_angle
+                  - entity: sensor.golf_dashboard_face_angle
+                  - entity: sensor.golf_dashboard_face_to_path
+                  - entity: sensor.golf_dashboard_club_path
 
-      # Column 3: Shot quality & dispersion
-      - type: vertical-stack
-        cards:
-          - type: entities
-            title: Shot Quality & Classification
-            show_header_toggle: false
-            entities:
-              - entity: sensor.golf_dashboard_shot_quality
-              - entity: sensor.golf_dashboard_shot_type
-              - entity: sensor.golf_dashboard_shot_rank
-              - entity: sensor.golf_dashboard_shot_color
-              - entity: sensor.golf_dashboard_optimal_window_summary
-              - entity: sensor.golf_dashboard_club_recommendation
-          - type: history-graph
-            title: Dispersion (Carry vs Offline)
-            hours_to_show: 6
-            entities:
-              - entity: sensor.golf_dashboard_carry_distance
-              - entity: sensor.golf_dashboard_offline_distance
-          - type: history-graph
-            title: Speed & Spin (recent)
-            hours_to_show: 6
-            entities:
-              - entity: sensor.golf_dashboard_ball_speed
-              - entity: sensor.golf_dashboard_club_speed
-              - entity: sensor.golf_dashboard_total_spin
+          # Column 3: Shot quality & dispersion
+          - type: vertical-stack
+            cards:
+              - type: entities
+                title: Shot Quality & Classification
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.golf_dashboard_shot_quality
+                  - entity: sensor.golf_dashboard_shot_type
+                  - entity: sensor.golf_dashboard_shot_rank
+                  - entity: sensor.golf_dashboard_shot_color
+                  - entity: sensor.golf_dashboard_optimal_window_summary
+                  - entity: sensor.golf_dashboard_club_recommendation
+              - type: history-graph
+                title: Dispersion (Carry vs Offline)
+                hours_to_show: 6
+                entities:
+                  - entity: sensor.golf_dashboard_carry_distance
+                  - entity: sensor.golf_dashboard_offline_distance
+              - type: history-graph
+                title: Speed & Spin (recent)
+                hours_to_show: 6
+                entities:
+                  - entity: sensor.golf_dashboard_ball_speed
+                  - entity: sensor.golf_dashboard_club_speed
+                  - entity: sensor.golf_dashboard_total_spin
