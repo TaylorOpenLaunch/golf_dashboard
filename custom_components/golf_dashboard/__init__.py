@@ -5,14 +5,32 @@ import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME, Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, CONF_MANUFACTURER, CONF_MODEL, CONF_SERIAL
 from .coordinator import GolfDashboardCoordinator
+from .installer import async_install_dashboards
 
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the Golf Dashboard integration and register services."""
+
+    async def handle_install_service(call: ServiceCall) -> None:
+        await async_install_dashboards(hass)
+
+    hass.services.async_register(
+        DOMAIN,
+        "install_dashboards",
+        handle_install_service,
+    )
+    _LOGGER.info("Golf Dashboard: registered service %s.install_dashboards", DOMAIN)
+
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

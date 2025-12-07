@@ -25,5 +25,11 @@
       "already_configured": "This device is already configured.",
       "no_host": "Could not determine device address from discovery."
     }
+  },
+  "services": {
+    "install_dashboards": {
+      "name": "Install Golf Dashboards",
+      "description": "Create Lovelace dashboards and YAML files for the Golf Dashboard integration."
+    }
   }
 }
