@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.3
+- Automated release version bump.
+
 ## 0.2.0
 - Add Golf Dashboard premium analytics dashboard.
 - Polish README and documentation (index, architecture, Open Golf Coach).
