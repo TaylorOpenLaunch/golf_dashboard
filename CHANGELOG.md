@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.6
+- Patch release to update Golf Dashboard in HACS.
+
 ## 0.2.5
 - Improved connection validation in config flow.
 - Automatic fallback between ports 2920 and 2921 before failing.
