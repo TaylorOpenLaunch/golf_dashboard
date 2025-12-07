@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4
+- Fix discovery flow translation placeholder for device name.
+- Auto-install dashboards option still behaves as before.
+
 ## 0.2.3
 - Automated release version bump.
 

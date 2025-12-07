@@ -177,6 +177,7 @@ class GolfDashboardConfigFlow(ConfigFlow, domain=DOMAIN):
                 }
             ),
             description_placeholders={
+                "name": self._discovered_name or "Golf Dashboard",
                 "host": self._discovered_host,
                 "port": str(self._discovered_port),
                 "model": self._discovered_model,
