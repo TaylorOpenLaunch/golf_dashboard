@@ -7,8 +7,10 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from yaml import YAMLError
 
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.exceptions import HomeAssistantError
 
 try:
     from homeassistant.config import load_yaml_config_file
@@ -17,116 +19,165 @@ except ImportError:  # pragma: no cover - fallback for older HA
 
 _LOGGER = logging.getLogger(__name__)
 
-DASHBOARD_TEMPLATES: dict[str, str] = {
-    "golf_dashboard.yaml": "nova_premium_analytics.yaml",
-    "golf_coach.yaml": "nova_open_golfcoach.yaml",
+TEMPLATE_FILES = (
+    "nova_open_golfcoach.yaml",
+    "nova_premium_analytics.yaml",
+    "example_lovelace.yaml",
+)
+
+MAIN_DASHBOARD_CONTENT = """title: Golf Dashboard
+icon: mdi:golf-tee
+
+views:
+  - !include golf_dashboard/dashboards/nova_open_golfcoach.yaml
+  - !include golf_dashboard/dashboards/nova_premium_analytics.yaml
+"""
+
+DEFAULT_DASHBOARD_ENTRY: dict[str, Any] = {
+    "mode": "yaml",
+    "title": "Golf Dashboard",
+    "icon": "mdi:golf-tee",
+    "show_in_sidebar": True,
+    "filename": "golf_dashboard.yaml",
 }
 
-LOVELACE_DASHBOARDS: dict[str, dict[str, Any]] = {
-    "golf_dashboard": {
-        "mode": "yaml",
-        "filename": "golf_dashboard.yaml",
-        "title": "Golf Dashboard",
-        "icon": "mdi:golf",
-    },
-    "golf_coach": {
-        "mode": "yaml",
-        "filename": "golf_coach.yaml",
-        "title": "Golf Coach",
-        "icon": "mdi:account-tie",
-    },
-}
 
-
-async def async_install_dashboards(hass: HomeAssistant) -> None:
+async def async_install_dashboards(hass: HomeAssistant, call: ServiceCall | None = None) -> None:
     """Install bundled Lovelace dashboards and register them in configuration.yaml."""
-    config_dir = Path(hass.config.path())
-    config_yaml = config_dir / "configuration.yaml"
-    source_dir = Path(__file__).parent / "dashboards"
+    config_root = Path(hass.config.path())
+    templates_source = Path(__file__).parent / "dashboards"
+    templates_target = Path(hass.config.path("golf_dashboard")) / "dashboards"
+    main_dashboard_path = Path(hass.config.path("golf_dashboard.yaml"))
+    configuration_path = Path(hass.config.path("configuration.yaml"))
 
-    _LOGGER.info("Golf Dashboard: installing Lovelace dashboards into %s", config_dir)
+    _LOGGER.info("Golf Dashboard: installing dashboards into %s", config_root)
 
-    if not source_dir.is_dir():
-        _LOGGER.error("Golf Dashboard: dashboard source directory missing: %s", source_dir)
-        return
+    if not templates_source.is_dir():
+        _LOGGER.error("Golf Dashboard: dashboard templates missing at %s", templates_source)
+        raise HomeAssistantError("Dashboard templates missing; reinstall the integration.")
 
-    missing = [name for name in DASHBOARD_TEMPLATES.values() if not (source_dir / name).is_file()]
-    if missing:
-        _LOGGER.error("Golf Dashboard: missing dashboard template files: %s", ", ".join(missing))
-        return
+    _ensure_target_templates(hass, templates_source, templates_target)
+    _ensure_main_dashboard_file(main_dashboard_path)
+    await _ensure_configuration_dashboard(hass, configuration_path)
 
-    for target_name, template_name in DASHBOARD_TEMPLATES.items():
-        template = source_dir / template_name
-        target = config_dir / target_name
+    _LOGGER.info("Golf Dashboard dashboards installed/updated successfully")
+
+
+def _ensure_target_templates(
+    hass: HomeAssistant, source_dir: Path, target_dir: Path
+) -> None:
+    """Copy bundled template files into /config/golf_dashboard/dashboards if missing."""
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for filename in TEMPLATE_FILES:
+        source = source_dir / filename
+        target = target_dir / filename
         if target.exists():
-            _LOGGER.info(
-                "Golf Dashboard: dashboard file %s already exists, leaving it untouched",
-                target_name,
-            )
+            _LOGGER.debug("Golf Dashboard: %s already exists; leaving untouched", target)
             continue
+        if not source.is_file():
+            _LOGGER.error("Golf Dashboard: template %s missing from integration", source)
+            raise HomeAssistantError(
+                f"Template {filename} is missing; reinstall the integration."
+            )
+        try:
+            shutil.copyfile(source, target)
+            _LOGGER.info("Golf Dashboard: copied dashboard template %s", filename)
+        except OSError as err:
+            _LOGGER.exception("Golf Dashboard: failed to copy %s to %s", source, target)
+            raise HomeAssistantError(
+                f"Failed to copy dashboard template {filename}: {err}"
+            ) from err
 
-        await hass.async_add_executor_job(shutil.copyfile, template, target)
-        _LOGGER.info("Golf Dashboard: installed dashboard template %s", target_name)
 
+def _ensure_main_dashboard_file(main_path: Path) -> None:
+    """Create the top-level golf_dashboard.yaml if it does not exist."""
+    if main_path.exists():
+        _LOGGER.debug("Golf Dashboard: %s already exists; leaving untouched", main_path)
+        return
+    try:
+        main_path.write_text(MAIN_DASHBOARD_CONTENT, encoding="utf-8")
+        _LOGGER.info("Golf Dashboard: created %s", main_path.name)
+    except OSError as err:
+        _LOGGER.exception("Golf Dashboard: failed to create %s", main_path)
+        raise HomeAssistantError(f"Failed to create {main_path.name}: {err}") from err
+
+
+async def _ensure_configuration_dashboard(
+    hass: HomeAssistant, config_path: Path
+) -> None:
+    """Ensure configuration.yaml contains the Golf Dashboard entry."""
     config_data: dict[str, Any] = {}
-    config_modified = False
+    created_file = False
 
-    if config_yaml.exists():
-        _LOGGER.info("Golf Dashboard: ensuring configuration.yaml contains lovelace dashboards")
-
+    if config_path.exists():
         def _load_config() -> Any:
             if load_yaml_config_file:
-                return load_yaml_config_file(config_yaml)
-            with config_yaml.open("r", encoding="utf-8") as f:
+                return load_yaml_config_file(config_path)
+            with config_path.open("r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
 
         try:
             loaded = await hass.async_add_executor_job(_load_config)
-            if isinstance(loaded, dict):
-                config_data = loaded
-            else:
-                _LOGGER.warning(
-                    "Golf Dashboard: configuration.yaml was not a mapping; starting fresh"
-                )
-                config_data = {}
+        except YAMLError as err:
+            _LOGGER.exception("Golf Dashboard: failed to parse configuration.yaml")
+            raise HomeAssistantError(
+                "Failed to parse configuration.yaml. Please fix the YAML syntax and try again."
+            ) from err
         except Exception as err:  # noqa: BLE001
-            _LOGGER.error("Golf Dashboard: could not read configuration.yaml: %s", err)
-            return
+            _LOGGER.exception("Golf Dashboard: failed to read configuration.yaml")
+            raise HomeAssistantError(
+                "Failed to read configuration.yaml; please update it manually."
+            ) from err
+
+        if loaded is None:
+            config_data = {}
+        elif isinstance(loaded, dict):
+            config_data = loaded
+        else:
+            _LOGGER.error(
+                "Golf Dashboard: configuration.yaml is not a mapping; refusing to modify dashboards"
+            )
+            raise HomeAssistantError(
+                "Cannot update configuration.yaml: file is not a mapping. Please update your YAML manually."
+            )
     else:
-        config_modified = True
+        created_file = True
+        config_data = {"lovelace": {"mode": "storage", "dashboards": {}}}
 
     lovelace = config_data.get("lovelace")
-    if not isinstance(lovelace, dict):
+    if lovelace is None:
         lovelace = {}
-        config_modified = True
-    dashboards = lovelace.get("dashboards")
-    if not isinstance(dashboards, dict):
-        dashboards = {}
-        config_modified = True
-
-    for key, dashboard_config in LOVELACE_DASHBOARDS.items():
-        if key in dashboards:
-            _LOGGER.info(
-                "Golf Dashboard: lovelace dashboard %s already configured, leaving untouched", key
-            )
-            continue
-        dashboards[key] = dashboard_config
-        _LOGGER.info(
-            "Golf Dashboard: registered lovelace dashboard %s with file %s",
-            key,
-            dashboard_config.get("filename"),
+        config_data["lovelace"] = lovelace
+    if not isinstance(lovelace, dict):
+        _LOGGER.error("Golf Dashboard: lovelace section is not a mapping; refusing to modify")
+        raise HomeAssistantError(
+            "Cannot update configuration.yaml: 'lovelace' section is not a mapping. Please update your YAML manually."
         )
-        config_modified = True
 
-    lovelace["dashboards"] = dashboards
-    config_data["lovelace"] = lovelace
+    dashboards = lovelace.get("dashboards")
+    if dashboards is None:
+        dashboards = {}
+        lovelace["dashboards"] = dashboards
+    if not isinstance(dashboards, dict):
+        _LOGGER.error("Golf Dashboard: lovelace.dashboards is not a mapping; refusing to modify")
+        raise HomeAssistantError(
+            "Cannot update configuration.yaml: 'dashboards' section is not a mapping. Please update your YAML manually."
+        )
 
-    if not config_modified and config_yaml.exists():
-        _LOGGER.info("Golf Dashboard: configuration.yaml already contains required dashboards")
-        return
+    entry = dashboards.get("golf_dashboard")
+    if entry is None:
+        dashboards["golf_dashboard"] = dict(DEFAULT_DASHBOARD_ENTRY)
+    elif isinstance(entry, dict):
+        for key, value in DEFAULT_DASHBOARD_ENTRY.items():
+            dashboards["golf_dashboard"].setdefault(key, value)
+    else:
+        _LOGGER.error("Golf Dashboard: dashboards.golf_dashboard is not a mapping; refusing to modify")
+        raise HomeAssistantError(
+            "Cannot update configuration.yaml: dashboards.golf_dashboard is not a mapping. Please update your YAML manually."
+        )
 
     def _write_config() -> None:
-        tmp_path = config_yaml.with_suffix(".tmp")
+        tmp_path = config_path.with_suffix(".tmp")
         with tmp_path.open("w", encoding="utf-8") as f:
             yaml.safe_dump(
                 config_data,
@@ -135,7 +186,13 @@ async def async_install_dashboards(hass: HomeAssistant) -> None:
                 sort_keys=False,
                 indent=2,
             )
-        tmp_path.replace(config_yaml)
+        tmp_path.replace(config_path)
 
-    await hass.async_add_executor_job(_write_config)
-    _LOGGER.info("Golf Dashboard: configuration.yaml updated with Lovelace dashboards")
+    try:
+        await hass.async_add_executor_job(_write_config)
+        _LOGGER.info("Golf Dashboard: configuration.yaml updated with Lovelace dashboards")
+    except OSError as err:
+        _LOGGER.exception("Golf Dashboard: failed to write configuration.yaml")
+        raise HomeAssistantError(
+            "Failed to write configuration.yaml. Please update it manually."
+        ) from err

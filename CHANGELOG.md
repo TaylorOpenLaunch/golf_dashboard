@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.9
+- Made the dashboard installer service (golf_dashboard.install_dashboards) robust and idempotent.
+- Automatically creates /config/golf_dashboard.yaml including the bundled Golf Coach and Premium Analytics views.
+- Automatically registers the golf_dashboard YAML Lovelace dashboard in configuration.yaml without overwriting user customizations.
+- Improves error handling using HomeAssistantError so failures report clearly in the UI instead of “Unknown error”.
+
 ## 0.2.6
 - Patch release to update Golf Dashboard in HACS.
 
