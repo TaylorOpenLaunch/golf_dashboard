@@ -88,6 +88,7 @@ Golf Dashboard ships with an installer action that creates a storage-mode Lovela
    - Create (or reuse) a storage-mode dashboard named **“Golf Dashboard”** (url_path `golf_dashboard`, icon `mdi:golf-tee`, sidebar-visible, not admin-only).  
    - Add an initial view with sample NOVA entities if the dashboard is empty.  
    - Copy example YAML templates into `/config/golf_dashboard/dashboards/` **only if they do not already exist**; it never overwrites user files.  
+   - Auto-detect your NOVA device slug (for example `nova_by_open_launch`) and rewrite `sensor.golf_dashboard_*` placeholders in templates to the detected slug.  
 5. To open it: go to **Settings → Dashboards** and look for **Golf Dashboard** (type: user created, method: storage/UI). Optionally enable **Show in sidebar**.
 6. If Lovelace storage dashboards are not available yet (for example immediately after a restart), the action logs a warning and exits without changes—restart Home Assistant and try again later.
 
@@ -99,12 +100,12 @@ Running the installer again is safe: it will not overwrite your existing dashboa
 - `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
 - `custom_components/golf_dashboard/dashboards/example_lovelace.yaml`  
 
-These are copied to `/config/golf_dashboard/dashboards/` for reference. You can import or adapt them manually in other dashboards if desired. To use them:
+These are copied to `/config/golf_dashboard/dashboards/` for reference. The installer auto-detects your NOVA slug and rewrites `sensor.golf_dashboard_*` placeholders when copying, so you should not need to edit entity_ids manually. To use them manually:
 
 - Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
 - Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
-- Replace `golf_dashboard` in all `entity` references with the NOVA slug Home Assistant generated for your device (for example: `sensor.nova_by_open_launch_ball_speed`).  
-- 0.2.17 fixes the premium template so it includes a top-level `views:` array and a hyphenated path suitable for storage-mode dashboards.
+- If you customize by hand, replace `golf_dashboard` in all `entity` references with the NOVA slug Home Assistant generated for your device (for example: `sensor.nova_by_open_launch_ball_speed`).  
+- The premium template includes a top-level `views:` array and a hyphenated path suitable for storage-mode dashboards.  
 
 ### Troubleshooting
 
