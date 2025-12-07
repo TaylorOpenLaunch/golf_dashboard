@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.12
+- Clarified README instructions for installing the Golf Dashboard via `golf_dashboard.install_dashboards`.
+- Documented storage-mode Lovelace dashboard behavior and example YAML templates.
+
 ## 0.2.11
 - Switched dashboard installer to use Home Assistant's Lovelace Storage Mode API.
 - Automatically creates a "Golf Dashboard" under `/lovelace/golf_dashboard` (UI-controlled, not YAML).
