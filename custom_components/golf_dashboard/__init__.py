@@ -7,6 +7,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_NAME, Platform
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers.typing import ConfigType
+import voluptuous as vol
+from homeassistant.helpers import config_validation as cv
 
 from .const import DOMAIN, CONF_MANUFACTURER, CONF_MODEL, CONF_SERIAL
 from .coordinator import GolfDashboardCoordinator
@@ -15,6 +17,8 @@ from .installer import async_install_dashboards
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
