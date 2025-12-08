@@ -36,7 +36,7 @@ You can customize all of them later, but the templates work great out of the box
 
 ## 📦 1. Install via HACS
 
-[![Install via HACS](images/HACS_logo.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=homeassistant-nova&category=integration)
+[![Install via HACS](images/HACS_logo.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TaylorOpenLaunch&repository=golf_dashboard&category=integration)
 
 > You need HACS already installed in Home Assistant. If you do not have it yet, install HACS first from hacs.xyz.
 
