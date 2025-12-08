@@ -1,233 +1,202 @@
-[![CI](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/ci.yml)
-[![Hassfest](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/hassfest.yaml/badge.svg)](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/hassfest.yaml)
-[![HACS Validation](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/hacs-validation.yaml/badge.svg)](https://github.com/TaylorOpenLaunch/golf_dashboard/actions/workflows/hacs-validation.yaml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/github/v/tag/TaylorOpenLaunch/golf_dashboard?label=release)](https://github.com/TaylorOpenLaunch/golf_dashboard/releases)
+# 🏌️‍♂️ Golf Dashboard for NOVA (OpenGolfCoach Edition)
 
-# Golf Dashboard for Home Assistant  
-### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
+A beautiful, data-driven set of dashboards for your **NOVA** launch monitor, built for **Home Assistant**.
 
-Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus four storage-mode Lovelace dashboards** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided under `/config/golf_dashboard/dashboards/`, but day-to-day use is storage/UI based. Dashboards assume the NOVA entity prefix is `sensor.nova_*`; rename your NOVA device to `nova` (or `nova_<serial>`) for best results.
+This custom integration gives you:
 
-This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
+- Clean, modern dashboards (dark-mode friendly)
+- Shot-by-shot analytics
+- Launch and spin trends
+- PGA / LPGA / Amateur benchmark comparisons
+- Simple install through **HACS** and a **one-click dashboard installer**
 
----
-
-## 🚀 Features
-
-### Golf Dashboard Integration (for NOVA)
-
-- Automatic discovery via SSDP  
-- Connects directly to NOVA’s local data API  
-- Exposes ball-flight metrics as Home Assistant entities, including:
-  - Ball speed  
-  - Vertical and horizontal launch angles  
-  - Spin-related values (where available)  
-  - Derived metrics such as shot quality and dispersion indicators  
-- Updates in near real-time for responsive dashboards  
-
-### Included Dashboards & Installer
-
-Four dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and are installed via the `golf_dashboard.install_dashboards` action:
-
-- **NOVA Hero Card** (path `nova_hero_card`) – compact overview
-- **NOVA Premium Shot** (path `nova_premium_shot`) – shot-focused hero view
-- **NOVA Premium Analytics** (path `nova_premium_analytics`) – deeper trends
-- **Golf Dashboard Open GolfCoach** (path `nova_open_golf_coach`) – coaching layout
-
-#### 1. Open Golf Coach
-
-- Session-focused layout  
-- Optimized for coaching workflows and post-shot review  
-- Clean, tile-based layout for easy viewing during practice sessions  
-
-#### 2. Premium Analytics
-
-- Structured three-column layout  
-- Focused on deeper analysis of launch parameters, spin profile, and consistency  
-- Useful for dialing in equipment, practicing indoors, or simulator play  
-
-#### 3. NOVA Premium Shot (Hero Card)
-
-- Shot-focused layout with hero summary  
-- Launch, spin, club delivery, trajectory, and quick trends in one view  
-- Ideal for at-a-glance review after each shot  
-
-#### 4. NOVA Hero Card
-
-- Compact “hero” overview for quick post-shot review  
-- Launch, spin, club delivery, trajectory/windows, and recent trends in a smaller footprint  
-
-### Home Assistant Friendly
-
-- Native Lovelace compatibility  
-- Customizable tiles and layouts  
-- Works with built-in history graphs and the Home Assistant automation engine  
-- Can be used to trigger automations based on shot data (for example, speed thresholds or logging)
+You do not need to be a developer to use this. Follow the steps below and you will be up and running in a few minutes.
 
 ---
 
-## 📦 Installation
+## ✨ What’s Included
 
-Choose one of the following installation methods.
+Once installed, you get four dashboards:
 
-### Installation via HACS (recommended)
+1. **NOVA Hero Card**  
+   A simple "now" view: key numbers, connection, and shot quality.
 
-1. Open **HACS → Integrations**.  
-2. Click the menu (⋮) → **Custom repositories**.  
-3. Add the repository URL: `https://github.com/TaylorOpenLaunch/golf_dashboard` and set the type to **Integration**.  
-4. In HACS → Integrations, click **+** and search for **“Golf Dashboard”**. Install it.  
-5. Restart Home Assistant if prompted.  
-6. Configure the NOVA device:  
-   - Go to **Settings → Devices & services → Add integration** (if not auto-discovered) → search for **Golf Dashboard**.  
-   - Follow the config flow to pick your NOVA device (SSDP/mDNS discovery) and assign a friendly name.
+2. **NOVA Premium Shot**  
+   Deep dive into a single session: launch, spin, club delivery, and quality trends.
 
-### Manual installation (alternative)
+3. **NOVA Premium Analytics**  
+   Session overview with recent speed, distance, spin, and dispersion trends.
 
-1. Download or clone this repository.  
-2. Copy the folder `custom_components/golf_dashboard` into `config/custom_components/`.  
-3. Restart Home Assistant.  
-4. Add the integration via **Settings → Devices & Services → Add Integration → Golf Dashboard** and complete the config flow.
+4. **Open GolfCoach Dashboard**  
+   PGA-style benchmarking with Amateur / LPGA / Tour carry and total estimates.
+
+You can customize all of them later, but the templates work great out of the box.
 
 ---
 
-## 📊 Creating the Golf Dashboard (storage mode)
+## 📦 1. Install via HACS
 
-Golf Dashboard ships with an installer action that creates a storage-mode Lovelace dashboard and copies example YAML templates for reference. Run the installer once after adding the integration.
+> You need HACS already installed in Home Assistant. If you do not have it yet, install HACS first from hacs.xyz.
 
-### Steps
+1. In Home Assistant, go to **HACS → Integrations**.
+2. Click the **+ Explore & Download Repositories** button.
+3. Search for **"Golf Dashboard"** or your repository name.
+4. Open the repository entry and click **Download** to install.
 
-1. Open **Developer Tools → Actions** in Home Assistant.  
-2. In the action selector, search for **Install Golf Dashboards** (`golf_dashboard.install_dashboards`).  
-3. Leave the data empty and click **Perform action**.  
-4. The installer will:
-   - Create (or reuse) a storage-mode dashboard named **“Golf Dashboard”** (url_path `golf_dashboard`, icon `mdi:golf-tee`, sidebar-visible, not admin-only).  
-   - Add an initial view with sample NOVA entities if the dashboard is empty.  
-   - Copy example YAML templates into `/config/golf_dashboard/dashboards/` **only if they do not already exist**; it never overwrites user files.  
-   - Dashboards assume entities start with `sensor.nova_*`. Rename your NOVA device to `nova` (or `nova_<serial>`) so entity_ids match.
-5. To open it: go to **Settings → Dashboards** and look for **Golf Dashboard** (type: user created, method: storage/UI). Optionally enable **Show in sidebar**.
-6. If Lovelace storage dashboards are not available yet (for example immediately after a restart), the action logs a warning and exits without changes—restart Home Assistant and try again later.
+If you want a one-click link, you can also add a badge or link like this:
 
-Running the installer again is safe: it will not overwrite your existing dashboard and only copies missing example files.
+- Install link (example – update owner/repository if needed):  
+  [Install via HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=TaylorOpenLaunch&repository=golf_dashboard&category=integration)
 
-### Bundled example YAML (reference only)
+> Note: If this URL does not match your published HACS entry yet, update the owner/repository values accordingly.
 
-- `custom_components/golf_dashboard/dashboards/nova_hero_card.yaml`  
-- `custom_components/golf_dashboard/dashboards/nova_premium_shot.yaml`  
-- `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
-- `custom_components/golf_dashboard/dashboards/nova_open_golfcoach.yaml`  
-- `custom_components/golf_dashboard/dashboards/example_lovelace.yaml`  
-
-These are copied to `/config/golf_dashboard/dashboards/` for reference. Templates already use `sensor.nova_*` entity_ids; name your NOVA device `nova` (or `nova_<serial>`) so they match. To use them manually:
-
-- Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
-- Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
-- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern. Dashboards do not perform slug substitution.  
-- The premium templates include a top-level `views:` array and a path suitable for storage-mode dashboards.  
-  
-### Recommended NOVA device naming
-
-- Name your NOVA device `nova` (all lowercase) or keep the serial-based slug (for example `nova_123456`) so entity_ids start with `sensor.nova_*`.  
-- Dashboards expect this prefix and no longer perform slug substitution.  
-
-### Troubleshooting
-
-- If the action fails, check Home Assistant logs for `golf_dashboard` messages and ensure the integration is installed/loaded; a restart after installing/updating can help.  
-- If you do not see **Install Golf Dashboards**: ensure the integration is installed and loaded; restart Home Assistant after installing/updating.  
-- If the dashboard does not appear under **Settings → Dashboards**: run the installer again and check the Home Assistant logs for `golf_dashboard` messages. If Lovelace storage is not ready, the installer logs a warning and exits safely—restart and try again.
-
-### Legacy cleanup (older YAML dashboards <= 0.2.10)
-
-Older releases used YAML-mode dashboards. If you still have a `lovelace.dashboards.golf_dashboard` block in `configuration.yaml`, you can remove it to avoid conflicts (current releases do not modify `configuration.yaml`):
-
-```yaml
-lovelace:
-  dashboards:
-    golf_dashboard:        # REMOVE this whole block
-      mode: yaml
-      title: Golf Dashboard
-      filename: golf_dashboard.yaml
-      icon: mdi:golf-tee
-      show_in_sidebar: true
-```
-
-Optionally delete old `golf_dashboard.yaml` / `golf_coach.yaml` files from the root if you no longer use YAML dashboards. After cleanup, run the installer action once to ensure the storage-mode dashboard exists.
-
-### Open GolfCoach dashboard
-
-The Open GolfCoach dashboard provides a coaching-oriented layout with sections for raw launch data, derived ball-flight metrics, shot classification, distance/spin history, tour benchmarks, shot quality, club delivery estimates, trajectory, and optimal windows. It uses the fixed `sensor.nova_*` prefix.  
-
-### Distances are now reported in yards
-
-All distance-oriented sensors (carry, total, offline, benchmarks, and deltas) are published in yards. Dashboard labels have been updated to match; no configuration changes are needed.
+After the integration has been downloaded, **restart Home Assistant**.
 
 ---
 
-## 🧩 Project Structure
+## 🔌 2. Add the NOVA Integration
 
-A high-level overview of the repository structure:
+After Home Assistant restarts:
 
-    custom_components/golf_dashboard/   → Main Home Assistant integration
-    custom_components/golf_dashboard/dashboards/ → Bundled Lovelace dashboards
-    docs/                                   → Documentation and architecture notes
-    tests/                                  → Manifest, YAML, and readme validation tests
-    .github/workflows/                      → CI, hassfest, HACS validation, release automation
+1. Go to **Settings → Devices & Services**.
+2. Click **+ Add Integration**.
+3. Search for **"NOVA"**.
 
----
+You should see **two entries** pop up:
 
-## 🔧 Development & CI
+- `NOVA by OpenLaunch` (the main integration)
+- `NOVA …` followed by random characters (this is the device instance discovered on your network)
 
-This repository includes validation workflows to help keep the integration healthy and compatible.
+### ✅ Which one should I use?
 
-### GitHub Actions Workflows
+For the dashboards, the most reliable option is the device with **random characters** in the name.
 
-- ci.yml – Syntax checks, compile checks, and pytest  
-- hassfest.yaml – Home Assistant integration validation  
-- hacs-validation.yaml – HACS metadata checks  
-- release.yaml – Automatic release generation triggered by git tags  
+1. Select the **NOVA with random characters** entry.  
+2. Once it is added, go to the device and **rename it** to exactly:
 
-### Tests
+   `nova`
 
-Tests cover:
+   (all lowercase, no spaces)
 
-- Manifest and HACS JSON correctness  
-- Dashboard YAML validity  
-- README and documentation content presence  
+3. **Restart Home Assistant again** after renaming.
 
-To run tests locally from the repository root:
+This gives you entity IDs like:
 
-    pytest -q
+- `sensor.nova_ball_speed`
+- `sensor.nova_carry_distance`
+- `sensor.nova_total_spin`
 
----
-
-## 🔖 Versioning & Releases
-
-The Golf Dashboard integration follows semantic versioning (MAJOR.MINOR.PATCH) using the `VERSION` file at the repository root and the `version` field in `custom_components/golf_dashboard/manifest.json`.
-
-- **VERSION and manifest** must always match.  
-- **MAJOR**: breaking changes to the integration or configuration.  
-- **MINOR**: new features that are backwards compatible.  
-- **PATCH**: bug fixes or documentation/tooling-only changes.  
-
-Starting with **0.2.16**, a GitHub Actions workflow automatically:
-
-1. Reads the current value of `VERSION` on pushes to `main`.  
-2. Creates a Git tag `vX.Y.Z` if it does not already exist.  
-3. Creates a GitHub Release for that tag with auto-generated release notes.  
-
-Releases that only touch documentation or tooling (like 0.2.16) should be treated as PATCH releases.
+These are what the dashboards expect.
 
 ---
 
-## ⚠️ Disclaimer
+## 📊 3. Install the Dashboards (Automatic)
 
-- This is an unofficial NOVA project, not an OpenLaunch or NOVA product.  
-- No warranty, guarantee, or official support is provided.  
-- Functionality may change at any time.  
-- Use at your own discretion.
+The integration includes a simple installer action that copies dashboard templates into your Home Assistant config.
+
+1. Go to **Developer Tools → Actions**.
+2. In the search box, type **"golf"**.
+3. You should see an action named **"install golf dashboards"**.
+4. Run that action once.
+
+What this does:
+
+- Installs four dashboard templates into your config:
+  - NOVA Hero Card
+  - NOVA Premium Shot
+  - NOVA Premium Analytics
+  - Golf Dashboard Open GolfCoach
+- Uses your `sensor.nova_*` entities automatically
+- Leaves the templates in the integration so you can safely make your own copies
+
+You now have all the dashboards available as YAML files, ready to be attached to the UI.
 
 ---
 
-## ❤️ Acknowledgements
+## 🧩 4. Attach Dashboards to the Sidebar
 
-Thanks to the Home Assistant open-source community for architecture patterns, tooling, and documentation that make custom integrations possible.
+For each dashboard you want to show in the Home Assistant sidebar:
+
+1. Go to **Settings → Dashboards**.
+2. Click **+ Add Dashboard**.
+3. Choose **Blank Dashboard**.
+4. Give it a name, for example:
+   - `NOVA Hero Card`
+   - `NOVA Premium Shot`
+   - `NOVA Premium Analytics`
+   - `Golf Dashboard Open GolfCoach`
+5. Open the new dashboard and click the **pencil icon** (edit) in the top-right.
+6. Click the **three dots (⋮) → Edit in YAML**.
+7. On the right side, paste the YAML from the matching file in:
+
+   `config/custom_components/golf_dashboard/dashboards/`
+
+   For example:
+   - `nova_hero_card.yaml`
+   - `nova_premium_shot.yaml`
+   - `nova_premium_analytics.yaml`
+   - `nova_open_golfcoach.yaml`
+
+8. Click **Save**, then reload the page.
+
+Your dashboard will render immediately using live NOVA data.
+
+> Tip: You only need to do this once per dashboard. After that, you can edit the layout directly in the UI or by editing the YAML again.
+
+---
+
+## 🖼️ 5. Dashboard Previews
+
+Below are suggested screenshot placeholders. You can replace the image paths or edit the captions directly in GitHub.
+
+### NOVA Hero Card
+
+![NOVA Hero Card screenshot](docs/nova_hero_card.png)
+
+### NOVA Premium Shot
+
+![NOVA Premium Shot screenshot](docs/nova_premium_shot.png)
+
+### NOVA Premium Analytics
+
+![NOVA Premium Analytics screenshot](docs/nova_premium_analytics.png)
+
+### Golf Dashboard Open GolfCoach
+
+![Golf Dashboard Open GolfCoach screenshot](docs/golf_dashboard_open_golfcoach.png)
+
+---
+
+## 🎨 Customizing Your Dashboards
+
+All dashboards installed by the action are **your own copies**. You can:
+
+- Move cards around
+- Hide sections you do not care about
+- Add other Home Assistant sensors (weather, lights, cameras, etc.)
+- Apply your own themes and Lovelace cards
+
+Because the templates inside the integration stay untouched, you always have a clean reference to fall back on.
+
+---
+
+## 🔁 Updating
+
+When you update the integration via HACS:
+
+- Your existing dashboards remain as-is.
+- New features and math improvements from the integration are picked up automatically by the sensors.
+
+If we ship new dashboard templates, you can run the **"install golf dashboards"** action again to install fresh copies (for example, under new dashboard names) without overwriting your current layouts.
+
+---
+
+## 🙋 Need Help?
+
+If you run into trouble:
+
+- Confirm your NOVA device is named **`nova`** in Home Assistant.
+- Check that entities like `sensor.nova_ball_speed` and `sensor.nova_carry_distance` exist in **Developer Tools → States**.
+- Verify you pasted the matching YAML into each dashboard’s **Edit in YAML** view.
+
+For questions, ideas, or debugging help, please open an issue on GitHub or join the OpenLaunch community channels.
