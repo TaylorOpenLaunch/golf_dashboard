@@ -36,7 +36,7 @@ You can customize all of them later, but the templates work great out of the box
 
 ## 📦 1. Install via HACS
 
-[![Install via HACS](./images/HACS_logo.jpeg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=homeassistant-nova&category=integration)
+[![Install via HACS](images/HACS_logo.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=homeassistant-nova&category=integration)
 
 > You need HACS already installed in Home Assistant. If you do not have it yet, install HACS first from hacs.xyz.
 
@@ -144,16 +144,20 @@ Your dashboard will render immediately using live NOVA data.
 Below are example screenshots of the four dashboards. You can replace the image paths or captions directly in GitHub if you customize your setup.
 
 #### NOVA Hero Card
-![NOVA Hero Card](./images/Hero.jpeg)
+
+![NOVA Hero Card screenshot](images/Hero.png)
 
 #### NOVA Premium Shot Dashboard
-![NOVA Premium Shot](./images/premium_shot.jpeg)
+
+![NOVA Premium Shot screenshot](images/premium_shot.png)
 
 #### NOVA Premium Analytics Dashboard
-![NOVA Premium Analytics](./images/premium_analytics.jpeg)
+
+![NOVA Premium Analytics screenshot](images/premium_analytics.png)
 
 #### Golf Dashboard (Open GolfCoach)
-![Golf Dashboard Open GolfCoach](./images/GolfCoach.jpeg)
+
+![Golf Dashboard Open GolfCoach screenshot](images/GolfCoach.png)
 
 ---
 
