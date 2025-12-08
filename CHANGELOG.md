@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.23
+
+- Added GitHub Actions workflow to lint and validate dashboard YAML files.
+- Validate that all dashboards only reference sensor.nova_* and binary_sensor.nova_* entities.
+- No functional changes to the integration itself.
+
 ## 0.2.22
 - Converted all dashboards to fixed `sensor.nova_*` entity IDs (no slug substitution).
 - Replaced Hero Card, Premium Shot, Premium Analytics, and Open GolfCoach dashboards with working nova-based layouts.
