@@ -36,6 +36,8 @@ You can customize all of them later, but the templates work great out of the box
 
 ## 📦 1. Install via HACS
 
+[![Install via HACS](images/HACS_logo.png)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=golf_dashboard&category=integration)
+
 > You need HACS already installed in Home Assistant. If you do not have it yet, install HACS first from hacs.xyz.
 
 1. In Home Assistant, go to **HACS → Integrations**.
@@ -164,6 +166,18 @@ Below are suggested screenshot placeholders. You can replace the image paths or 
 ### Golf Dashboard Open GolfCoach
 
 ![Golf Dashboard Open GolfCoach screenshot](docs/golf_dashboard_open_golfcoach.png)
+
+## Golf Dashboard (Open GolfCoach)
+![Golf Dashboard Open GolfCoach](images/GolfCoach.jpeg)
+
+## NOVA Premium Shot Dashboard
+![NOVA Premium Shot](images/premium_shot.jpeg)
+
+## NOVA Premium Analytics Dashboard
+![NOVA Premium Analytics](images/premium_analytics.jpeg)
+
+## NOVA Hero Card
+![NOVA Hero Card](images/Hero.jpeg)
 
 ---
 
