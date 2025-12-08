@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.24
+- Verified and aligned club delivery math with open-golf-coach.
+- Verified and aligned benchmark carry and total distances with open-golf-coach.
+- Added automated tests comparing dashboard math to open-golf-coach.
+
 ## 0.2.22
 - Converted all dashboards to fixed `sensor.nova_*` entity IDs (no slug substitution).
 - Replaced Hero Card, Premium Shot, Premium Analytics, and Open GolfCoach dashboards with working nova-based layouts.
