@@ -141,8 +141,6 @@ Your dashboard will render immediately using live NOVA data.
 
 ## 🖼️ 5. Dashboard Previews
 
-Below are example screenshots of the four dashboards. You can replace the image paths or captions directly in GitHub if you customize your setup.
-
 #### NOVA Hero Card
 
 ![NOVA Hero Card screenshot](images/Hero.png)
