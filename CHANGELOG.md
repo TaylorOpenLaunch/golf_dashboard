@@ -1,10 +1,16 @@
 # Changelog
 
-## 0.2.23
+## 0.2.25 – add NOVA math regression tests
+- Added regression tests for Amateur / LPGA / Tour benchmark carries and totals.
+- Ensured NOVA derived outputs stay in sync with open-golf-coach reference values over time.
 
+## 0.2.24 – align NOVA math with open-golf-coach
+- Updated derived.py to use open-golf-coach formulas (club speed/smash, spin loft/AoA bands, face-to-path mappings, benchmark carries/totals).
+- Added `tests/test_math_from_opengolfcoach.py` parity tests.
+
+## 0.2.23 – add dashboard lint workflow
 - Added GitHub Actions workflow to lint and validate dashboard YAML files.
 - Validate that all dashboards only reference sensor.nova_* and binary_sensor.nova_* entities.
-- No functional changes to the integration itself.
 
 ## 0.2.22
 - Converted all dashboards to fixed `sensor.nova_*` entity IDs (no slug substitution).
