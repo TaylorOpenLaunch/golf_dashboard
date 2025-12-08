@@ -1,6 +1,4 @@
-# Entity IDs use the fixed sensor.nova_* prefix; rename your NOVA device to "nova"
-# (or nova_<serial>) so entities match this template.
-title: Golf Dashboard Premium Analytics
+title: NOVA Premium Analytics
 path: nova_premium_analytics
 icon: mdi:golf-tee
 theme: Home Assistant Dark
@@ -10,7 +8,6 @@ cards:
     columns: 3
     square: false
     cards:
-      # Column 1: Session overview
       - type: vertical-stack
         cards:
           - type: entities
@@ -18,11 +15,17 @@ cards:
             show_header_toggle: false
             entities:
               - entity: sensor.nova_session_shot_count
-              - entity: sensor.nova_last_shot_time
+                name: Session shot count
+              - entity: sensor.nova_last_shot
+                name: Last shot
               - entity: sensor.nova_ball_speed
+                name: Ball speed
               - entity: sensor.nova_carry_distance
+                name: Carry distance
               - entity: sensor.nova_total_distance
+                name: Total distance
               - entity: sensor.nova_club_speed
+                name: Club speed
           - type: history-graph
             title: Speed & Distance (recent)
             hours_to_show: 6
@@ -30,8 +33,6 @@ cards:
               - entity: sensor.nova_ball_speed
               - entity: sensor.nova_carry_distance
               - entity: sensor.nova_total_distance
-
-      # Column 2: Launch & spin
       - type: vertical-stack
         cards:
           - type: entities
@@ -39,12 +40,19 @@ cards:
             show_header_toggle: false
             entities:
               - entity: sensor.nova_vertical_launch_angle
+                name: Vertical launch angle
               - entity: sensor.nova_horizontal_launch_angle
+                name: Horizontal launch angle
               - entity: sensor.nova_offline_distance
+                name: Offline distance
               - entity: sensor.nova_total_spin
+                name: Total spin
               - entity: sensor.nova_spin_axis
+                name: Spin axis
               - entity: sensor.nova_backspin
+                name: Backspin
               - entity: sensor.nova_sidespin
+                name: Sidespin
           - type: history-graph
             title: Launch & Spin Trends
             hours_to_show: 6
@@ -56,26 +64,38 @@ cards:
             title: Trajectory & Delivery
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_apex_height
-              - entity: sensor.nova_hang_time
-              - entity: sensor.nova_descent_angle
-              - entity: sensor.nova_attack_angle
-              - entity: sensor.nova_face_angle
-              - entity: sensor.nova_face_to_path
-              - entity: sensor.nova_club_path
-
-      # Column 3: Shot quality & dispersion
+              - entity: sensor.nova_nova_apex_height
+                name: Apex height (yd)
+              - entity: sensor.nova_nova_hang_time
+                name: Hang time (s)
+              - entity: sensor.nova_nova_descent_angle
+                name: Descent angle (°)
+              - entity: sensor.nova_nova_spin_loft
+                name: Spin loft (°)
+              - entity: sensor.nova_nova_attack_angle
+                name: Attack angle (°)
+              - entity: sensor.nova_nova_face_angle
+                name: Face angle (°)
+              - entity: sensor.nova_nova_face_to_path
+                name: Face to path (°)
+              - entity: sensor.nova_nova_club_path
+                name: Club path (°)
       - type: vertical-stack
         cards:
           - type: entities
             title: Shot Quality & Classification
             show_header_toggle: false
             entities:
-              - entity: sensor.nova_shot_quality
+              - entity: sensor.nova_nova_shot_quality
+                name: Shot quality (0–100)
               - entity: sensor.nova_shot_type
+                name: Shot type
               - entity: sensor.nova_shot_rank
+                name: Shot rank
               - entity: sensor.nova_optimal_window_summary
+                name: Optimal window summary
               - entity: sensor.nova_club_recommendation
+                name: Club recommendation
           - type: history-graph
             title: Dispersion (Carry vs Offline)
             hours_to_show: 6

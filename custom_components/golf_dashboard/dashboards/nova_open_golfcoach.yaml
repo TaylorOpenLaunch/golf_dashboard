@@ -1,5 +1,3 @@
-# Entity IDs use the fixed sensor.nova_* prefix; rename your device to "nova"
-# (or nova_<serial>) so entities match this template.
 title: Golf Dashboard Open GolfCoach
 path: nova_open_golf_coach
 icon: mdi:golf
@@ -15,25 +13,38 @@ cards:
         icon: mdi:golf-tee
         entities:
           - entity: sensor.nova_session_shot_count
-          - entity: sensor.nova_last_shot_time
+            name: Session shot count
+          - entity: sensor.nova_last_shot
+            name: Last shot
           - entity: sensor.nova_ball_speed
+            name: Ball speed
           - entity: sensor.nova_vertical_launch_angle
+            name: Vertical launch angle
           - entity: sensor.nova_horizontal_launch_angle
+            name: Horizontal launch angle
           - entity: sensor.nova_total_spin
+            name: Total spin
           - entity: sensor.nova_spin_axis
+            name: Spin axis
       - type: entities
         title: Derived Ball Flight (Built-in)
         show_header_toggle: false
         icon: mdi:chart-areaspline
         entities:
           - entity: sensor.nova_carry_distance
+            name: Carry distance
           - entity: sensor.nova_total_distance
+            name: Total distance
           - entity: sensor.nova_offline_distance
+            name: Offline distance
           - entity: sensor.nova_backspin
+            name: Backspin
           - entity: sensor.nova_sidespin
+            name: Sidespin
           - entity: sensor.nova_club_speed
+            name: Club speed
           - entity: sensor.nova_smash_factor
-
+            name: Smash factor
   - type: grid
     columns: 2
     square: false
@@ -44,13 +55,16 @@ cards:
         icon: mdi:target-variant
         entities:
           - entity: sensor.nova_shot_type
+            name: Shot type
           - entity: sensor.nova_shot_rank
+            name: Shot rank
+          - entity: sensor.nova_nova_shot_quality
+            name: Shot quality (0–100)
       - type: history-graph
         title: Shot Rank History
         hours_to_show: 24
         entities:
           - entity: sensor.nova_shot_rank
-
   - type: grid
     columns: 2
     square: false
@@ -68,73 +82,69 @@ cards:
         entities:
           - entity: sensor.nova_backspin
           - entity: sensor.nova_sidespin
-
   - type: entities
     title: Tour Benchmarks (PGA style)
     show_header_toggle: false
     icon: mdi:trophy
     entities:
-      - entity: sensor.nova_tour_carry
-        name: Tour carry at this ball speed
-      - entity: sensor.nova_tour_total
-        name: Tour total at this ball speed
+      - entity: sensor.nova_amateur_carry_benchmark
+        name: Amateur carry benchmark
+      - entity: sensor.nova_lpga_carry_benchmark
+        name: LPGA carry benchmark
+      - entity: sensor.nova_nova_tour_carry
+        name: Tour carry benchmark
       - entity: sensor.nova_carry_distance
         name: Your carry (actual)
-      - entity: sensor.nova_carry_delta_to_tour
+      - entity: sensor.nova_nova_carry_vs_tour
         name: Carry vs Tour (yd)
-
   - type: statistics-graph
     title: Carry vs Tour (last 50 shots)
     days_to_show: 7
     entities:
       - sensor.nova_carry_distance
-      - sensor.nova_tour_carry
-      - sensor.nova_carry_delta_to_tour
-
+      - sensor.nova_nova_tour_carry
+      - sensor.nova_nova_carry_vs_tour
   - type: entities
     title: Shot Quality
     show_header_toggle: false
     icon: mdi:star-circle
     entities:
-      - entity: sensor.nova_shot_quality
+      - entity: sensor.nova_nova_shot_quality
         name: Shot quality (0–100)
       - entity: sensor.nova_carry_distance
         name: Carry (yd)
       - entity: sensor.nova_offline_distance
         name: Offline (yd)
       - entity: sensor.nova_optimal_window_summary
-        name: Windows
+        name: Optimal windows
       - entity: sensor.nova_club_recommendation
         name: Recommendation
-
   - type: entities
     title: Club Delivery (Estimates)
     show_header_toggle: false
     icon: mdi:golf
     entities:
-      - entity: sensor.nova_spin_loft
+      - entity: sensor.nova_nova_spin_loft
         name: Spin loft (°)
-      - entity: sensor.nova_attack_angle
+      - entity: sensor.nova_nova_attack_angle
         name: Attack angle (°)
-      - entity: sensor.nova_face_angle
+      - entity: sensor.nova_nova_face_angle
         name: Face angle (°)
-      - entity: sensor.nova_face_to_path
+      - entity: sensor.nova_nova_face_to_path
         name: Face to path (°)
-      - entity: sensor.nova_club_path
+      - entity: sensor.nova_nova_club_path
         name: Club path (°)
-
   - type: entities
     title: Trajectory
     show_header_toggle: false
     icon: mdi:chart-bell-curve
     entities:
-      - entity: sensor.nova_apex_height
+      - entity: sensor.nova_nova_apex_height
         name: Apex height (yd)
-      - entity: sensor.nova_hang_time
+      - entity: sensor.nova_nova_hang_time
         name: Hang time (s)
-      - entity: sensor.nova_descent_angle
+      - entity: sensor.nova_nova_descent_angle
         name: Descent angle (°)
-
   - type: entities
     title: Optimal Windows
     show_header_toggle: false
@@ -144,25 +154,24 @@ cards:
         name: Launch in window
       - entity: sensor.nova_spin_in_window
         name: Spin in window
-      - entity: sensor.nova_start_in_window
+      - entity: sensor.nova_start_line_in_window
         name: Start line in window
-
   - type: entities
     title: Benchmarks (Am / LPGA / Tour)
     show_header_toggle: false
     icon: mdi:trophy
     entities:
-      - entity: sensor.nova_amateur_carry
+      - entity: sensor.nova_amateur_carry_benchmark
         name: Amateur carry
-      - entity: sensor.nova_lpga_carry
+      - entity: sensor.nova_lpga_carry_benchmark
         name: LPGA carry
-      - entity: sensor.nova_tour_carry
+      - entity: sensor.nova_nova_tour_carry
         name: Tour carry
       - entity: sensor.nova_carry_distance
         name: Your carry
-      - entity: sensor.nova_carry_delta_to_tour
-        name: Carry vs Tour
-      - entity: sensor.nova_carry_delta_to_amateur
+      - entity: sensor.nova_carry_vs_amateur
         name: Carry vs Amateur
-      - entity: sensor.nova_carry_delta_to_lpga
+      - entity: sensor.nova_carry_vs_lpga
         name: Carry vs LPGA
+      - entity: sensor.nova_nova_carry_vs_tour
+        name: Carry vs Tour

@@ -7,7 +7,7 @@
 # Golf Dashboard for Home Assistant  
 ### Golf Dashboard: Unofficial NOVA Launch Monitor Integration & Dashboard Suite
 
-Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus a storage-mode Lovelace dashboard** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided as optional templates under `/config/golf_dashboard/dashboards/`, but day-to-day use is entirely storage/UI based. Running the installer action once is recommended so you start with a ready-to-use dashboard. Dashboards assume the NOVA entity prefix is `sensor.nova_*`; rename your NOVA device to `nova` (or `nova_<serial>`) for best results.
+Golf Dashboard provides an unofficial Home Assistant integration for NOVA by OpenLaunch **plus four storage-mode Lovelace dashboards** created automatically via the installer action—no manual `configuration.yaml` edits required. Sample YAML views are provided under `/config/golf_dashboard/dashboards/`, but day-to-day use is storage/UI based. Dashboards assume the NOVA entity prefix is `sensor.nova_*`; rename your NOVA device to `nova` (or `nova_<serial>`) for best results.
 
 This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is maintained independently as a personal side project.
 
@@ -28,7 +28,12 @@ This project is not affiliated with or endorsed by OpenLaunch or NOVA. It is mai
 
 ### Included Dashboards & Installer
 
-Four polished dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and can be installed automatically via the `golf_dashboard.install_dashboards` service.
+Four dashboards are bundled under `custom_components/golf_dashboard/dashboards/` and are installed via the `golf_dashboard.install_dashboards` action:
+
+- **NOVA Hero Card** (path `nova_hero_card`) – compact overview
+- **NOVA Premium Shot** (path `nova_premium_shot`) – shot-focused hero view
+- **NOVA Premium Analytics** (path `nova_premium_analytics`) – deeper trends
+- **Golf Dashboard Open GolfCoach** (path `nova_open_golf_coach`) – coaching layout
 
 #### 1. Open Golf Coach
 
@@ -107,17 +112,17 @@ Running the installer again is safe: it will not overwrite your existing dashboa
 
 ### Bundled example YAML (reference only)
 
-- `custom_components/golf_dashboard/dashboards/nova_open_golfcoach.yaml`  
-- `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
-- `custom_components/golf_dashboard/dashboards/nova_premium_shot.yaml`  
 - `custom_components/golf_dashboard/dashboards/nova_hero_card.yaml`  
+- `custom_components/golf_dashboard/dashboards/nova_premium_shot.yaml`  
+- `custom_components/golf_dashboard/dashboards/nova_premium_analytics.yaml`  
+- `custom_components/golf_dashboard/dashboards/nova_open_golfcoach.yaml`  
 - `custom_components/golf_dashboard/dashboards/example_lovelace.yaml`  
 
 These are copied to `/config/golf_dashboard/dashboards/` for reference. Templates already use `sensor.nova_*` entity_ids; name your NOVA device `nova` (or `nova_<serial>`) so they match. To use them manually:
 
 - Create a storage-mode dashboard in Home Assistant (e.g., **Nova Premium Analytics** with path `nova-premium-analytics` for the premium template).  
 - Open the **Raw configuration editor** for that dashboard and paste the YAML from the template.  
-- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern. Dashboards no longer perform slug substitution.  
+- If you customize by hand, ensure your NOVA device is named `nova` (or `nova_<serial>`) so entity_ids match this `sensor.nova_*` pattern. Dashboards do not perform slug substitution.  
 - The premium templates include a top-level `views:` array and a path suitable for storage-mode dashboards.  
   
 ### Recommended NOVA device naming
