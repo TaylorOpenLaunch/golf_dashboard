@@ -2,9 +2,9 @@
 
 ## 0.2.22
 - Converted all dashboards to fixed `sensor.nova_*` entity IDs (no slug substitution).
-- Refreshed Premium Shot and Premium Analytics dashboards from working configurations.
-- Updated HeroCard and Open GolfCoach dashboards to the nova prefix and removed all shot_color usage.
-- Docs updated to recommend renaming the NOVA device to `nova`/`nova_<serial>` and to note yards for distance metrics.
+- Replaced Hero Card, Premium Shot, Premium Analytics, and Open GolfCoach dashboards with working nova-based layouts.
+- Removed all shot_color usage and ensured yards are used for distance metrics.
+- Docs updated to recommend renaming the NOVA device to `nova`/`nova_<serial>` and to describe all four dashboards.
 
 ## 0.2.21
 - Standardized all dashboards to use fixed `sensor.nova_*` entity IDs (no slug substitution).
