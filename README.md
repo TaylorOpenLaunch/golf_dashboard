@@ -179,7 +179,7 @@ When you update the integration via HACS:
 - Your existing dashboards remain as-is.
 - New features and math improvements from the integration are picked up automatically by the sensors.
 
-If we ship new dashboard templates, you can run the **"install golf dashboards"** action again to install fresh copies (for example, under new dashboard names) without overwriting your current layouts.
+If I ship new dashboard templates, you can run the **"install golf dashboards"** action again to install fresh copies (for example, under new dashboard names) without overwriting your current layouts.
 
 ---
 
@@ -191,4 +191,4 @@ If you run into trouble:
 - Check that entities like `sensor.nova_ball_speed` and `sensor.nova_carry_distance` exist in **Developer Tools → States**.
 - Verify you pasted the matching YAML into each dashboard’s **Edit in YAML** view.
 
-For questions, ideas, or debugging help, please open an issue on GitHub or join the OpenLaunch community channels.
+For questions, ideas, or debugging help, please open an issue on GitHub or join the Nova Discord.
