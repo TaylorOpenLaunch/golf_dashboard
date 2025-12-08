@@ -7,21 +7,92 @@ are intentionally lightweight (no third-party imports) and deterministic.
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from typing import Any, Dict, Optional, Tuple
 
 GRAVITY = 9.81  # m/s^2
 MPS_TO_MPH = 2.236936
 METERS_TO_YARDS = 1.09361
+BALL_MASS_KG = 0.04593
+CLUBHEAD_MASS_KG = 0.200
+DRIVER_COR_LIMIT = 0.83
+MIN_EFFECTIVE_COR = 0.52
+THEORETICAL_CARRY_PER_MPS = 4.91
+
+
+@dataclass(frozen=True)
+class ImpactBand:
+    """Matches the impact bands used in open-golf-coach clubhead_data.rs."""
+
+    max_ball_speed_mps: float
+    base_cor: float
+    optimal_launch_deg: float
+    launch_tolerance_deg: float
+    optimal_spin_rpm: float
+    spin_tolerance_rpm: float
+    face_influence_ratio: float
+    spin_axis_gain: float
+
+
+IMPACT_BANDS: tuple[ImpactBand, ...] = (
+    ImpactBand(
+        max_ball_speed_mps=40.0,
+        base_cor=0.55,
+        optimal_launch_deg=28.0,
+        launch_tolerance_deg=15.0,
+        optimal_spin_rpm=9000.0,
+        spin_tolerance_rpm=4000.0,
+        face_influence_ratio=0.65,
+        spin_axis_gain=1.7,
+    ),
+    ImpactBand(
+        max_ball_speed_mps=50.0,
+        base_cor=0.66,
+        optimal_launch_deg=20.0,
+        launch_tolerance_deg=12.0,
+        optimal_spin_rpm=7000.0,
+        spin_tolerance_rpm=2500.0,
+        face_influence_ratio=0.72,
+        spin_axis_gain=2.1,
+    ),
+    ImpactBand(
+        max_ball_speed_mps=60.0,
+        base_cor=0.72,
+        optimal_launch_deg=16.0,
+        launch_tolerance_deg=10.0,
+        optimal_spin_rpm=5000.0,
+        spin_tolerance_rpm=2000.0,
+        face_influence_ratio=0.78,
+        spin_axis_gain=2.4,
+    ),
+    ImpactBand(
+        max_ball_speed_mps=math.inf,
+        base_cor=DRIVER_COR_LIMIT,
+        optimal_launch_deg=12.0,
+        launch_tolerance_deg=8.0,
+        optimal_spin_rpm=2500.0,
+        spin_tolerance_rpm=1500.0,
+        face_influence_ratio=0.85,
+        spin_axis_gain=2.8,
+    ),
+)
+
+
+def _select_impact_band(ball_speed_mps: float) -> ImpactBand:
+    """Choose the impact band that matches the given ball speed."""
+    for band in IMPACT_BANDS:
+        if ball_speed_mps <= band.max_ball_speed_mps:
+            return band
+    return IMPACT_BANDS[-1]
 
 
 def _calculate_spin_components(
     total_spin_rpm: float, spin_axis_degrees: float
 ) -> Tuple[float, float]:
     """Split total spin into backspin and sidespin using spin axis."""
-    total_spin = max(total_spin_rpm, 0.0)
     spin_axis_rad = math.radians(spin_axis_degrees)
-    backspin = total_spin * math.cos(spin_axis_rad)
-    sidespin = total_spin * math.sin(spin_axis_rad)
+    backspin = total_spin_rpm * math.cos(spin_axis_rad)
+    sidespin = total_spin_rpm * math.sin(spin_axis_rad)
     return backspin, sidespin
 
 
@@ -104,36 +175,38 @@ def _estimate_carry_total_offline(
 
 
 def _estimate_club_speed(
-    ball_speed_mps: float, total_spin_rpm: Optional[float]
+    ball_speed_mps: float, vertical_launch_angle_deg: Optional[float], total_spin_rpm: Optional[float]
 ) -> tuple[float, float]:
-    """Estimate club speed (in mph) and smash factor from ball speed."""
-    if ball_speed_mps <= 0:
+    """Estimate club speed (m/s) and smash factor using open-golf-coach impact bands."""
+    if ball_speed_mps <= 0 or vertical_launch_angle_deg is None or total_spin_rpm is None:
         return 0.0, 0.0
 
-    ball_speed_mph = ball_speed_mps * MPS_TO_MPH
+    band = _select_impact_band(max(ball_speed_mps, 5.0))
+    launch_angle = max(-5.0, min(vertical_launch_angle_deg, 70.0))
+    spin_rpm = max(total_spin_rpm, 0.0)
 
-    # Very low speeds (putts/duffs) should not yield meaningful club speed.
-    if ball_speed_mph < 10.0:
-        return 0.0, 0.0
+    launch_deviation = abs(launch_angle - band.optimal_launch_deg)
+    normalized_launch = min(launch_deviation / band.launch_tolerance_deg, 3.0)
+    launch_penalty = normalized_launch**1.25 * 0.06
 
-    if ball_speed_mph > 145.40084:
-        smash_estimate = 1.48
-    elif ball_speed_mph > 122.03148:
-        smash_estimate = 1.45
-    elif ball_speed_mph > 100.66212:
-        smash_estimate = 1.40
+    spin_tolerance = max(band.spin_tolerance_rpm, 1.0)
+    if spin_rpm >= band.optimal_spin_rpm:
+        normalized_spin = min((spin_rpm - band.optimal_spin_rpm) / spin_tolerance, 3.0)
     else:
-        smash_estimate = 1.30
+        normalized_spin = min((band.optimal_spin_rpm - spin_rpm) / (spin_tolerance * 1.5), 3.0)
+    spin_penalty = normalized_spin**1.15 * 0.08
 
-    if total_spin_rpm is not None:
-        smash_estimate -= min(total_spin_rpm / 60000.0, 0.05)
+    knuckle_penalty = ((1200.0 - spin_rpm) / 1200.0) ** 1.3 * 0.05 if spin_rpm < 1200.0 else 0.0
 
-    smash_estimate = max(smash_estimate, 1.1)
-    club_speed = ball_speed_mph / smash_estimate
+    effective_cor = band.base_cor - launch_penalty - spin_penalty - knuckle_penalty
+    effective_cor = max(MIN_EFFECTIVE_COR, min(effective_cor, DRIVER_COR_LIMIT))
 
-    # Clamp to a realistic upper bound to avoid runaway estimates.
-    club_speed = min(club_speed, 145.40084)
-    return club_speed, smash_estimate
+    mass_ratio = BALL_MASS_KG / CLUBHEAD_MASS_KG
+    smash_from_cor = (1.0 + effective_cor) / (1.0 + mass_ratio)
+    club_speed_mps = ball_speed_mps / smash_from_cor
+
+    smash_factor = ball_speed_mps / club_speed_mps if club_speed_mps > 0 else 0.0
+    return club_speed_mps, smash_factor
 
 
 def _classify_shot(
@@ -243,11 +316,11 @@ def _infer_club_class(ball_speed_mph: Optional[float]) -> str:
     Rough classification by ball speed.
     Returns one of: "wedge", "mid_iron", "long_iron_hybrid", "driver".
     """
-    if ball_speed_mph is None or ball_speed_mph < 60.0:
+    if ball_speed_mph is None or ball_speed_mph < 90.0:
         return "wedge"
-    if ball_speed_mph < 80.0:
+    if ball_speed_mph < 112.0:
         return "mid_iron"
-    if ball_speed_mph < 105.0:
+    if ball_speed_mph < 134.0:
         return "long_iron_hybrid"
     return "driver"
 
@@ -259,37 +332,39 @@ WEDGE_STATIC_LOFT = 44.0
 
 
 def compute_spin_loft_and_aoa(
-    ball_speed_mph: Optional[float],
+    ball_speed_mps: Optional[float],
     total_spin_rpm: Optional[float],
     vla_deg: Optional[float],
 ) -> Dict[str, float]:
     """Estimate spin loft and attack angle from speed, spin, and launch angle."""
-    if ball_speed_mph is None or total_spin_rpm is None or vla_deg is None:
+    if ball_speed_mps is None or total_spin_rpm is None or vla_deg is None:
         return {}
 
+    ball_speed_mph = ball_speed_mps * MPS_TO_MPH
     club_class = _infer_club_class(ball_speed_mph)
     if club_class == "driver":
-        k = 0.0030
-        min_sl, max_sl = 6.0, 18.0
+        scale = 0.85
+        min_sl, max_sl = 8.0, 22.0
         static_loft = DRIVER_STATIC_LOFT
     elif club_class == "long_iron_hybrid":
-        k = 0.0035
-        min_sl, max_sl = 10.0, 24.0
+        scale = 0.65
+        min_sl, max_sl = 12.0, 28.0
         static_loft = LONG_IRON_STATIC_LOFT
     elif club_class == "mid_iron":
-        k = 0.0040
-        min_sl, max_sl = 12.0, 30.0
+        scale = 0.55
+        min_sl, max_sl = 16.0, 36.0
         static_loft = MID_IRON_STATIC_LOFT
     else:
-        k = 0.0045
-        min_sl, max_sl = 18.0, 40.0
+        scale = 0.40
+        min_sl, max_sl = 24.0, 55.0
         static_loft = WEDGE_STATIC_LOFT
 
-    spin_loft_deg = k * total_spin_rpm / max(ball_speed_mph, 1.0)
+    spin_loft_deg = (total_spin_rpm / max(ball_speed_mph, 1.0)) * scale
     spin_loft_deg = max(min_sl, min(spin_loft_deg, max_sl))
 
     dynamic_loft_deg = static_loft + 2.0  # simple approximation
     aoa_deg = dynamic_loft_deg - spin_loft_deg
+    aoa_deg = (aoa_deg + (vla_deg - spin_loft_deg)) / 2.0
 
     return {
         "spin_loft_deg": spin_loft_deg,
@@ -298,27 +373,23 @@ def compute_spin_loft_and_aoa(
 
 
 def compute_face_and_path(
+    ball_speed_mps: Optional[float],
     hla_deg: Optional[float],
     spin_axis_deg: Optional[float],
 ) -> Dict[str, float]:
     """Estimate face angle, face-to-path, and club path from HLA and spin axis."""
-    if hla_deg is None or spin_axis_deg is None:
+    if ball_speed_mps is None or hla_deg is None or spin_axis_deg is None:
         return {}
 
-    face_fraction = 0.80
-    spin_axis_to_ftp = 0.60
-
-    face_angle_deg = hla_deg * face_fraction
-    face_to_path_deg = spin_axis_deg * spin_axis_to_ftp
-    club_path_deg = face_angle_deg - face_to_path_deg
-
-    def clamp(val: float) -> float:
-        return max(-20.0, min(val, 20.0))
+    band = _select_impact_band(max(ball_speed_mps, 5.0))
+    face_to_path_deg = spin_axis_deg / band.spin_axis_gain
+    club_path_deg = hla_deg - band.face_influence_ratio * face_to_path_deg
+    face_angle_deg = club_path_deg + face_to_path_deg
 
     return {
-        "face_angle_deg": clamp(face_angle_deg),
-        "face_to_path_deg": clamp(face_to_path_deg),
-        "club_path_deg": clamp(club_path_deg),
+        "face_angle_deg": face_angle_deg,
+        "face_to_path_deg": face_to_path_deg,
+        "club_path_deg": club_path_deg,
     }
 
 
@@ -352,36 +423,26 @@ def compute_apex_hang_and_descent(
 
 
 def compute_tour_benchmark_from_shot(
-    ball_speed_mph: Optional[float],
+    club_speed_mps: Optional[float],
+    ball_speed_mps: Optional[float],
     vla_deg: Optional[float],
     total_spin_rpm: Optional[float],
 ) -> Dict[str, float]:
-    """Compute simple tour-style benchmark distances (yards) for comparison."""
-    if ball_speed_mph is None or ball_speed_mph < 10.0:
+    """Compute benchmark carry/total using the open-golf-coach theoretical max distance."""
+    speed_mps = club_speed_mps
+    if (speed_mps is None or speed_mps <= 0.0) and ball_speed_mps is not None and vla_deg is not None and total_spin_rpm is not None:
+        speed_mps, _ = _estimate_club_speed(ball_speed_mps, vla_deg, total_spin_rpm)
+
+    if speed_mps is None or speed_mps <= 0.0:
         return {}
 
-    # Baseline carry using a linear rule with clamps.
-    if ball_speed_mph < 90.0:
-        tour_carry = max(ball_speed_mph * 1.1 - 30.0, 40.0)
-    else:
-        tour_carry = ball_speed_mph * 1.60 - 25.0
-
-    # Clamp to plausible tour bounds.
-    tour_carry = min(max(tour_carry, 30.0), 320.0)
-    tour_total = min(tour_carry * 1.05, 340.0)
-
-    # Apply small bonuses/penalties for near-optimal launch/spin.
-    if vla_deg is not None and total_spin_rpm is not None:
-        if 11.0 <= vla_deg <= 15.0 and 2200.0 <= total_spin_rpm <= 3000.0:
-            tour_carry *= 1.02
-        elif vla_deg < 8.0 or vla_deg > 18.0 or total_spin_rpm < 1500.0 or total_spin_rpm > 4000.0:
-            tour_carry *= 0.97
-        tour_carry = min(max(tour_carry, 30.0), 320.0)
-        tour_total = min(tour_carry * 1.05, 340.0)
+    tour_carry_meters = speed_mps * THEORETICAL_CARRY_PER_MPS
+    tour_carry_yards = tour_carry_meters * METERS_TO_YARDS
+    tour_total_yards = tour_carry_yards * 1.05
 
     return {
-        "tour_carry_yards": tour_carry,
-        "tour_total_yards": tour_total,
+        "tour_carry_yards": tour_carry_yards,
+        "tour_total_yards": tour_total_yards,
     }
 
 
@@ -525,6 +586,7 @@ def compute_derived_from_shot(
 
     backspin_rpm: Optional[float] = None
     sidespin_rpm: Optional[float] = None
+    club_speed_mps: Optional[float] = None
 
     if total_spin_rpm is not None and spin_axis_deg is not None:
         backspin_rpm, sidespin_rpm = _calculate_spin_components(total_spin_rpm, spin_axis_deg)
@@ -544,15 +606,15 @@ def compute_derived_from_shot(
         derived.update(distances)
 
     # Club speed and smash factor
-    if ball_speed_mps is not None and ball_speed_mps > 0:
-        club_speed, smash_estimate = _estimate_club_speed(ball_speed_mps, total_spin_rpm)
-        if club_speed > 0:
-            derived["club_speed_meters_per_second"] = club_speed
+    if ball_speed_mps is not None and ball_speed_mps > 0 and vla_deg is not None:
+        club_speed_mps, smash_estimate = _estimate_club_speed(ball_speed_mps, vla_deg, total_spin_rpm)
+        if club_speed_mps > 0:
+            derived["club_speed_meters_per_second"] = club_speed_mps
             derived["smash_factor"] = smash_estimate
 
     # Tour benchmark metrics and comparison
     ball_speed_mph = ball_speed_mps * MPS_TO_MPH if ball_speed_mps is not None else None
-    tour_metrics = compute_tour_benchmark_from_shot(ball_speed_mph, vla_deg, total_spin_rpm)
+    tour_metrics = compute_tour_benchmark_from_shot(club_speed_mps, ball_speed_mps, vla_deg, total_spin_rpm)
     derived.update(tour_metrics)
     if tour_metrics and "carry_distance_yards" in derived:
         carry_yards = derived["carry_distance_yards"]
@@ -596,10 +658,10 @@ def compute_derived_from_shot(
         derived["club_recommendation"] = recommendation
 
     # Spin loft / attack angle
-    derived.update(compute_spin_loft_and_aoa(ball_speed_mph, total_spin_rpm, vla_deg))
+    derived.update(compute_spin_loft_and_aoa(ball_speed_mps, total_spin_rpm, vla_deg))
 
     # Face / path estimates
-    derived.update(compute_face_and_path(hla_deg, spin_axis_deg))
+    derived.update(compute_face_and_path(ball_speed_mps, hla_deg, spin_axis_deg))
 
     # Apex / hang / descent estimates
     derived.update(compute_apex_hang_and_descent(ball_speed_mps, vla_deg))
