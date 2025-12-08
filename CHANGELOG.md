@@ -1,9 +1,12 @@
 # Changelog
 
-## 0.2.24
-- Verified and aligned club delivery math with open-golf-coach.
-- Verified and aligned benchmark carry and total distances with open-golf-coach.
-- Added automated tests comparing dashboard math to open-golf-coach.
+## 0.2.24 – align NOVA math with open-golf-coach
+- Updated derived.py to use open-golf-coach formulas (club speed/smash, spin loft/AoA bands, face-to-path mappings, benchmark carries/totals).
+- Added `tests/test_math_from_opengolfcoach.py` parity tests.
+
+## 0.2.23 – add dashboard lint workflow
+- Added dashboard lint workflow and validation script for Lovelace templates.
+- Ensured dashboard YAML is validated for `sensor.nova_*` / `binary_sensor.nova_*`.
 
 ## 0.2.22
 - Converted all dashboards to fixed `sensor.nova_*` entity IDs (no slug substitution).
