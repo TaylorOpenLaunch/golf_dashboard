@@ -36,23 +36,15 @@ You can customize all of them later, but the templates work great out of the box
 
 ## 📦 1. Install via HACS
 
-[![Install via HACS](images/HACS_logo.png)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=golf_dashboard&category=integration)
+[![Install via HACS](./images/HACS_logo.jpeg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OpenLaunchLabs&repository=homeassistant-nova&category=integration)
 
 > You need HACS already installed in Home Assistant. If you do not have it yet, install HACS first from hacs.xyz.
 
-1. In Home Assistant, go to **HACS → Integrations**.
-2. Click the **+ Explore & Download Repositories** button.
-3. Search for **"Golf Dashboard"** or your repository name.
-4. Open the repository entry and click **Download** to install.
-
-If you want a one-click link, you can also add a badge or link like this:
-
-- Install link (example – update owner/repository if needed):  
-  [Install via HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=TaylorOpenLaunch&repository=golf_dashboard&category=integration)
-
-> Note: If this URL does not match your published HACS entry yet, update the owner/repository values accordingly.
-
-After the integration has been downloaded, **restart Home Assistant**.
+1. In Home Assistant, go to **HACS → Integrations**.  
+2. Click the **Explore & Download Repositories** button.  
+3. Search for **"Golf Dashboard"** or this repository name.  
+4. Open the repository entry and click **Download** to install.  
+5. After the integration has been downloaded, **restart Home Assistant**.
 
 ---
 
@@ -149,35 +141,19 @@ Your dashboard will render immediately using live NOVA data.
 
 ## 🖼️ 5. Dashboard Previews
 
-Below are suggested screenshot placeholders. You can replace the image paths or edit the captions directly in GitHub.
+Below are example screenshots of the four dashboards. You can replace the image paths or captions directly in GitHub if you customize your setup.
 
-### NOVA Hero Card
+#### NOVA Hero Card
+![NOVA Hero Card](./images/Hero.jpeg)
 
-![NOVA Hero Card screenshot](docs/nova_hero_card.png)
+#### NOVA Premium Shot Dashboard
+![NOVA Premium Shot](./images/premium_shot.jpeg)
 
-### NOVA Premium Shot
+#### NOVA Premium Analytics Dashboard
+![NOVA Premium Analytics](./images/premium_analytics.jpeg)
 
-![NOVA Premium Shot screenshot](docs/nova_premium_shot.png)
-
-### NOVA Premium Analytics
-
-![NOVA Premium Analytics screenshot](docs/nova_premium_analytics.png)
-
-### Golf Dashboard Open GolfCoach
-
-![Golf Dashboard Open GolfCoach screenshot](docs/golf_dashboard_open_golfcoach.png)
-
-## Golf Dashboard (Open GolfCoach)
-![Golf Dashboard Open GolfCoach](images/GolfCoach.jpeg)
-
-## NOVA Premium Shot Dashboard
-![NOVA Premium Shot](images/premium_shot.jpeg)
-
-## NOVA Premium Analytics Dashboard
-![NOVA Premium Analytics](images/premium_analytics.jpeg)
-
-## NOVA Hero Card
-![NOVA Hero Card](images/Hero.jpeg)
+#### Golf Dashboard (Open GolfCoach)
+![Golf Dashboard Open GolfCoach](./images/GolfCoach.jpeg)
 
 ---
 
